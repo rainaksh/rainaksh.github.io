@@ -1,0 +1,127 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with plan details, ID, privacy and earnings for multi-device synchronization",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "mobile": { "type": "string" },
+        "sponsorId": { "type": "string" },
+        "currentPlan": { "type": "string", "enum": ["none", "100", "500", "1000"] },
+        "plan": { "type": "string", "enum": ["silver", "platinum", "royal"] },
+        "verificationStatus": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "planStatus": { "type": "string", "enum": ["active", "pending", "rejected"] },
+        "walletBalance": { "type": "number" },
+        "totalEarned": { "type": "number" },
+        "totalWithdrawn": { "type": "number" },
+        "upiId": { "type": "string" },
+        "joinDate": { "type": "string" }
+      },
+      "required": ["userId", "fullName", "email", "mobile", "sponsorId", "currentPlan"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "UPI payment verification record submitted by member",
+      "type": "object",
+      "properties": {
+        "transactionId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "planAmount": { "type": "number" },
+        "plan": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "upiTxnRef": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["transactionId", "userId", "planAmount", "upiTxnRef", "status"]
+    },
+    "DownlineReferral": {
+      "title": "DownlineReferral",
+      "description": "Referral linkage for tracking direct downlines and instant payouts",
+      "type": "object",
+      "properties": {
+        "referralId": { "type": "string" },
+        "sponsorId": { "type": "string" },
+        "referredUserId": { "type": "string" },
+        "referredUserName": { "type": "string" },
+        "planSelected": { "type": "string" },
+        "commissionAmount": { "type": "number" },
+        "payoutStatus": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["referralId", "sponsorId", "referredUserId", "commissionAmount"]
+    },
+    "PayoutRequest": {
+      "title": "PayoutRequest",
+      "description": "UPI payout withdrawal request to Vikas Kumar desk",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "amount": { "type": "number" },
+        "upiId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "processed", "rejected"] },
+        "requestedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "amount", "upiId", "status"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "System or commission push notification for user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string" },
+        "targetUserId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "message", "type"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "1-on-1 private guidance chat message between member and admin Vikas Kumar",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "senderId", "receiverId", "message"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of member profiles indexed by userId"
+    },
+    "/transactions/{txnId}": {
+      "schema": "Transaction",
+      "description": "Collection of payment verification records"
+    },
+    "/referrals/{referralId}": {
+      "schema": "DownlineReferral",
+      "description": "Collection of sponsor-downline referral records"
+    },
+    "/payouts/{payoutId}": {
+      "schema": "PayoutRequest",
+      "description": "Collection of withdrawal requests"
+    },
+    "/notifications/{notifId}": {
+      "schema": "NotificationItem",
+      "description": "Collection of user notifications and broadcast alerts"
+    },
+    "/messages/{msgId}": {
+      "schema": "ChatMessage",
+      "description": "1-on-1 private messaging tunnel between user and admin"
+    }
+  }
+}

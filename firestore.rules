@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'accaiwork@gmail.com' ||
+        request.auth.uid == 'RX_MAIN_001'
+      );
+    }
+
+    // Users: readable for digital card verification, writable by owner or admin
+    match /users/{userId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAdmin();
+    }
+
+    // Transactions: payment proof submission & admin verification
+    match /transactions/{txnId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAdmin();
+    }
+
+    // Referrals: downline ledger tracking
+    match /referrals/{referralId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAdmin();
+    }
+
+    // Payouts: withdrawal requests to Vikas Kumar
+    match /payouts/{payoutId} {
+      allow read: if true;
+      allow create, update: if true;
+      allow delete: if isAdmin();
+    }
+
+    // Notifications: broadcast & private notifications
+    match /notifications/{notifId} {
+      allow read, write: if true;
+    }
+
+    // Messages: 1-on-1 private messaging tunnel
+    match /messages/{msgId} {
+      allow read, write: if true;
+    }
+
+    // Connection validation
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
