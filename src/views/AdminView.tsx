@@ -172,7 +172,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
 
   const handleRejectPayout = (payoutId: string) => {
     sounds.playClick();
-    storage.rejectPayout(payoutId);
+    storage.rejectPayout(payoutId, 'Verification declined by Administrator');
     setPayouts([...storage.getPayouts()]);
     setUsers([...storage.getUsers()]);
     setActivities([...storage.getActivities()]);
@@ -202,7 +202,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
     e.preventDefault();
     sounds.playClick();
     if (!broadcastTitle.trim() || !broadcastMessage.trim()) return;
-    storage.broadcastNotification(broadcastTitle.trim(), broadcastMessage.trim());
+    storage.sendBroadcastNotification(broadcastTitle.trim(), broadcastMessage.trim());
     setBroadcastTitle('');
     setBroadcastMessage('');
     setBroadcastSuccess(true);

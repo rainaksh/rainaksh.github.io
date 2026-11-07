@@ -98,7 +98,7 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
         return {
           wrapper: 'bg-gradient-to-br from-[#0B0C10] via-zinc-950 to-slate-900 border-2 border-emerald-400/80 shadow-[0_10px_30px_rgba(16,185,129,0.25)]',
           nameplate: 'bg-slate-900/90 text-slate-100 border border-emerald-400/40 shadow-sm font-sans font-bold',
-          tierLabel: 'BASIC NORMAL NEON TIER',
+          tierLabel: 'BASIC NORMAL NEON SYSTEM',
           badgeBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
           chipColor: 'from-emerald-300 via-teal-300 to-emerald-500',
           hologramColor: 'from-emerald-400/20 via-teal-300/15 to-transparent',

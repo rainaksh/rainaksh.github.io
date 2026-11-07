@@ -84,23 +84,23 @@ export const PlanExplanationSlider: React.FC<PlanExplanationSliderProps> = ({
         'Instant 65% to 76.5% direct referral commission paid straight to your bank UPI address.',
         'Zero deduction, 10-30 min transparent verification managed directly by Admin Vikas Kumar.',
       ],
-      howItWorksHi: 'आप अपनी पसंद का प्लान (₹100, ₹500, या ₹1000) चुनकर जॉइन करते हैं, आपको डिजिटल आईडी पासपोर्ट मिलता है। फिर अपने रेफरल लिंक से दोस्तों को जॉइन करवाते ही निर्धारित कमीशन तुरंत आपके वॉलेट और यूपीआई में आ जाता है।',
-      howItWorksEn: 'Choose your desired tier (₹100, ₹500, or ₹1000), unlock your verified Digital ID Card, share your personal referral link, and receive instant cash rewards directly into your UPI account without middlemen.',
+      howItWorksHi: 'आप अपनी पसंद का सिस्टम (₹100, ₹500, या ₹1000) चुनकर जॉइन करते हैं, आपको डिजिटल आईडी पासपोर्ट मिलता है। फिर अपने रेफरल लिंक से दोस्तों को जॉइन करवाते ही निर्धारित कमीशन तुरंत आपके वॉलेट और यूपीआई में आ जाता है।',
+      howItWorksEn: 'Choose your desired system (₹100, ₹500, or ₹1000), unlock your verified Digital ID Card, share your personal referral link, and receive instant cash rewards directly into your UPI account without middlemen.',
       actionPlan: 'silver',
-      actionLabelHi: 'शुरू करें (Explore ₹100 Plan)',
-      actionLabelEn: 'Get Started (Explore ₹100 Plan)',
+      actionLabelHi: 'शुरू करें (Explore ₹100 System)',
+      actionLabelEn: 'Get Started (Explore ₹100 System)',
     },
     {
       id: 2,
-      tag: 'SLIDE 2/5 • TIER 1 BASIC',
+      tag: 'SLIDE 2/5 • SYSTEM 1 BASIC',
       badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
       borderColor: 'border-emerald-400',
       bgGradient: 'from-slate-950 via-[#0B0C10] to-emerald-950/60',
       icon: <Zap className="w-8 h-8 text-emerald-400" />,
       payoutAmount: '₹65 Payout',
       payoutPercent: '65% Direct Commission',
-      titleHi: '₹100 नॉर्मल बेसिक प्लान (Normal Tier)',
-      titleEn: '₹100 Normal Basic Plan (Entry Tier)',
+      titleHi: '₹100 नॉर्मल बेसिक सिस्टम (Normal System)',
+      titleEn: '₹100 Normal Basic Plan (Entry System)',
       forWhomHi: 'शुरुआती सदस्यों, कॉलेज छात्रों व कम लागत में पहली बार ऑनलाइन कमाई शुरू करने वाले युवाओं के लिए।',
       forWhomEn: 'Ideal for beginners, college students, and anyone starting their digital referral journey with zero risk.',
       whatYouGetHi: [
@@ -118,20 +118,20 @@ export const PlanExplanationSlider: React.FC<PlanExplanationSliderProps> = ({
       howItWorksHi: '₹100 देकर जॉइन करें। जैसे ही आपका कोई मित्र आपके रेफरल लिंक से ₹100 का बेसिक प्लान जॉइन करता है, आपको उसी समय ₹65 का कमीशन मिल जाता है। सिर्फ 10 दोस्तों पर ₹650 की सीधी कमाई!',
       howItWorksEn: 'Join for just ₹100. When any friend joins under your referral link, you receive ₹65 instantly. Refer just 10 friends and take home ₹650 direct to your UPI!',
       actionPlan: 'silver',
-      actionLabelHi: '₹100 प्लान जॉइन करें (Select ₹100 Plan)',
-      actionLabelEn: 'Join ₹100 Plan (Earn ₹65 Per Invite)',
+      actionLabelHi: '₹100 सिस्टम जॉइन करें (Select ₹100 System)',
+      actionLabelEn: 'Join ₹100 System (Earn ₹65 Per Invite)',
     },
     {
       id: 3,
-      tag: 'SLIDE 3/5 • TIER 2 PLATINUM',
+      tag: 'SLIDE 3/5 • SYSTEM 2 PLATINUM',
       badgeColor: 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40',
       borderColor: 'border-cyan-400',
       bgGradient: 'from-slate-950 via-[#0B0C10] to-cyan-950/60',
       icon: <Sparkles className="w-8 h-8 text-cyan-400" />,
       payoutAmount: '₹365 Payout',
       payoutPercent: '73% Massive Commission',
-      titleHi: '₹500 प्लैटिनम शील्ड प्लान (Platinum Shield)',
-      titleEn: '₹500 Platinum Shield Plan (Growth Tier)',
+      titleHi: '₹500 प्लैटिनम शील्ड सिस्टम (Platinum Shield)',
+      titleEn: '₹500 Platinum Shield Plan (Growth System)',
       forWhomHi: 'गंभीर एफिलिएट मार्केटरों, वर्क-फ्रॉम-होम प्रमोटरों व अच्छी दैनिक आय चाहने वाले पार्ट-टाइम लीडर्स के लिए।',
       forWhomEn: 'Best for growth-oriented networkers, work-from-home freelancers, and active social media promoters.',
       whatYouGetHi: [
@@ -149,22 +149,22 @@ export const PlanExplanationSlider: React.FC<PlanExplanationSliderProps> = ({
         'Privacy toggle switches (mask phone/email) + Direct 1-to-1 personal guidance tunnel with Admin.',
       ],
       howItWorksHi: '₹500 का प्लैटिनम प्लान जॉइन करें। अपने नेटवर्क में जब भी कोई व्यक्ति ₹500 का प्लान जॉइन करेगा, आपको हर जॉइनिंग पर ₹365 का भारी पेआउट मिलेगा। सिर्फ 10 रेफरल्स पर ₹3,650 की कमाई!',
-      howItWorksEn: 'Activate the ₹500 Platinum Plan. Every time a contact joins under you at this tier, you earn ₹365 instant commission. Just 10 referrals earn you ₹3,650 clean profit!',
+      howItWorksEn: 'Activate the ₹500 Platinum Plan. Every time a contact joins under you at this system, you earn ₹365 instant commission. Just 10 referrals earn you ₹3,650 clean profit!',
       actionPlan: 'platinum',
-      actionLabelHi: '₹500 प्लैटिनम प्लान चुनें (Most Popular)',
-      actionLabelEn: 'Join ₹500 Platinum Plan (Earn ₹365 Per Invite)',
+      actionLabelHi: '₹500 प्लैटिनम सिस्टम चुनें (Most Popular)',
+      actionLabelEn: 'Join ₹500 Platinum System (Earn ₹365 Per Invite)',
     },
     {
       id: 4,
-      tag: 'SLIDE 4/5 • TIER 3 ROYAL VIP',
+      tag: 'SLIDE 4/5 • SYSTEM 3 ROYAL VIP',
       badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
       borderColor: 'border-amber-400',
       bgGradient: 'from-slate-950 via-[#0B0C10] to-amber-950/70',
       icon: <Crown className="w-8 h-8 text-amber-400" />,
       payoutAmount: '₹765 Payout',
       payoutPercent: '76.5% Highest Commission',
-      titleHi: '₹1000 रॉयल क्राउन वीआईपी प्लान (Royal Crown VIP)',
-      titleEn: '₹1000 Royal Crown VIP Plan (Royale Tier)',
+      titleHi: '₹1000 रॉयल क्राउन वीआईपी सिस्टम (Royal Crown VIP)',
+      titleEn: '₹1000 Royal Crown VIP Plan (Royale VIP System)',
       forWhomHi: 'टॉप टीम लीडर्स, कम्युनिटी फाउंडर्स, डिजिटल इन्फ्लुएंसर्स व अधिकतम दैनिक लाभ कमाने वालों के लिए।',
       forWhomEn: 'Built for top community leaders, influencers, team architects, and high-volume commission earners.',
       whatYouGetHi: [
@@ -460,8 +460,9 @@ export const PlanExplanationSlider: React.FC<PlanExplanationSliderProps> = ({
                     onOpenVerify();
                   }
                 }}
-                className="btn-3d-amber w-full py-3 rounded-xl text-xs font-black flex items-center justify-center gap-2"
+                className="btn-3d-rainbow w-full py-3.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 shadow-xl"
               >
+                <Zap className="w-4 h-4 fill-white text-white" />
                 <span>{languageMode === 'en' ? slide.actionLabelEn : slide.actionLabelHi}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>

@@ -788,7 +788,7 @@ class StorageService {
     return true;
   }
 
-  public rejectPayout(payoutId: string, reason: string): boolean {
+  public rejectPayout(payoutId: string, reason: string = 'Verification declined by Admin'): boolean {
     const payouts = this.getPayouts();
     const item = payouts.find((p) => p.id === payoutId);
     if (!item) return false;

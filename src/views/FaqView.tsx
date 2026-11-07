@@ -13,7 +13,7 @@ export const FaqView: React.FC = () => {
   const faqs: FaqItem[] = [
     {
       q: 'Plan share karne par kitna commission milta hai?',
-      a: 'RainAksh Network par referral margin:\n• ₹100 Normal Plan share karne par ₹65 instant payout (65%).\n• ₹500 Platinum Tier share karne par ₹365 instant payout (73%).\n• ₹1000 Crown VIP Tier share karne par ₹765 instant payout (76.5%).',
+      a: 'RainAksh Network par referral margin:\n• ₹100 Normal System share karne par ₹65 instant payout (65%).\n• ₹500 Platinum System share karne par ₹365 instant payout (73%).\n• ₹1000 Crown VIP System share karne par ₹765 instant payout (76.5%).',
     },
     {
       q: 'Payout kaise aur kitni der me milega?',
@@ -25,11 +25,11 @@ export const FaqView: React.FC = () => {
     },
     {
       q: 'Kya mai kisi bhi plan se kisi bhi plan ko refer kar sakta hu?',
-      a: 'Ji haan! Aap kisi bhi plan ke sadasya ho, aap sabhi 3 plans (₹100, ₹500, ₹1000) ko refer kar sakte hain aur unka pura commission prapt kar sakte hain.',
+      a: 'Ji haan! Aap kisi bhi plan ke sadasya ho, aap sabhi 3 systems (₹100, ₹500, ₹1000) ko refer kar sakte hain aur unka pura commission prapt kar sakte hain.',
     },
     {
-      q: 'Admin Panel kiske paas hai aur iska password kya hai?',
-      a: 'Admin Panel sirf Founder Vikas Kumar ke paas hai aur master key RAINAKSH se protected hai.',
+      q: 'Control Panel kiske paas hai aur iska access kaise milta hai?',
+      a: 'Control Panel sirf Founder Vikas Kumar ke paas surakshit hai aur master administrative passcode se protected hai jisse pure website ka control rehta hai.',
     },
     {
       q: 'Kya ye platform Government Direct Selling Rules ko follow karta hai?',

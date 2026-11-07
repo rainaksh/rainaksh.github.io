@@ -312,25 +312,25 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
               <div className="pt-4 flex flex-col sm:flex-row items-center gap-3">
                 <button
                   onClick={() => handleSelect('royal')}
-                  className="btn-3d-amber w-full sm:w-auto px-8 py-4 rounded-2xl text-sm font-black flex items-center justify-center gap-2 shadow-xl"
+                  className="btn-3d-rainbow w-full sm:w-auto px-8 py-4 rounded-2xl text-sm font-black flex items-center justify-center gap-2 shadow-xl"
                 >
-                  <Crown className="w-4 h-4 fill-slate-950 text-slate-950" />
-                  <span>👑 सर्वश्रेष्ठ प्लान जॉइन करें (₹1000 रॉयल VIP)</span>
+                  <Crown className="w-4 h-4 fill-white text-white" />
+                  <span>👑 सर्वश्रेष्ठ सिस्टम जॉइन करें (₹1000 रॉयल VIP)</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
                 <button
                   onClick={() => handleSelect('platinum')}
-                  className="btn-3d-cyan w-full sm:w-auto px-6 py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2"
+                  className="btn-3d-rainbow w-full sm:w-auto px-6 py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md"
                 >
                   <span>बजट चॉइस: ₹500 प्लैटिनम</span>
                 </button>
 
                 <button
                   onClick={() => handleSelect('silver')}
-                  className="btn-3d-dark w-full sm:w-auto px-5 py-4 rounded-2xl text-xs font-bold text-slate-300 hover:text-white"
+                  className="btn-3d-rainbow w-full sm:w-auto px-6 py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md"
                 >
-                  <span>शुरुआती ट्रायल: ₹100 नॉर्मल</span>
+                  <span>शुरुआती: ₹100 बेसिक</span>
                 </button>
               </div>
             </div>
@@ -340,7 +340,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-5 rounded-3xl bg-[#0B0C10] border border-slate-800 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-emerald-400 font-mono">ENTRY TIER</span>
+                <span className="text-xs font-bold text-emerald-400 font-mono">ENTRY SYSTEM</span>
                 <span className="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded">65% Margin</span>
               </div>
               <h4 className="text-lg font-black text-white">₹100 नॉर्मल सिल्वर</h4>
@@ -355,7 +355,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
 
             <div className="p-5 rounded-3xl bg-[#0B0C10] border border-cyan-500/40 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-cyan-300 font-mono">MID-TIER</span>
+                <span className="text-xs font-bold text-cyan-300 font-mono">MID-SYSTEM</span>
                 <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-bold">73% Margin</span>
               </div>
               <h4 className="text-lg font-black text-white">₹500 प्लैटिनम शील्ड</h4>
@@ -396,12 +396,12 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                   प्लान विशेषताएँ (Feature Parameters)
                 </th>
                 <th className="p-4 sm:p-5 text-center border-l border-slate-800/80 w-1/5">
-                  <span className="block text-emerald-400 font-mono text-xs font-bold">TIER 1</span>
+                  <span className="block text-emerald-400 font-mono text-xs font-bold">SYSTEM 1</span>
                   <span className="text-base sm:text-lg font-black text-white">₹100</span>
                   <span className="block text-[10px] text-slate-400">नॉर्मल सिल्वर</span>
                 </th>
                 <th className="p-4 sm:p-5 text-center border-l border-slate-800/80 bg-cyan-950/20 w-1/5">
-                  <span className="block text-cyan-400 font-mono text-xs font-bold">TIER 2</span>
+                  <span className="block text-cyan-400 font-mono text-xs font-bold">SYSTEM 2</span>
                   <span className="text-base sm:text-lg font-black text-cyan-300">₹500</span>
                   <span className="block text-[10px] text-slate-400">प्लैटिनम शील्ड</span>
                 </th>
@@ -409,7 +409,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-950 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full shadow">
                     👑 BEST
                   </div>
-                  <span className="block text-amber-400 font-mono text-xs font-bold">TIER 3 (VIP)</span>
+                  <span className="block text-amber-400 font-mono text-xs font-bold">SYSTEM 3 (VIP)</span>
                   <span className="text-base sm:text-lg font-black text-amber-300">₹1000</span>
                   <span className="block text-[10px] text-amber-200">रॉयल क्राउन</span>
                 </th>
@@ -486,7 +486,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                 <td className="p-4 text-center border-l border-slate-800/80">
                   <button
                     onClick={() => handleSelect('silver')}
-                    className="btn-3d-emerald px-3 py-2 rounded-xl text-xs font-black w-full"
+                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow"
                   >
                     जॉइन ₹100
                   </button>
@@ -494,7 +494,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                 <td className="p-4 text-center border-l border-slate-800/80 bg-cyan-950/20">
                   <button
                     onClick={() => handleSelect('platinum')}
-                    className="btn-3d-cyan px-3 py-2 rounded-xl text-xs font-black w-full"
+                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow"
                   >
                     जॉइन ₹500
                   </button>
@@ -502,7 +502,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                 <td className="p-4 text-center border-l border-amber-500/60 bg-amber-500/15">
                   <button
                     onClick={() => handleSelect('royal')}
-                    className="btn-3d-amber px-3 py-2.5 rounded-xl text-xs font-black w-full shadow-lg"
+                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow-lg"
                   >
                     👑 जॉइन ₹1000 VIP
                   </button>

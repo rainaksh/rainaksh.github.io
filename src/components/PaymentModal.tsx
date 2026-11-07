@@ -425,7 +425,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] font-bold text-slate-400">
-                            {tier === 'silver' ? '₹100 TIER' : tier === 'platinum' ? '₹500 TIER' : '₹1000 TIER'}
+                            {tier === 'silver' ? '₹100 SYSTEM' : tier === 'platinum' ? '₹500 SYSTEM' : '₹1000 SYSTEM'}
                           </span>
                           {isSelected && <CheckCircle2 className="w-4 h-4 text-amber-400" />}
                         </div>
@@ -995,13 +995,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-3d-amber flex-1 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-2xl active:scale-95 disabled:opacity-50"
+                className="btn-3d-rainbow flex-1 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-2xl active:scale-95 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <span>सत्यापित हो रहा है...</span>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 fill-slate-950" />
+                    <Sparkles className="w-4 h-4 fill-white text-white" />
                     <span>रजिस्ट्रेशन पूरा करें & डिजिटल आईडी कार्ड पाएं</span>
                   </>
                 )}

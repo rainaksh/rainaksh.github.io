@@ -605,7 +605,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="text-center space-y-1">
             <h3 className="text-xl font-black text-white">Digital ID Card Studio & Privacy Engine</h3>
             <p className="text-xs text-slate-400">
-              Personalized cards according to active tier. Phone number masked by default.
+              Personalized cards according to active system. Phone number masked by default.
             </p>
           </div>
 
@@ -631,7 +631,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </span>
               </h3>
               <p className="text-xs text-slate-400">
-                Explore your multi-tier network hierarchy, direct & indirect growth, and commission earnings.
+                Explore your multi-system network hierarchy, direct & indirect growth, and commission earnings.
               </p>
             </div>
 
@@ -712,7 +712,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                     <thead className="bg-slate-950 text-slate-400 font-bold uppercase text-[10px] border-b border-slate-800">
                       <tr>
                         <th className="p-3.5">User ID & Member</th>
-                        <th className="p-3.5">Plan Tier</th>
+                        <th className="p-3.5">Enrolled System</th>
                         <th className="p-3.5">Join Date</th>
                         <th className="p-3.5">Status</th>
                         <th className="p-3.5">Commission Earned</th>
@@ -742,7 +742,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                               </div>
                             </td>
                             <td className="p-3.5 font-bold text-slate-200">
-                              {d.currentPlan ? `₹${d.currentPlan} Tier` : `${d.plan} Plan`}
+                              {d.currentPlan ? `System ₹${d.currentPlan}` : `${d.plan} System`}
                             </td>
                             <td className="p-3.5 font-mono text-slate-400">{d.joinDate}</td>
                             <td className="p-3.5">

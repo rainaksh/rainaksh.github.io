@@ -1,6 +1,6 @@
 {
   "name": "RainAksh Network - Enterprise Subscription & Digital ID",
-  "description": "Multi-tier affiliate subscription platform with 3D tactile buttons, tiered Digital ID Cards (₹100, ₹500, ₹1000), instant UPI payouts, and RAINAKSH Master Gatekeeper.",
+  "description": "3-System affiliate subscription platform with 3D tactile buttons, smart Digital ID Cards (₹100, ₹500, ₹1000), instant 76.5% UPI payouts, and Master Control Panel.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

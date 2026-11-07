@@ -31,20 +31,20 @@ export const GuideView: React.FC<GuideViewProps> = ({ onSelectPlan }) => {
             <h3 className="text-lg font-black text-white">Step 1: Apna Membership Plan Chuniye</h3>
           </div>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pl-11">
-            Platform par 3 tiers uplabdh hain:
+            Platform par 3 systems uplabdh hain:
           </p>
           <ul className="pl-11 space-y-2 text-xs text-slate-300">
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <span><strong>Basic Normal Plan (₹100):</strong> Minimalist neon-border Digital ID Card. Refer karne par ₹65 instant payout.</span>
+              <span><strong>Basic Normal System (₹100):</strong> Minimalist neon-border Digital ID Card. Refer karne par ₹65 instant payout.</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-              <span><strong>Platinum Tier (₹500):</strong> Platinum Shield holographic card, custom analytics graphs aur CSV export. Refer karne par ₹365 instant payout.</span>
+              <span><strong>Platinum System (₹500):</strong> Platinum Shield holographic card, custom analytics graphs aur CSV export. Refer karne par ₹365 instant payout.</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <span><strong>Crown Royale VIP (₹1000):</strong> Liquid Gold 3D card, golden nameplate profile, crown avatar badge. Refer karne par ₹765 instant payout.</span>
+              <span><strong>Royal Crown VIP System (₹1000):</strong> Liquid Gold 3D card, golden nameplate profile, crown avatar badge. Refer karne par ₹765 instant payout.</span>
             </li>
           </ul>
         </div>
