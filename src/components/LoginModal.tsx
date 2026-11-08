@@ -155,7 +155,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               type="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="e.g. RX_2026_S1234 or 8877490845"
+              placeholder="e.g. RNX1000RN01 or 8877490845"
               className="w-full bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none font-mono"
               required
             />

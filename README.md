@@ -114,9 +114,17 @@ npm run build
 ```text
 ├── .github/
 │   └── workflows/
-│       └── ci.yml               # GitHub Actions CI workflow
+│       ├── ci.yml               # GitHub Actions CI workflow
+│       └── deploy-pages.yml     # Automated GitHub Pages Deployment workflow
 ├── docs/
-│   └── DEPLOYMENT_GUIDE.md      # Detailed Cloud & Server Deployment Guide
+│   ├── DEPLOYMENT_GUIDE.md      # Detailed GitHub Pages & Cloud Hosting Guide
+│   ├── index.html               # Pre-compiled SPA entry point for GitHub Pages /docs
+│   ├── 404.html                 # SPA 404 fallback router for GitHub Pages
+│   ├── .nojekyll                # Bypass Jekyll static parser on GitHub Pages
+│   └── assets/                  # Bundled JS & CSS bundles
+├── public/
+│   ├── .nojekyll                # Bypass Jekyll engine
+│   └── 404.html                 # Single Page Application fallback for GitHub Pages
 ├── src/
 │   ├── components/
 │   │   ├── BrandLogo.tsx             # Official Typographic Wordmark Logo

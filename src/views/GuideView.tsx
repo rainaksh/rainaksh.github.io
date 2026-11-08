@@ -69,7 +69,7 @@ export const GuideView: React.FC<GuideViewProps> = ({ onSelectPlan }) => {
             <h3 className="text-lg font-black text-white">Step 3: Unique User ID & Digital ID Card Paayein</h3>
           </div>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed pl-11">
-            Admin verification ke baad aapka account active hoga. Aapko unique format ID (jaise <code className="text-cyan-300 font-mono">RX_2026_XXXXX</code>) aur customized Digital ID Card milega jise aap download kar sakte hain.
+            Admin verification ke baad aapka account active hoga. Aapko plan aur naam ke anusar permanent, fixed aur non-editable unique ID (jaise <code className="text-cyan-300 font-mono font-bold">RNX1000RN01</code>) aur customized Digital ID Card milega jise aap download kar sakte hain.
           </p>
         </div>
 

@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { PlanTier, PlanConfig, UserProfile, Transaction, PlanAmount } from '../types';
 import { storage, DEFAULT_PLANS, generateTxnId } from '../services/storage';
-import { generateTierFormattedId } from '../utils/idGenerator';
+import { generateTierFormattedId, generateRainAkshUserId } from '../utils/idGenerator';
 import { sounds, triggerMegaCelebration } from '../utils/audioCelebration';
 
 interface PaymentModalProps {
@@ -209,8 +209,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
           (email && u.email.toLowerCase() === email.toLowerCase())
       );
 
-      const generatedId = generateTierFormattedId(selectedPlan);
-      const newUserId = user ? user.userId || user.id : generatedId;
+      const generatedId = generateRainAkshUserId(selectedPlan, name.trim(), existingUsers);
+      const newUserId = user ? (user.userId || user.id) : generatedId;
       const planAmountKey: PlanAmount = currentPlan.price.toString() as PlanAmount;
 
       const updatedUser: UserProfile = {
@@ -539,6 +539,29 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Live Preview of Permanent Fixed Non-Editable User ID */}
+            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-950 border border-amber-500/40 flex items-center justify-between gap-3 shadow-sm">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/50 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-4 h-4 text-amber-300" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold text-white flex items-center gap-1.5">
+                    <span>स्थायी व नॉन-एडिटेबल यूजर आईडी (Fixed ID)</span>
+                    <span className="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded font-mono font-bold">LOCKED</span>
+                  </p>
+                  <p className="text-[10px] text-slate-400">
+                    {name.trim() ? `नाम (${name.trim()}) व चुने गए प्लान (₹${currentPlan.price}) अनुसार ऑटो-असाइन` : 'नाम और प्लान के अनुसार ऑटो-जनरेट'}
+                  </p>
+                </div>
+              </div>
+              <span className="px-3 py-1.5 rounded-xl bg-slate-950 border border-amber-400/60 text-amber-300 font-mono font-black text-xs tracking-wider shadow-inner">
+                {name.trim()
+                  ? generateRainAkshUserId(selectedPlan, name.trim(), storage.getUsers())
+                  : `RNX${currentPlan.price}RN01`}
+              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">

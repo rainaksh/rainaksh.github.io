@@ -115,7 +115,7 @@ export default function App() {
     : 0;
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
+    <div className={`min-h-screen w-full max-w-full overflow-x-hidden flex flex-col font-sans transition-colors duration-200 ${
       darkMode ? 'bg-[#0B0C10] text-slate-100' : 'bg-slate-900 text-slate-100'
     }`}>
       {/* Navbar Header */}
@@ -146,8 +146,8 @@ export default function App() {
         setDarkMode={setDarkMode}
       />
 
-      {/* Main Page Body */}
-      <main className="flex-1">
+      {/* Main Page Body (with clearance for fixed bottom navigation on mobile) */}
+      <main className="flex-1 w-full max-w-full overflow-x-hidden pb-24 lg:pb-0">
         {activeView === 'home' && (
           <HomeView
             onSelectPlan={handleOpenJoinModal}

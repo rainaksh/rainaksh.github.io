@@ -13,7 +13,7 @@ import {
   ContactInquiry,
 } from '../types';
 import { triggerCelebration, triggerMegaCelebration, sounds } from '../utils/audioCelebration';
-import { generateTierFormattedId } from '../utils/idGenerator';
+import { generateTierFormattedId, generateRainAkshUserId, extractTierFromId } from '../utils/idGenerator';
 import {
   syncUserToFirestore,
   syncTransactionToFirestore,
@@ -119,11 +119,11 @@ export const DEFAULT_CONFIG: SystemConfig = {
   isMaintenanceMode: false,
 };
 
-// Seed Users per blueprint: Only Founder Admin Vikas Kumar, no dummy/demo users
+// Seed Users: Founder Vikas Kumar & 1st VIP Member RainAksh Nityam with Official Fixed IDs
 const SEED_USERS: UserProfile[] = [
   {
-    userId: 'RX_MAIN_001',
-    id: 'RX_MAIN_001',
+    userId: 'RNX1000VK01',
+    id: 'RNX1000VK01',
     sponsorId: 'RX_SYSTEM',
     fullName: 'Vikas Kumar',
     name: 'Vikas Kumar',
@@ -165,6 +165,51 @@ const SEED_USERS: UserProfile[] = [
     nomineeName: 'Priya Kumari',
     nomineeRelation: 'Spouse',
     bio: 'Founder & National Architect of RainAksh Network.',
+  },
+  {
+    userId: 'RNX1000RN01',
+    id: 'RNX1000RN01',
+    sponsorId: 'RNX1000VK01',
+    fullName: 'RainAksh Nityam',
+    name: 'RainAksh Nityam',
+    email: 'nityam@rainaksh.network',
+    mobile: '9876543210',
+    phone: '9876543210',
+    password: 'password123',
+    profilePic: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
+    avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80',
+    avatarFrame: 'golden_crown',
+    currentPlan: '1000',
+    plan: 'royal',
+    joinDate: '2026-03-01',
+    verificationStatus: 'verified',
+    planStatus: 'active',
+    privacySettings: {
+      isCardPublic: true,
+      maskMobile: true,
+      maskEmail: true,
+      maskEarnings: false,
+    },
+    privacy: {
+      isCardPublic: true,
+      maskPhone: true,
+      maskEmail: true,
+      maskAddress: false,
+    },
+    earnings: {
+      totalEarned: 1530,
+      pendingPayout: 0,
+      withdrawn: 1530,
+    },
+    walletBalance: 0,
+    totalEarned: 1530,
+    totalWithdrawn: 1530,
+    upiId: 'rainakshnityam@upi',
+    city: 'Patna',
+    state: 'Bihar',
+    nomineeName: 'Suman Devi',
+    nomineeRelation: 'Mother',
+    bio: 'Official RainAksh VIP Member #01 enrolled with ₹1000 Royal Crown Plan.',
   },
 ];
 
@@ -213,11 +258,15 @@ const SEED_INQUIRIES: ContactInquiry[] = [
   },
 ];
 
-export function generateUserId(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-  const char = chars.charAt(Math.floor(Math.random() * chars.length));
-  const num = Math.floor(1000 + Math.random() * 9000);
-  return `RX_2026_${num}${char}`;
+export function generateUserId(plan: PlanTier | PlanAmount | string = '1000', fullName: string = 'Member'): string {
+  const usersRaw = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEYS.USERS) : null;
+  let currentUsers: UserProfile[] = SEED_USERS;
+  try {
+    if (usersRaw) currentUsers = JSON.parse(usersRaw);
+  } catch {
+    // fallback
+  }
+  return generateRainAkshUserId(plan, fullName, currentUsers);
 }
 
 export function generateTxnId(): string {
@@ -374,9 +423,14 @@ class StorageService {
   }
 
   public getUserById(id: string): UserProfile | undefined {
+    if (!id) return undefined;
     const clean = id.trim().toLowerCase();
     return this.getUsers().find(
-      (u) => (u.userId && u.userId.toLowerCase() === clean) || (u.id && u.id.toLowerCase() === clean)
+      (u) =>
+        (u.userId && u.userId.toLowerCase() === clean) ||
+        (u.id && u.id.toLowerCase() === clean) ||
+        (clean === 'rx_main_001' && (u.userId === 'RNX1000VK01' || u.userId === 'RX_MAIN_001')) ||
+        (clean === 'rnx1000vk01' && (u.userId === 'RX_MAIN_001' || u.userId === 'RNX1000VK01'))
     );
   }
 
@@ -586,9 +640,10 @@ class StorageService {
       user.plan = txn.plan;
       user.avatarFrame = txn.plan === 'royal' ? 'golden_crown' : txn.plan === 'platinum' ? 'platinum' : 'silver';
 
-      // Assign official tier-encoded unique ID (RX_2026_XXXXX) upon approval
-      if (user.userId !== 'RX_MAIN_001') {
-        const approvedTierId = generateTierFormattedId(txn.plan);
+      // Ensure official unique, fixed, non-editable User ID (RNX[Plan][Initials][Seq])
+      // If the user's ID is already in official RNX format, it is FIXED and NEVER altered!
+      if (!user.userId.startsWith('RNX')) {
+        const approvedTierId = generateRainAkshUserId(txn.plan, user.fullName || user.name, this.getUsers());
         const prevId = user.userId;
         user.userId = approvedTierId;
         user.id = approvedTierId;

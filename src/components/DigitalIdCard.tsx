@@ -63,8 +63,8 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
     return `${maskedName}@${parts[1]}`;
   };
 
-  const displayUserId = user.userId || user.id || 'RX_2026_9837A';
-  const displaySponsorId = user.sponsorId || 'RX_MAIN_001';
+  const displayUserId = user.userId || user.id || 'RNX1000RN01';
+  const displaySponsorId = user.sponsorId || 'RNX1000VK01';
   const displayName = user.fullName || user.name || 'Member Name';
   const displayAvatar = user.profilePic || user.avatarUrl;
 

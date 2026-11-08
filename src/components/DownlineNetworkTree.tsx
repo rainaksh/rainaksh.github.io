@@ -82,19 +82,19 @@ const createSampleUser = (
 // Sample demo network to demonstrate visual tree growth when user is new or tests preview
 const SAMPLE_GROWTH_TREE_USERS: UserProfile[] = [
   createSampleUser({
-    userId: 'RX_2026_ROYAL88',
+    userId: 'RNX1000RN01',
     sponsorId: 'CURRENT_USER',
-    fullName: 'Rahul Sharma',
-    email: 'rahul.s@example.com',
+    fullName: 'RainAksh Nityam',
+    email: 'nityam@rainaksh.network',
     mobile: '9876543210',
-    profilePic: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    profilePic: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
     avatarFrame: 'golden_crown',
     currentPlan: '1000',
     plan: 'royal',
     joinDate: '2026-03-01',
   }),
   createSampleUser({
-    userId: 'RX_2026_PLAT42',
+    userId: 'RNX500PV01',
     sponsorId: 'CURRENT_USER',
     fullName: 'Pooja Verma',
     email: 'pooja.v@example.com',
@@ -106,7 +106,7 @@ const SAMPLE_GROWTH_TREE_USERS: UserProfile[] = [
     joinDate: '2026-03-02',
   }),
   createSampleUser({
-    userId: 'RX_2026_SILV19',
+    userId: 'RNX100AP01',
     sponsorId: 'CURRENT_USER',
     fullName: 'Amit Patel',
     email: 'amit.p@example.com',
@@ -117,10 +117,10 @@ const SAMPLE_GROWTH_TREE_USERS: UserProfile[] = [
     plan: 'silver',
     joinDate: '2026-03-03',
   }),
-  // Level 2 under Rahul Sharma
+  // Level 2 under RainAksh Nityam
   createSampleUser({
-    userId: 'RX_2026_PLAT91',
-    sponsorId: 'RX_2026_ROYAL88',
+    userId: 'RNX500DY02',
+    sponsorId: 'RNX1000RN01',
     fullName: 'Deepak Yadav',
     email: 'deepak.y@example.com',
     mobile: '9711223344',
@@ -131,8 +131,8 @@ const SAMPLE_GROWTH_TREE_USERS: UserProfile[] = [
     joinDate: '2026-03-04',
   }),
   createSampleUser({
-    userId: 'RX_2026_SILV55',
-    sponsorId: 'RX_2026_ROYAL88',
+    userId: 'RNX100NG02',
+    sponsorId: 'RNX1000RN01',
     fullName: 'Neha Gupta',
     email: 'neha.g@example.com',
     mobile: '9611223344',
@@ -144,8 +144,8 @@ const SAMPLE_GROWTH_TREE_USERS: UserProfile[] = [
   }),
   // Level 2 under Pooja Verma
   createSampleUser({
-    userId: 'RX_2026_ROYAL77',
-    sponsorId: 'RX_2026_PLAT42',
+    userId: 'RNX1000AS02',
+    sponsorId: 'RNX500PV01',
     fullName: 'Anjali Singh',
     email: 'anjali.s@example.com',
     mobile: '9511223344',
@@ -157,8 +157,8 @@ const SAMPLE_GROWTH_TREE_USERS: UserProfile[] = [
   }),
   // Level 3 under Deepak Yadav
   createSampleUser({
-    userId: 'RX_2026_SILV88',
-    sponsorId: 'RX_2026_PLAT91',
+    userId: 'RNX100SM03',
+    sponsorId: 'RNX500DY02',
     fullName: 'Suresh Maurya',
     email: 'suresh.m@example.com',
     mobile: '9411223344',

@@ -37,9 +37,9 @@ export interface UserEarnings {
 }
 
 export interface UserProfile {
-  userId: string; // e.g. RX_2026_9837A
+  userId: string; // Official Permanent Fixed ID: RNX[Plan][Initials][Seq] (e.g. RNX1000RN01)
   id: string; // alias for userId
-  sponsorId: string; // e.g. RX_MAIN_001
+  sponsorId: string; // e.g. RNX1000VK01 or RNX1000RN01
   fullName: string;
   name: string; // alias
   email: string;

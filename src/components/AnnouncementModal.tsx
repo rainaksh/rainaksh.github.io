@@ -173,7 +173,7 @@ export const AnnouncementModal: React.FC<AnnouncementModalProps> = ({
                       </li>
                       <li className="flex items-start gap-1.5">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                        <span>लाइफटाइम मेंबरशिप आईडी (RX_2026_S...)</span>
+                        <span>लाइफटाइम परमानेंट मेंबरशिप आईडी (RNX100...)</span>
                       </li>
                     </ul>
                   </div>

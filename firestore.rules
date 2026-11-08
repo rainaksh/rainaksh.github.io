@@ -13,7 +13,8 @@ service cloud.firestore {
     function isAdmin() {
       return request.auth != null && (
         request.auth.token.email == 'accaiwork@gmail.com' ||
-        request.auth.uid == 'RX_MAIN_001'
+        request.auth.uid == 'RX_MAIN_001' ||
+        request.auth.uid == 'RNX1000VK01'
       );
     }
 

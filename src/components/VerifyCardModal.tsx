@@ -60,7 +60,7 @@ export const VerifyCardModal: React.FC<VerifyCardModalProps> = ({
             <div className="relative flex-1">
               <input
                 type="text"
-                placeholder="Enter User ID (e.g. RX_2026_9837A)"
+                placeholder="Enter User ID (e.g. RNX1000RN01)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-3.5 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-amber-300 font-mono font-bold text-sm focus:outline-none focus:border-amber-400"
@@ -110,8 +110,36 @@ export const VerifyCardModal: React.FC<VerifyCardModalProps> = ({
               </p>
             </div>
           ) : (
-            <div className="p-6 rounded-2xl bg-slate-950/60 border border-slate-800 text-center text-xs text-slate-400 font-mono">
-              Try: RX_MAIN_001 ya RX_2026_9837A
+            <div className="p-5 rounded-2xl bg-slate-950/60 border border-slate-800 text-center space-y-2">
+              <p className="text-xs text-slate-400">त्वरित सत्यापन के लिए नीचे क्लिक करें:</p>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    sounds.playClick();
+                    setSearchQuery('RNX1000RN01');
+                    const u = storage.getUserById('RNX1000RN01');
+                    setTargetUser(u || null);
+                    setSearched(true);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-slate-900 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold hover:bg-slate-800"
+                >
+                  RNX1000RN01 (RainAksh Nityam)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    sounds.playClick();
+                    setSearchQuery('RNX1000VK01');
+                    const u = storage.getUserById('RNX1000VK01');
+                    setTargetUser(u || null);
+                    setSearched(true);
+                  }}
+                  className="px-3 py-1.5 rounded-xl bg-slate-900 border border-cyan-400/40 text-cyan-300 font-mono text-xs font-bold hover:bg-slate-800"
+                >
+                  RNX1000VK01 (Vikas Kumar)
+                </button>
+              </div>
             </div>
           )}
         </div>

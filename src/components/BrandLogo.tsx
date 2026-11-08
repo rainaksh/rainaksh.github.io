@@ -45,12 +45,12 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
       {/* Official Typographic Logo: The Name Design IS The Logo */}
       <div className="flex items-center gap-1.5 sm:gap-2 leading-none">
         <span
-          className={`font-black tracking-tight ${textSize[size]} bg-gradient-to-r from-white via-cyan-200 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(245,158,11,0.25)] font-sans transition-transform group-hover:scale-[1.02] duration-200`}
+          className={`font-black tracking-tight ${textSize[size]} bg-gradient-to-r from-white via-cyan-200 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(245,158,11,0.25)] font-sans transition-transform group-hover:scale-[1.02] duration-200 shrink-0 whitespace-nowrap`}
         >
           RainAksh
         </span>
         <span
-          className={`font-black uppercase rounded-md bg-gradient-to-r from-cyan-500/20 to-sky-500/20 text-cyan-300 border border-cyan-400/50 font-mono tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.25)] ${badgeSize[size]}`}
+          className={`font-black uppercase rounded-md bg-gradient-to-r from-cyan-500/20 to-sky-500/20 text-cyan-300 border border-cyan-400/50 font-mono tracking-widest shadow-[0_0_10px_rgba(56,189,248,0.25)] shrink-0 whitespace-nowrap ${badgeSize[size]}`}
         >
           NETWORK
         </span>

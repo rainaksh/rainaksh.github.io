@@ -234,25 +234,32 @@ export const FloatingAiChat: React.FC<FloatingAiChatProps> = ({
                 })}
               </div>
 
-              {/* Direct WhatsApp Callout */}
-              <div className="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-between gap-2">
-                <div>
-                  <p className="font-bold text-emerald-300 text-[11px]">
-                    सीधा WhatsApp पर बात करें
+              {/* Direct Telegram & Email Help Desk Callout */}
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <p className="font-bold text-amber-300 text-[11px]">
+                    आधिकारिक सहायता एवं संपर्क केंद्र
                   </p>
-                  <p className="text-[10px] text-slate-400">
-                    +91 8877490845 (विकास कुमार)
-                  </p>
+                  <span className="text-[9px] text-emerald-400 font-mono">24/7 Active</span>
                 </div>
-                <a
-                  href="https://wa.me/918877490845?text=Namaste%20Vikas%20ji,%20mujhe%20RainAksh%20Network%20ke%20bare%20me%20jankari%20chahiye."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => sounds.playClick()}
-                  className="btn-3d-emerald px-3 py-1.5 rounded-xl text-[10px] font-black whitespace-nowrap"
-                >
-                  WhatsApp खोलें
-                </a>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href="https://t.me/rainaksh"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => sounds.playClick()}
+                    className="btn-3d-telegram px-3 py-2 rounded-xl text-[10px] font-black flex items-center justify-center gap-1.5"
+                  >
+                    <span>Telegram @rainaksh</span>
+                  </a>
+                  <a
+                    href="mailto:accaiwork@gmail.com?subject=RainAksh%20Support%20Inquiry"
+                    onClick={() => sounds.playClick()}
+                    className="btn-3d-email px-3 py-2 rounded-xl text-[10px] font-black flex items-center justify-center gap-1.5"
+                  >
+                    <span>Email Support</span>
+                  </a>
+                </div>
               </div>
 
               {sentSuccess && (

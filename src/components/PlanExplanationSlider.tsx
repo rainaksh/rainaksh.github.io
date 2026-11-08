@@ -106,13 +106,13 @@ export const PlanExplanationSlider: React.FC<PlanExplanationSliderProps> = ({
       whatYouGetHi: [
         'मिनिमलिस्ट नियॉन-बॉर्डर स्मार्ट डिजिटल आईडी कार्ड (फोटो, यूनिक आईडी व स्पॉन्सर वॉटरमार्क सहित)।',
         'हर एक डायरेक्ट रेफरल पर ₹65 (65%) का त्वरित नकद भुगतान सीधा आपके UPI पर।',
-        'लाइफटाइम वैलिडिटी मेंबरशिप आईडी कार्ड (RX_2026_S...)।',
+        'लाइफटाइम वैलिडिटी परमानेंट मेंबरशिप आईडी कार्ड (RNX100...)।',
         'मोबाइल-फ्रेंडली मेंबर डैशबोर्ड व बेसिक डाउनलाइन ट्रैकिंग लेजर।',
       ],
       whatYouGetEn: [
         'Minimalist Neon-Border Smart Digital ID Card with raw photo & locked unique ID watermark.',
         'Instant ₹65 (65% margin) cash reward on every direct user you invite.',
-        'Lifetime validity membership identity credentials (e.g. RX_2026_S...).',
+        'Lifetime validity permanent membership identity credentials (e.g. RNX100...).',
         'Mobile-friendly dashboard with real-time downline tracking ledger.',
       ],
       howItWorksHi: '₹100 देकर जॉइन करें। जैसे ही आपका कोई मित्र आपके रेफरल लिंक से ₹100 का बेसिक प्लान जॉइन करता है, आपको उसी समय ₹65 का कमीशन मिल जाता है। सिर्फ 10 दोस्तों पर ₹650 की सीधी कमाई!',

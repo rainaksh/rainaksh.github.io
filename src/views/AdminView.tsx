@@ -1564,6 +1564,29 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
             </div>
 
             <form onSubmit={handleSaveUserEdit} className="space-y-3.5 text-xs">
+              {/* Permanent Fixed Non-Editable User ID */}
+              <div className="p-3 rounded-2xl bg-slate-900/90 border border-amber-500/40 space-y-1">
+                <div className="flex items-center justify-between">
+                  <label className="text-amber-300 font-black flex items-center gap-1.5 text-xs">
+                    <Lock className="w-3.5 h-3.5 text-amber-400" />
+                    <span>User ID (स्थायी व नॉन-एडिटेबल आईडी)</span>
+                  </label>
+                  <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">
+                    FIXED & NON-EDITABLE
+                  </span>
+                </div>
+                <input
+                  type="text"
+                  disabled
+                  readOnly
+                  value={selectedUserForEdit.userId || selectedUserForEdit.id}
+                  className="w-full px-3 py-2 rounded-xl bg-slate-950/80 border border-amber-500/30 text-amber-300 font-mono font-black text-sm cursor-not-allowed select-all"
+                />
+                <p className="text-[10px] text-slate-400">
+                  🔒 यह आईडी सिस्टम द्वारा प्लान ({selectedUserForEdit.currentPlan}) और नाम के अनुसार स्थायी रूप से लॉक है। इसे किसी भी स्थिति में एडिट या बदला नहीं जा सकता।
+                </p>
+              </div>
+
               <div>
                 <label className="block text-slate-400 mb-1 font-bold">Full Name</label>
                 <input
