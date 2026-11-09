@@ -305,10 +305,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
 
           {/* Quick Balance & Withdraw */}
-          <div className="flex items-center gap-3">
-            <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 text-center min-w-[130px] shadow-inner">
-              <span className="text-[10px] text-slate-400 uppercase font-bold block">Available Balance</span>
-              <span className="text-2xl font-black text-amber-400 font-mono">
+          <div className="flex flex-row items-center gap-2 sm:gap-3 w-full sm:w-auto">
+            <div className="bg-slate-950 p-2.5 sm:p-3.5 rounded-2xl border border-slate-800 text-center flex-1 sm:min-w-[130px] sm:flex-none shadow-inner">
+              <span className="text-[9px] sm:text-[10px] text-slate-400 uppercase font-bold block truncate">Available Balance</span>
+              <span className="text-xl sm:text-2xl font-black text-amber-400 font-mono">
                 ₹{user.walletBalance.toLocaleString('en-IN')}
               </span>
             </div>
@@ -318,9 +318,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 sounds.playClick();
                 setActiveTab('wallet');
               }}
-              className="btn-3d-emerald px-5 py-3.5 rounded-2xl text-xs font-black flex items-center gap-1.5"
+              className="btn-3d-emerald px-4 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 flex-1 sm:flex-none"
             >
-              <Wallet className="w-4 h-4" />
+              <Wallet className="w-4 h-4 shrink-0" />
               <span>Withdraw UPI</span>
             </button>
           </div>

@@ -158,7 +158,7 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
       {/* The Digital ID Card Element */}
       <div
         ref={cardRef}
-        className={`relative w-full aspect-[1.58/1] rounded-3xl overflow-hidden transition-all duration-500 select-none shadow-2xl ${theme.wrapper}`}
+        className={`relative w-full aspect-auto sm:aspect-[1.58/1] min-h-[220px] rounded-3xl overflow-hidden transition-all duration-500 select-none shadow-2xl ${theme.wrapper}`}
         style={{ perspective: '1000px' }}
       >
         {/* Security Watermark Guilloche Micro-Grid Texture */}
@@ -166,14 +166,14 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
 
         {/* Large Prominent Centered RAINAKSH Bold Watermark Typography */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
-          <span className="text-[52px] sm:text-[76px] font-black tracking-[0.22em] text-white/[0.08] select-none font-sans uppercase -rotate-12 transform scale-110 drop-shadow-sm">
+          <span className="text-[36px] sm:text-[76px] font-black tracking-[0.22em] text-white/[0.08] select-none font-sans uppercase -rotate-12 transform scale-110 drop-shadow-sm">
             RAINAKSH
           </span>
         </div>
 
         {/* Diagonal Repeating RAINAKSH High-Security Micro-Text Watermark */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0 flex items-center justify-center opacity-25 rotate-[-22deg] scale-125">
-          <div className="flex flex-col gap-3.5 text-center whitespace-nowrap font-mono font-black tracking-widest text-[9px] sm:text-[10px]">
+          <div className="flex flex-col gap-3.5 text-center whitespace-nowrap font-mono font-black tracking-widest text-[8px] sm:text-[10px]">
             <span className="text-white/60">
               ✦ RAINAKSH ✦ OFFICIAL DIGITAL PASSPORT ✦ RAINAKSH ✦ SPONSOR: {displaySponsorId} ✦ RAINAKSH ✦
             </span>
@@ -200,24 +200,24 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
 
         {!isFlipped ? (
           /* ================= FRONT SIDE ================= */
-          <div className="relative h-full flex flex-col justify-between p-4 sm:p-5 z-10 text-white">
+          <div className="relative h-full flex flex-col justify-between p-3 sm:p-5 z-10 text-white">
             {/* Header Ribbon: Pure Typographic RainAksh Logo without icon */}
-            <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5">
-              <div>
-                <BrandLogo size="sm" showTagline={false} />
-                <p className="text-[10px] text-cyan-300 font-mono font-bold tracking-tight flex items-center gap-1 mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Digital Identity & Affiliate Passport</span>
+            <div className="flex items-center justify-between gap-1.5 border-b border-white/10 pb-2">
+              <div className="min-w-0">
+                <BrandLogo size="xs" showTagline={false} />
+                <p className="text-[9px] sm:text-[10px] text-cyan-300 font-mono font-bold tracking-tight flex items-center gap-1 mt-0.5 truncate">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                  <span className="truncate">Digital Identity & Affiliate Passport</span>
                 </p>
               </div>
 
               {/* Status & Plan Pill */}
-              <div className="text-right">
-                <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider border ${theme.badgeBg}`}>
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+              <div className="text-right shrink-0">
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[8.5px] sm:text-[10px] font-black uppercase tracking-wider border ${theme.badgeBg}`}>
+                  <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-400" />
                   {user.verificationStatus === 'verified' || user.planStatus === 'active' ? 'VERIFIED' : 'PENDING'}
                 </span>
-                <p className="text-[9px] text-amber-400/90 font-mono font-bold tracking-wider mt-0.5">
+                <p className="text-[8px] sm:text-[9px] text-amber-400/90 font-mono font-bold tracking-wider mt-0.5 truncate max-w-[120px]">
                   {theme.tierLabel}
                 </p>
               </div>
@@ -266,23 +266,22 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
                   </h4>
                 </div>
 
-                {/* Sub details */}
-                <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-[10px] sm:text-[11px] bg-slate-950/70 p-2 rounded-xl border border-white/5 backdrop-blur-sm">
-                  <div>
-                    <span className="text-slate-400 text-[8px] sm:text-[9px] block uppercase">Mobile (Masked)</span>
-                    <span className="font-mono text-slate-200 font-bold">{maskPhone(user.mobile || user.phone)}</span>
-                  </div>
-                  <div>
-                    <span className="text-slate-400 text-[8px] sm:text-[9px] block uppercase">Sponsor ID</span>
-                    <span className="font-mono text-cyan-400 font-black">{displaySponsorId}</span>
+                <div className="grid grid-cols-2 gap-x-1.5 gap-y-1 text-[9px] sm:text-[11px] bg-slate-950/70 p-1.5 sm:p-2 rounded-xl border border-white/5 backdrop-blur-sm">
+                  <div className="truncate">
+                    <span className="text-slate-400 text-[7.5px] sm:text-[9px] block uppercase truncate">Mobile (Masked)</span>
+                    <span className="font-mono text-slate-200 font-bold text-[8.5px] sm:text-[10px] truncate block">{maskPhone(user.mobile || user.phone)}</span>
                   </div>
                   <div className="truncate">
-                    <span className="text-slate-400 text-[8px] sm:text-[9px] block uppercase">Email</span>
-                    <span className="text-slate-200 font-mono text-[9px] truncate block">{maskEmail(user.email)}</span>
+                    <span className="text-slate-400 text-[7.5px] sm:text-[9px] block uppercase truncate">Sponsor ID</span>
+                    <span className="font-mono text-cyan-400 font-black text-[8.5px] sm:text-[10px] truncate block">{displaySponsorId}</span>
                   </div>
-                  <div>
-                    <span className="text-slate-400 text-[8px] sm:text-[9px] block uppercase">Valid Until</span>
-                    <span className="font-mono text-emerald-400 text-[9px] font-bold">2030 (Lifetime)</span>
+                  <div className="truncate">
+                    <span className="text-slate-400 text-[7.5px] sm:text-[9px] block uppercase truncate">Email</span>
+                    <span className="text-slate-200 font-mono text-[8px] sm:text-[9.5px] truncate block">{maskEmail(user.email)}</span>
+                  </div>
+                  <div className="truncate">
+                    <span className="text-slate-400 text-[7.5px] sm:text-[9px] block uppercase truncate">Valid Until</span>
+                    <span className="font-mono text-emerald-400 text-[8.5px] sm:text-[10px] font-bold truncate block">2030 (Lifetime)</span>
                   </div>
                 </div>
               </div>
@@ -378,20 +377,21 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
       </div>
 
       {/* 3D Action Buttons */}
-      <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-2 mt-3.5">
+      <div className="w-full grid grid-cols-3 gap-1.5 sm:gap-2 mt-3.5">
         <button
           onClick={handleShare}
-          className="btn-3d-dark flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-2xl text-xs font-bold text-slate-200"
+          className="btn-3d-dark flex items-center justify-center gap-1 py-2 sm:py-2.5 px-1.5 sm:px-3 rounded-2xl text-[10px] sm:text-xs font-bold text-slate-200"
+          title="Share Digital Card"
         >
           {copiedLink ? (
             <>
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-emerald-400">Copied!</span>
+              <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 shrink-0" />
+              <span className="text-emerald-400 truncate">Copied!</span>
             </>
           ) : (
             <>
-              <Share2 className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Share Card</span>
+              <Share2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-cyan-400 shrink-0" />
+              <span className="truncate">Share</span>
             </>
           )}
         </button>
@@ -399,10 +399,11 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
         {allowDownload && (
           <button
             onClick={handleDownload}
-            className="btn-3d-cyan flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-2xl text-xs font-black"
+            className="btn-3d-cyan flex items-center justify-center gap-1 py-2 sm:py-2.5 px-1.5 sm:px-3 rounded-2xl text-[10px] sm:text-xs font-black"
+            title="Download / Print ID"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Print / Save ID</span>
+            <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+            <span className="truncate">Save ID</span>
           </button>
         )}
 
@@ -411,10 +412,11 @@ export const DigitalIdCard: React.FC<DigitalIdCardProps> = ({
             sounds.playClick();
             setIsFlipped(!isFlipped);
           }}
-          className="btn-3d-amber col-span-2 sm:col-span-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-2xl text-xs font-black"
+          className="btn-3d-amber flex items-center justify-center gap-1 py-2 sm:py-2.5 px-1.5 sm:px-3 rounded-2xl text-[10px] sm:text-xs font-black"
+          title="Flip ID Card"
         >
-          <RotateCw className="w-3.5 h-3.5" />
-          <span>Flip Card</span>
+          <RotateCw className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+          <span className="truncate">Flip</span>
         </button>
       </div>
 

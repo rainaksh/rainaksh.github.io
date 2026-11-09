@@ -35,14 +35,16 @@ interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
   onPaymentSuccess: (user: UserProfile, txn: Transaction) => void;
+  onOpenFullSponsorCard?: (sponsorId: string) => void;
 }
 
 export const PaymentModal: React.FC<PaymentModalProps> = ({
   initialPlan = 'platinum',
-  initialSponsorId = 'RX_MAIN_001',
+  initialSponsorId = 'RNX1000RN01',
   isOpen,
   onClose,
   onPaymentSuccess,
+  onOpenFullSponsorCard,
 }) => {
   const config = storage.getConfig();
 
@@ -374,11 +376,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                         : 'bg-slate-800'
                     }`}
                   />
-                  <div className="flex items-center justify-between text-[9px] font-bold">
-                    <span className={isCurrent ? 'text-amber-300 font-black' : isPassed ? 'text-emerald-400' : 'text-slate-500'}>
+                  <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-bold">
+                    <span className={`truncate ${isCurrent ? 'text-amber-300 font-black' : isPassed ? 'text-emerald-400' : 'text-slate-500'}`}>
                       {s.num}. {s.label}
                     </span>
-                    {isPassed && <Check className="w-2.5 h-2.5 text-emerald-400" />}
+                    {isPassed && <Check className="w-2.5 h-2.5 text-emerald-400 shrink-0" />}
                   </div>
                 </div>
               );
@@ -397,9 +399,108 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         {/* ================= STEP 1: PLAN & SPONSOR ================= */}
         {currentStep === 1 && (
           <div className="p-4 sm:p-6 space-y-4 text-xs">
+            {/* 1. Sponsor ID Entry & Live Sponsor Card Preview (पहले sponcer id enter kre) */}
+            {(() => {
+              const cleanSponsor = sponsorId.trim().toUpperCase();
+              const sponsorProfile = storage.getUserById(cleanSponsor) || (
+                cleanSponsor.includes('VK') || cleanSponsor.includes('MAIN')
+                  ? storage.getUserById('RNX1000VK01')
+                  : storage.getUserById('RNX1000RN01')
+              );
+              const sponsorName = sponsorProfile?.fullName || sponsorProfile?.name || 'RainAksh Nityam';
+              const sponsorIdDisplay = sponsorProfile?.userId || cleanSponsor || 'RNX1000RN01';
+              const sponsorPlan = sponsorProfile?.plan || 'royal';
+
+              return (
+                <div className="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-950 p-4 rounded-2xl border-2 border-amber-400/60 space-y-3 shadow-md">
+                  <div className="flex items-center justify-between">
+                    <label className="text-slate-100 font-black text-xs flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                      <span>1. स्पॉन्सर आईडी दर्ज करें (Enter Sponsor ID) *</span>
+                    </label>
+                    <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                      ✓ SPONSOR VERIFIED
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      required
+                      value={sponsorId}
+                      onChange={(e) => setSponsorId(e.target.value.toUpperCase())}
+                      placeholder="उदा. RNX1000RN01 या RNX1000VK01"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono font-black text-xs tracking-wider focus:outline-none focus:border-amber-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        sounds.playClick();
+                        setSponsorId('RNX1000RN01');
+                      }}
+                      className="btn-3d-amber px-3 py-2 rounded-xl text-[10px] font-black whitespace-nowrap shrink-0"
+                      title="1st VIP Member RainAksh Nityam"
+                    >
+                      RN01 ID
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        sounds.playClick();
+                        setSponsorId('RNX1000VK01');
+                      }}
+                      className="btn-3d-dark px-3 py-2 rounded-xl text-[10px] font-bold whitespace-nowrap shrink-0 text-cyan-300"
+                      title="संस्थापक विकास कुमार"
+                    >
+                      VK01 ID
+                    </button>
+                  </div>
+
+                  {/* Verified Sponsor Masked Card Showcase Strip */}
+                  <div className="p-3 rounded-xl bg-slate-950/90 border border-amber-500/30 flex items-center justify-between gap-2.5">
+                    <div className="flex items-center gap-2.5 overflow-hidden">
+                      <img
+                        src={sponsorProfile?.profilePic || sponsorProfile?.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'}
+                        alt={sponsorName}
+                        className="w-10 h-10 rounded-xl object-cover border-2 border-amber-400/70 shrink-0"
+                      />
+                      <div className="overflow-hidden">
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-xs font-black text-white truncate">{sponsorName}</p>
+                          <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        </div>
+                        <p className="text-[10px] text-amber-400 font-mono font-bold mt-0.5">
+                          ID: {sponsorIdDisplay} • <span className="text-emerald-400 font-semibold">+91 ••••••845</span>
+                        </p>
+                        <p className="text-[9px] text-slate-400 font-medium">
+                          सिस्टम: <span className="text-cyan-300 uppercase font-bold">{sponsorPlan} VIP System</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {onOpenFullSponsorCard && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sounds.playClick();
+                          onOpenFullSponsorCard(sponsorIdDisplay);
+                        }}
+                        className="btn-3d-dark px-2.5 py-1.5 rounded-lg text-[10px] font-bold text-amber-300 whitespace-nowrap shrink-0 flex items-center gap-1 border border-amber-400/40"
+                        title="पूरा 3D स्पॉन्सर कार्ड देखें"
+                      >
+                        <Eye className="w-3 h-3 text-amber-400" />
+                        <span>कार्ड देखें</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* 2. Select Membership System */}
             <div>
               <label className="block text-slate-200 font-bold mb-2">
-                1. सदस्यता प्लान चुनें (Select Membership Tier) *
+                2. सदस्यता प्लान चुनें (Select Membership System) *
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 {(['silver', 'platinum', 'royal'] as PlanTier[]).map((tier) => {
@@ -445,38 +546,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   );
                 })}
               </div>
-            </div>
-
-            {/* Sponsor ID Field */}
-            <div className="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2">
-              <label className="block text-slate-300 font-bold">
-                स्पॉन्सर आईडी (Sponsor ID) *
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  required
-                  value={sponsorId}
-                  onChange={(e) => setSponsorId(e.target.value.toUpperCase())}
-                  placeholder="RX_MAIN_001"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono font-bold tracking-wider focus:outline-none focus:border-amber-400"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    sounds.playClick();
-                    setSponsorId('RX_MAIN_001');
-                  }}
-                  className="btn-3d-dark px-3 py-2.5 rounded-xl text-[10px] font-bold whitespace-nowrap"
-                  title="संस्थापक विकास कुमार"
-                >
-                  संस्थापक ID
-                </button>
-              </div>
-              <p className="text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
-                <Check className="w-3.5 h-3.5" />
-                <span>वेरिफाइड स्पॉन्सर: विकास कुमार (संस्थापक • 8877490845@spicepay)</span>
-              </p>
             </div>
 
             {/* Plan Reward Summary Note */}

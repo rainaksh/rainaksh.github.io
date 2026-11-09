@@ -49,18 +49,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
   return (
     <div className="space-y-10 pb-14">
       {/* Prominent Official Announcement Showcase Card */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="p-5 sm:p-7 rounded-3xl bg-gradient-to-r from-amber-950/70 via-[#0B0C10] to-cyan-950/70 border-2 border-amber-400/90 shadow-[0_0_35px_rgba(245,158,11,0.25)] relative overflow-hidden">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
-            <div className="space-y-2 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black border border-amber-400/40">
-                <Sparkles className="w-3.5 h-3.5 fill-amber-300 animate-pulse" />
-                <span>📢 महत्वपूर्ण सूचना • OFFICIAL PLATFORM ANNOUNCEMENT</span>
+      <section className="max-w-7xl mx-auto px-3 sm:px-6">
+        <div className="p-4 sm:p-7 rounded-3xl bg-gradient-to-r from-amber-950/70 via-[#0B0C10] to-cyan-950/70 border-2 border-amber-400/90 shadow-[0_0_35px_rgba(245,158,11,0.25)] relative overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6 relative z-10">
+            <div className="space-y-2 max-w-3xl min-w-0">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[10px] sm:text-xs font-black border border-amber-400/40">
+                <Sparkles className="w-3.5 h-3.5 fill-amber-300 animate-pulse shrink-0" />
+                <span className="truncate">📢 महत्वपूर्ण सूचना • OFFICIAL PLATFORM ANNOUNCEMENT</span>
               </div>
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-tight">
+              <h2 className="text-lg sm:text-2xl lg:text-3xl font-black text-white leading-snug break-words">
                 वेबसाइट की खासियत & किस प्लान में जॉइन करने पर क्या मिलेगा?
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-[11px] sm:text-sm text-slate-300 leading-relaxed break-words">
                 RainAksh Network 100% Government Direct Selling Rules 2021 के अनुरूप प्रमाणित है। यहाँ किसी बिचौलिए के बिना सीधा{' '}
                 <strong className="text-amber-300 font-bold">8877490845@spicepay (विकास कुमार)</strong> पर भुगतान और हर रेफरल पर त्वरित UPI कमीशन मिलता है।
               </p>
@@ -72,43 +72,43 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   sounds.playClick();
                   onOpenAnnouncementModal();
                 }}
-                className="btn-3d-amber px-6 py-3.5 rounded-2xl text-xs font-black flex items-center gap-2 whitespace-nowrap shrink-0 shadow-lg"
+                className="btn-3d-amber w-full lg:w-auto px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shrink-0 shadow-lg"
               >
-                <Zap className="w-4 h-4 fill-slate-950" />
+                <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
                 <span>पूरा विवरण देखें (Full Guide)</span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4 shrink-0" />
               </button>
             )}
           </div>
 
           {/* 3 Quick Reward Highlights in Announcement */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-5 pt-5 border-t border-slate-800/80">
-            <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/40 space-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3.5 mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-800/80">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-900/90 border border-emerald-500/40 space-y-1">
               <div className="flex items-center justify-between text-xs font-black">
                 <span className="text-emerald-400">₹100 नॉर्मल प्लान</span>
-                <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">₹65 Payout</span>
+                <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] sm:text-xs">₹65 Payout</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[10.5px] sm:text-[11px] text-slate-300 break-words">
                 🎁 <strong>क्या मिलेगा:</strong> Minimalist Neon Digital ID Card + <strong>65% डायरेक्ट पेआउट</strong> हर इनवाइट पर!
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-400/50 space-y-1">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-400/50 space-y-1">
               <div className="flex items-center justify-between text-xs font-black">
                 <span className="text-cyan-300">₹500 प्लैटिनम प्लान</span>
-                <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-200 font-mono">₹365 Payout</span>
+                <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-200 font-mono text-[10px] sm:text-xs">₹365 Payout</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[10.5px] sm:text-[11px] text-slate-300 break-words">
                 🎁 <strong>क्या मिलेगा:</strong> Platinum Hologram ID Card + कस्टम एनालिटिकल चार्ट्स, CSV एक्सपोर्ट व <strong>73% पेआउट</strong>!
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-400/50 space-y-1">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-900/90 border border-amber-400/50 space-y-1">
               <div className="flex items-center justify-between text-xs font-black">
                 <span className="text-amber-400">₹1000 रॉयल क्राउन VIP</span>
-                <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-200 font-mono">₹765 Payout</span>
+                <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-200 font-mono text-[10px] sm:text-xs">₹765 Payout</span>
               </div>
-              <p className="text-[11px] text-slate-300">
+              <p className="text-[10.5px] sm:text-[11px] text-slate-300 break-words">
                 🎁 <strong>क्या मिलेगा:</strong> 3D Liquid Gold Card, गोल्डन नेमप्लेट, क्राउन अवतार बैज व <strong>76.5% भारी पेआउट</strong>!
               </p>
             </div>
@@ -117,41 +117,41 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-4 pb-10 sm:pt-8 sm:pb-14 max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative overflow-hidden pt-2 pb-8 sm:pt-8 sm:pb-14 max-w-7xl mx-auto px-3 sm:px-6">
         {/* Ambient neon & gold aura */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 text-center space-y-5">
+        <div className="relative z-10 text-center space-y-4 sm:space-y-5">
           {/* Animated badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-950/80 via-slate-900 to-amber-950/70 border border-amber-400/50 text-amber-300 text-xs font-black shadow-[0_0_25px_rgba(245,158,11,0.3)]">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="tracking-wider">RAINAKSH NETWORK • ENTERPRISE AFFILIATE MATRIX</span>
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-950/80 via-slate-900 to-amber-950/70 border border-amber-400/50 text-amber-300 text-[10px] sm:text-xs font-black shadow-[0_0_25px_rgba(245,158,11,0.3)] max-w-full">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="tracking-wider truncate">RAINAKSH NETWORK • ENTERPRISE AFFILIATE MATRIX</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto font-sans">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto font-sans break-words">
             Apna Unique <span className="bg-gradient-to-r from-cyan-300 via-sky-200 to-amber-400 bg-clip-text text-transparent">Digital ID Card</span> Paayein & Upto <span className="bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500 bg-clip-text text-transparent">76.5% Instant Payout</span> Kamayein!
           </h1>
 
-          <p className="text-xs sm:text-sm lg:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[11px] sm:text-sm lg:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed break-words px-1">
             Government Direct Selling Rules 2021 ke mutabik verified network. 3 Plans (₹100, ₹500, ₹1000) me se chuniye aur har direct referral par{' '}
             <strong className="text-amber-300 font-black">₹65, ₹365 ya ₹765 instant UPI transfer</strong> paayein!
           </p>
 
           {/* 3D Tactile CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 w-full max-w-md sm:max-w-none mx-auto">
             <button
               onClick={() => {
                 sounds.playClick();
                 triggerCelebration();
                 onSelectPlan('platinum');
               }}
-              className="btn-3d-amber w-full sm:w-auto px-8 py-3.5 rounded-2xl text-sm font-black flex items-center justify-center gap-2 tracking-wide"
+              className="btn-3d-amber w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 tracking-wide"
             >
-              <Zap className="w-4 h-4 fill-slate-950" />
+              <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
               <span>Explore Subscription Plans (₹100)</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
 
             <button
@@ -159,37 +159,37 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 sounds.playClick();
                 onOpenVerify();
               }}
-              className="btn-3d-dark w-full sm:w-auto px-7 py-3.5 rounded-2xl text-sm font-bold flex items-center justify-center gap-2"
+              className="btn-3d-dark w-full sm:w-auto px-5 sm:px-7 py-3.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2"
             >
-              <ShieldCheck className="w-4 h-4 text-cyan-400" />
+              <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
               <span>Verify Any Member ID Card</span>
             </button>
           </div>
 
           {/* Quick Metric Tile Boxes */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto pt-6">
-            <div className="network-tile p-3.5 text-center">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Instant Reward</span>
-              <p className="text-xl sm:text-2xl font-black text-amber-400 font-mono mt-0.5">₹65 - ₹765</p>
-              <span className="text-[10px] text-emerald-400 font-semibold">Per Referral Invite</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 max-w-4xl mx-auto pt-4 sm:pt-6">
+            <div className="network-tile p-2.5 sm:p-3.5 text-center">
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 block truncate">Instant Reward</span>
+              <p className="text-lg sm:text-2xl font-black text-amber-400 font-mono mt-0.5">₹65 - ₹765</p>
+              <span className="text-[9px] sm:text-[10px] text-emerald-400 font-semibold truncate block">Per Referral Invite</span>
             </div>
 
-            <div className="network-tile p-3.5 text-center">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">UPI Speed</span>
-              <p className="text-xl sm:text-2xl font-black text-cyan-400 font-mono mt-0.5">10-30 Min</p>
-              <span className="text-[10px] text-slate-300 font-semibold">By Vikas Kumar</span>
+            <div className="network-tile p-2.5 sm:p-3.5 text-center">
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 block truncate">UPI Speed</span>
+              <p className="text-lg sm:text-2xl font-black text-cyan-400 font-mono mt-0.5">10-30 Min</p>
+              <span className="text-[9px] sm:text-[10px] text-slate-300 font-semibold truncate block">By Vikas Kumar</span>
             </div>
 
-            <div className="network-tile p-3.5 text-center">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Govt Compliant</span>
-              <p className="text-xl sm:text-2xl font-black text-emerald-400 font-mono mt-0.5">100%</p>
-              <span className="text-[10px] text-emerald-400 font-semibold">Consumer Act 2021</span>
+            <div className="network-tile p-2.5 sm:p-3.5 text-center">
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 block truncate">Govt Compliant</span>
+              <p className="text-lg sm:text-2xl font-black text-emerald-400 font-mono mt-0.5">100%</p>
+              <span className="text-[9px] sm:text-[10px] text-emerald-400 font-semibold truncate block">Consumer Act 2021</span>
             </div>
 
-            <div className="network-tile p-3.5 text-center">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Digital ID</span>
-              <p className="text-xl sm:text-2xl font-black text-white font-mono mt-0.5">3 Systems</p>
-              <span className="text-[10px] text-slate-300 font-semibold">Custom Smart Cards</span>
+            <div className="network-tile p-2.5 sm:p-3.5 text-center">
+              <span className="text-[9px] sm:text-[10px] uppercase font-bold text-slate-400 block truncate">Digital ID</span>
+              <p className="text-lg sm:text-2xl font-black text-white font-mono mt-0.5">3 Systems</p>
+              <span className="text-[9px] sm:text-[10px] text-slate-300 font-semibold truncate block">Custom Smart Cards</span>
             </div>
           </div>
         </div>
@@ -203,64 +203,64 @@ export const HomeView: React.FC<HomeViewProps> = ({
       />
 
       {/* 3-System Pricing Grid */}
-      <section id="plans" className="max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 border-b border-slate-800 pb-3">
-          <div>
+      <section id="plans" className="max-w-7xl mx-auto px-3 sm:px-6 space-y-5 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-2.5 sm:gap-3 border-b border-slate-800 pb-3">
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-amber-400" />
-              <h2 className="text-xl sm:text-3xl font-black text-white">
+              <ShoppingBag className="w-5 h-5 text-amber-400 shrink-0" />
+              <h2 className="text-lg sm:text-2xl lg:text-3xl font-black text-white leading-tight break-words">
                 RainAksh 3-System Membership Plans & Referral Margins
               </h2>
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-1 break-words">
               Jaisa system aap share karenge, utna massive margin instant UPI payout ke roop me aapke account me aayega.
             </p>
           </div>
-          <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/30">
+          <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] sm:text-xs font-bold border border-emerald-500/30 shrink-0">
             ✓ 0% Deduction • 100% Transparent
           </span>
         </div>
 
         {/* 3 Horizontal Slider/Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch">
           {/* System 1: ₹100 Normal System */}
-          <div className="rounded-3xl bg-[#0B0C10] border-2 border-emerald-500/80 p-6 flex flex-col justify-between shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:border-emerald-400 transition-all">
-            <div className="space-y-4">
+          <div className="rounded-3xl bg-[#0B0C10] border-2 border-emerald-500/80 p-4 sm:p-6 flex flex-col justify-between shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:border-emerald-400 transition-all">
+            <div className="space-y-3.5 sm:space-y-4">
               {/* Flashing badge */}
               <div className="flex items-center justify-between">
-                <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black border border-emerald-400/50 flex items-center gap-1 animate-pulse">
-                  <Zap className="w-3.5 h-3.5" />
-                  <span>💥 ₹65 INSTANT CASH REWARD</span>
+                <span className="px-2.5 sm:px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs font-black border border-emerald-400/50 flex items-center gap-1 animate-pulse">
+                  <Zap className="w-3 sm:w-3.5 h-3 sm:h-3.5 shrink-0" />
+                  <span>💥 ₹65 INSTANT REWARD</span>
                 </span>
-                <span className="text-[11px] text-slate-400 font-mono">SYSTEM 1</span>
+                <span className="text-[10px] sm:text-[11px] text-slate-400 font-mono">SYSTEM 1</span>
               </div>
 
               <div>
-                <h3 className="text-xl font-black text-white">{DEFAULT_PLANS.silver.name}</h3>
-                <p className="text-xs text-slate-400 mt-0.5">{DEFAULT_PLANS.silver.hindiName}</p>
+                <h3 className="text-lg sm:text-xl font-black text-white">{DEFAULT_PLANS.silver.name}</h3>
+                <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">{DEFAULT_PLANS.silver.hindiName}</p>
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-black text-white font-mono">₹100</span>
-                <span className="text-xs text-slate-400">One Time / Lifetime ID</span>
+                <span className="text-3xl sm:text-4xl font-black text-white font-mono">₹100</span>
+                <span className="text-[11px] sm:text-xs text-slate-400">One Time / Lifetime ID</span>
               </div>
 
               {/* Reseller Margin Breakdown */}
-              <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-1">
-                <div className="flex items-center justify-between text-xs font-bold text-emerald-300">
-                  <span>Aapka Direct Referral Margin:</span>
-                  <span className="text-lg text-emerald-400 font-black font-mono">₹65 (65%)</span>
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-1">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs font-bold text-emerald-300">
+                  <span>Aapka Referral Margin:</span>
+                  <span className="text-base sm:text-lg text-emerald-400 font-black font-mono">₹65 (65%)</span>
                 </div>
-                <p className="text-[10px] text-emerald-300/80">
+                <p className="text-[10px] text-emerald-300/80 break-words">
                   10 dosto ko join karayein aur sidhe ₹650 apne UPI par payein.
                 </p>
               </div>
 
-              <ul className="space-y-2 text-xs text-slate-300 pt-1">
+              <ul className="space-y-2 text-[11px] sm:text-xs text-slate-300 pt-1">
                 {DEFAULT_PLANS.silver.features.map((feat, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span>{feat}</span>
+                    <span className="break-words">{feat}</span>
                   </li>
                 ))}
               </ul>
@@ -272,56 +272,56 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 triggerCelebration();
                 onSelectPlan('silver');
               }}
-              className="btn-3d-rainbow mt-6 w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-lg"
+              className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-lg"
             >
-              <Zap className="w-4 h-4 fill-white" />
+              <Zap className="w-4 h-4 fill-white shrink-0" />
               <span>Join System 1 (₹100)</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
             </button>
           </div>
 
           {/* System 2: ₹500 Platinum System */}
-          <div className="relative rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900 to-[#0B0C10] border-2 border-cyan-400 p-6 flex flex-col justify-between shadow-[0_15px_35px_rgba(56,189,248,0.3)] ring-2 ring-cyan-400/30 transform md:-translate-y-2">
+          <div className="relative rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900 to-[#0B0C10] border-2 border-cyan-400 p-4 sm:p-6 flex flex-col justify-between shadow-[0_15px_35px_rgba(56,189,248,0.3)] ring-2 ring-cyan-400/30 transform md:-translate-y-2">
             {/* Shopsy style Best Seller Ribbon */}
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 font-black text-[10px] uppercase tracking-wider px-3.5 py-0.5 rounded-full shadow-lg">
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 font-black text-[9px] sm:text-[10px] uppercase tracking-wider px-3 py-0.5 rounded-full shadow-lg whitespace-nowrap">
               🔥 MOST POPULAR CHOICE
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3.5 sm:space-y-4">
               <div className="flex items-center justify-between pt-1">
-                <span className="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-black border border-cyan-400/50 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5" />
+                <span className="px-2.5 sm:px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] sm:text-xs font-black border border-cyan-400/50 flex items-center gap-1">
+                  <Sparkles className="w-3 sm:w-3.5 h-3 sm:h-3.5 shrink-0" />
                   <span>💥 ₹365 INSTANT REWARD</span>
                 </span>
-                <span className="text-[11px] text-cyan-400 font-mono font-bold">SYSTEM 2</span>
+                <span className="text-[10px] sm:text-[11px] text-cyan-400 font-mono font-bold">SYSTEM 2</span>
               </div>
 
               <div>
-                <h3 className="text-xl font-black text-white">{DEFAULT_PLANS.platinum.name}</h3>
-                <p className="text-xs text-slate-300 mt-0.5">{DEFAULT_PLANS.platinum.hindiName}</p>
+                <h3 className="text-lg sm:text-xl font-black text-white">{DEFAULT_PLANS.platinum.name}</h3>
+                <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">{DEFAULT_PLANS.platinum.hindiName}</p>
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-black text-cyan-300 font-mono">₹500</span>
-                <span className="text-xs text-slate-400">One Time / Lifetime ID</span>
+                <span className="text-3xl sm:text-4xl font-black text-cyan-300 font-mono">₹500</span>
+                <span className="text-[11px] sm:text-xs text-slate-400">One Time / Lifetime ID</span>
               </div>
 
               {/* Reseller Margin Breakdown */}
-              <div className="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 space-y-1">
-                <div className="flex items-center justify-between text-xs font-bold text-cyan-200">
-                  <span>Aapka Direct Referral Margin:</span>
-                  <span className="text-lg text-cyan-300 font-black font-mono">₹365 (73%)</span>
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 space-y-1">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs font-bold text-cyan-200">
+                  <span>Aapka Referral Margin:</span>
+                  <span className="text-base sm:text-lg text-cyan-300 font-black font-mono">₹365 (73%)</span>
                 </div>
-                <p className="text-[10px] text-cyan-300/80">
+                <p className="text-[10px] text-cyan-300/80 break-words">
                   Sirf 10 referrals par ₹3,650 aapke UPI par transfer!
                 </p>
               </div>
 
-              <ul className="space-y-2 text-xs text-slate-200 pt-1">
+              <ul className="space-y-2 text-[11px] sm:text-xs text-slate-200 pt-1">
                 {DEFAULT_PLANS.platinum.features.map((feat, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                    <span>{feat}</span>
+                    <span className="break-words">{feat}</span>
                   </li>
                 ))}
               </ul>
@@ -333,51 +333,51 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 triggerCelebration();
                 onSelectPlan('platinum');
               }}
-              className="btn-3d-rainbow mt-6 w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl"
+              className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl"
             >
-              <Zap className="w-4 h-4 fill-white" />
-              <span>Upgrade to Platinum System (₹500)</span>
-              <ArrowRight className="w-4 h-4" />
+              <Zap className="w-4 h-4 fill-white shrink-0" />
+              <span>Upgrade to Platinum (₹500)</span>
+              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
             </button>
           </div>
 
           {/* System 3: ₹1000 Royal Crown VIP System */}
-          <div className="rounded-3xl bg-gradient-to-b from-amber-950/40 via-slate-900 to-[#0B0C10] border-2 border-amber-400 p-6 flex flex-col justify-between shadow-[0_15px_40px_rgba(245,158,11,0.35)] hover:border-yellow-300 transition-all">
-            <div className="space-y-4">
+          <div className="rounded-3xl bg-gradient-to-b from-amber-950/40 via-slate-900 to-[#0B0C10] border-2 border-amber-400 p-4 sm:p-6 flex flex-col justify-between shadow-[0_15px_40px_rgba(245,158,11,0.35)] hover:border-yellow-300 transition-all">
+            <div className="space-y-3.5 sm:space-y-4">
               <div className="flex items-center justify-between">
-                <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black border border-amber-400/50 flex items-center gap-1">
-                  <Crown className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                <span className="px-2.5 sm:px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[10px] sm:text-xs font-black border border-amber-400/50 flex items-center gap-1">
+                  <Crown className="w-3 sm:w-3.5 h-3 sm:h-3.5 fill-amber-400 text-amber-400 shrink-0" />
                   <span>👑 ₹765 MASSIVE REWARD</span>
                 </span>
-                <span className="text-[11px] text-amber-400 font-mono font-bold">SYSTEM 3 (VIP)</span>
+                <span className="text-[10px] sm:text-[11px] text-amber-400 font-mono font-bold">SYSTEM 3 (VIP)</span>
               </div>
 
               <div>
-                <h3 className="text-xl font-black text-white">{DEFAULT_PLANS.royal.name}</h3>
-                <p className="text-xs text-slate-300 mt-0.5">{DEFAULT_PLANS.royal.hindiName}</p>
+                <h3 className="text-lg sm:text-xl font-black text-white">{DEFAULT_PLANS.royal.name}</h3>
+                <p className="text-[11px] sm:text-xs text-slate-300 mt-0.5">{DEFAULT_PLANS.royal.hindiName}</p>
               </div>
 
               <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-black text-amber-400 font-mono">₹1000</span>
-                <span className="text-xs text-slate-400">One Time / VIP Access</span>
+                <span className="text-3xl sm:text-4xl font-black text-amber-400 font-mono">₹1000</span>
+                <span className="text-[11px] sm:text-xs text-slate-400">One Time / VIP Access</span>
               </div>
 
               {/* Reseller Margin Breakdown */}
-              <div className="p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/40 space-y-1">
-                <div className="flex items-center justify-between text-xs font-bold text-amber-200">
-                  <span>Aapka Direct Referral Margin:</span>
-                  <span className="text-lg text-amber-400 font-black font-mono">₹765 (76.5%)</span>
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-amber-500/15 border border-amber-500/40 space-y-1">
+                <div className="flex items-center justify-between text-[11px] sm:text-xs font-bold text-amber-200">
+                  <span>Aapka Referral Margin:</span>
+                  <span className="text-base sm:text-lg text-amber-400 font-black font-mono">₹765 (76.5%)</span>
                 </div>
-                <p className="text-[10px] text-amber-300/80">
+                <p className="text-[10px] text-amber-300/80 break-words">
                   Sabse bada payout: 10 referrals par ₹7,650 instant cash reward!
                 </p>
               </div>
 
-              <ul className="space-y-2 text-xs text-slate-200 pt-1">
+              <ul className="space-y-2 text-[11px] sm:text-xs text-slate-200 pt-1">
                 {DEFAULT_PLANS.royal.features.map((feat, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span>{feat}</span>
+                    <span className="break-words">{feat}</span>
                   </li>
                 ))}
               </ul>
@@ -389,11 +389,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 triggerCelebration();
                 onSelectPlan('royal');
               }}
-              className="btn-3d-rainbow mt-6 w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl"
+              className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3 sm:py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl"
             >
-              <Crown className="w-4 h-4 fill-white text-white" />
-              <span>Join Royal Crown VIP System (₹1000)</span>
-              <ArrowRight className="w-4 h-4" />
+              <Crown className="w-4 h-4 fill-white text-white shrink-0" />
+              <span>Join Royal VIP System (₹1000)</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
           </div>
         </div>

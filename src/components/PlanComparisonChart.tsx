@@ -184,10 +184,10 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
         </div>
 
         {/* View Switcher Tabs */}
-        <div className="flex items-center bg-slate-950 p-1.5 rounded-2xl border border-slate-800 shrink-0">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 w-full md:w-auto">
           <button
             onClick={() => { sounds.playClick(); setActiveTab('verdict'); }}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
               activeTab === 'verdict'
                 ? 'bg-amber-500 text-slate-950 font-black shadow-md'
                 : 'text-slate-400 hover:text-white'
@@ -198,7 +198,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
           </button>
           <button
             onClick={() => { sounds.playClick(); setActiveTab('table'); }}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
               activeTab === 'table'
                 ? 'bg-amber-500 text-slate-950 font-black shadow-md'
                 : 'text-slate-400 hover:text-white'
@@ -209,7 +209,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
           </button>
           <button
             onClick={() => { sounds.playClick(); setActiveTab('calculator'); }}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
               activeTab === 'calculator'
                 ? 'bg-amber-500 text-slate-950 font-black shadow-md'
                 : 'text-slate-400 hover:text-white'
@@ -225,26 +225,26 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
       {activeTab === 'verdict' && (
         <div className="space-y-6">
           {/* Main Crown Winner Showcase Box */}
-          <div className="relative rounded-3xl bg-gradient-to-b from-amber-950/60 via-slate-900 to-[#0A0D14] border-2 border-amber-400 p-6 sm:p-8 shadow-[0_0_50px_rgba(245,158,11,0.3)] overflow-hidden">
+          <div className="relative rounded-3xl bg-gradient-to-b from-amber-950/60 via-slate-900 to-[#0A0D14] border-2 border-amber-400 p-4 sm:p-8 shadow-[0_0_50px_rgba(245,158,11,0.3)] overflow-hidden">
             {/* Top Winner Ribbon */}
-            <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-400 to-yellow-500 text-slate-950 text-xs font-black uppercase px-6 py-1.5 rounded-bl-2xl shadow-lg flex items-center gap-1.5">
-              <Star className="w-4 h-4 fill-slate-950 text-slate-950" />
+            <div className="inline-flex sm:absolute sm:top-0 sm:right-0 bg-gradient-to-l from-amber-400 to-yellow-500 text-slate-950 text-[10px] sm:text-xs font-black uppercase px-4 sm:px-6 py-1 sm:py-1.5 rounded-full sm:rounded-none sm:rounded-bl-2xl shadow-lg items-center gap-1.5 mb-3 sm:mb-0">
+              <Star className="w-3.5 h-3.5 fill-slate-950 text-slate-950" />
               <span>#1 HIGHEST RECOMMENDED PLAN</span>
             </div>
 
             <div className="max-w-3xl space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300">
-                  <Crown className="w-7 h-7 fill-amber-400" />
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-amber-300 shrink-0">
+                  <Crown className="w-6 h-6 sm:w-7 sm:h-7 fill-amber-400" />
                 </div>
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
+                <div className="min-w-0">
+                  <h3 className="text-xl sm:text-3xl font-black text-white flex flex-wrap items-center gap-2">
                     <span>सर्वश्रेष्ठ प्लान: ₹1000 रॉयल VIP क्राउन</span>
-                    <span className="text-xs font-black uppercase px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-mono">
+                    <span className="text-[10px] sm:text-xs font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-mono">
                       76.5% Direct Payout
                     </span>
                   </h3>
-                  <p className="text-xs text-amber-300 font-semibold mt-0.5">
+                  <p className="text-xs text-amber-300 font-semibold mt-0.5 break-words">
                     कम मेहनत में सबसे ज्यादा कमाई देने वाला भारत का सबसे भरोसेमंद एफिलिएट टियर
                   </p>
                 </div>

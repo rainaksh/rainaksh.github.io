@@ -10,6 +10,8 @@ import { VerifyCardModal } from './components/VerifyCardModal';
 import { AnnouncementModal } from './components/AnnouncementModal';
 import { LoginModal } from './components/LoginModal';
 import { ReferralMarketingModal } from './components/ReferralMarketingModal';
+import { ThreeSystemsModal } from './components/ThreeSystemsModal';
+import { SponsorCardModal } from './components/SponsorCardModal';
 import { FloatingAiChat } from './components/FloatingAiChat';
 import { HomeView } from './views/HomeView';
 import { DashboardView } from './views/DashboardView';
@@ -30,10 +32,17 @@ export default function App() {
   // Referral & Marketing Studio Modal State
   const [referralModalOpen, setReferralModalOpen] = useState(false);
 
+  // 3-Systems interactive pop-up options modal state
+  const [threeSystemsModalOpen, setThreeSystemsModalOpen] = useState(false);
+
+  // Sponsor Masked Digital ID Card modal state
+  const [sponsorCardModalOpen, setSponsorCardModalOpen] = useState(false);
+  const [hasSponsorRef, setHasSponsorRef] = useState<boolean>(false);
+
   // Modal states
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [selectedPlanForPayment, setSelectedPlanForPayment] = useState<PlanTier>('platinum');
-  const [sponsorIdForPayment, setSponsorIdForPayment] = useState<string>('RX_MAIN_001');
+  const [sponsorIdForPayment, setSponsorIdForPayment] = useState<string>('RNX1000RN01');
 
   // Announcement modal state
   const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);
@@ -61,13 +70,17 @@ export default function App() {
     return unsub;
   }, []);
 
-  // Check URL params on load for ?ref= and ?verify= or /super-admin-rainaksh
+  // Check URL params on load for ?ref=, ?sponsor=, ?verify= or /super-admin-rainaksh
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
-      const ref = params.get('ref');
+      const ref = params.get('ref') || params.get('sponsor');
       if (ref) {
-        setSponsorIdForPayment(ref.trim());
+        const cleanRef = ref.trim().toUpperCase();
+        setSponsorIdForPayment(cleanRef);
+        setHasSponsorRef(true);
+        // User explicitly asked: "sponcer link se aaye to Sponcer card dikhao"
+        setSponsorCardModalOpen(true);
       }
       const verify = params.get('verify');
       if (verify) {
@@ -141,9 +154,19 @@ export default function App() {
           sounds.playClick();
           setLoginModalOpen(true);
         }}
+        onOpenPlansModal={() => {
+          sounds.playClick();
+          setThreeSystemsModalOpen(true);
+        }}
+        onOpenSponsorCard={() => {
+          sounds.playClick();
+          setSponsorCardModalOpen(true);
+        }}
         unreadNotifsCount={unreadNotifsCount}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
+        sponsorId={sponsorIdForPayment}
+        hasSponsorRef={hasSponsorRef}
       />
 
       {/* Main Page Body (with clearance for fixed bottom navigation on mobile) */}
@@ -234,6 +257,12 @@ export default function App() {
           sounds.playClick();
           setAdminViewOpen(true);
         }}
+        onOpenJoinModal={handleOpenJoinModal}
+        onOpenVerify={() => handleOpenVerifyModal('')}
+        onOpenReferralStudio={() => {
+          sounds.playClick();
+          setReferralModalOpen(true);
+        }}
       />
 
       {/* Mobile Floating Bottom Nav */}
@@ -245,6 +274,14 @@ export default function App() {
         onOpenAdmin={() => {
           sounds.playClick();
           setAdminViewOpen(true);
+        }}
+        onOpenPlansModal={() => {
+          sounds.playClick();
+          setThreeSystemsModalOpen(true);
+        }}
+        onOpenSponsorCard={() => {
+          sounds.playClick();
+          setSponsorCardModalOpen(true);
         }}
         unreadCount={unreadNotifsCount}
       />
@@ -274,6 +311,10 @@ export default function App() {
         isOpen={paymentModalOpen}
         onClose={() => setPaymentModalOpen(false)}
         onPaymentSuccess={handlePaymentSuccess}
+        onOpenFullSponsorCard={(id) => {
+          if (id) setSponsorIdForPayment(id);
+          setSponsorCardModalOpen(true);
+        }}
       />
 
       {/* Thank You Celebration Modal with Chime */}
@@ -318,6 +359,34 @@ export default function App() {
         onClose={() => setReferralModalOpen(false)}
         currentUser={currentUser}
         onSelectPlan={handleOpenJoinModal}
+      />
+
+      {/* 3-Systems Interactive Plan Options Modal Pop-up */}
+      <ThreeSystemsModal
+        isOpen={threeSystemsModalOpen}
+        onClose={() => setThreeSystemsModalOpen(false)}
+        onSelectPlan={handleOpenJoinModal}
+      />
+
+      {/* Sponsor Masked Digital ID Card Pop-up Modal */}
+      <SponsorCardModal
+        isOpen={sponsorCardModalOpen}
+        initialSponsorId={sponsorIdForPayment}
+        onClose={() => setSponsorCardModalOpen(false)}
+        onOpenJoinModal={(plan, sponsorId) => {
+          if (sponsorId) {
+            setSponsorIdForPayment(sponsorId);
+          }
+          handleOpenJoinModal(plan || 'platinum');
+        }}
+        onOpenLogin={() => {
+          setSponsorCardModalOpen(false);
+          setLoginModalOpen(true);
+        }}
+        onOpenVerifyModal={() => {
+          setSponsorCardModalOpen(false);
+          handleOpenVerifyModal('');
+        }}
       />
     </div>
   );
