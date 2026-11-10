@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Shield,
+  ShieldCheck,
   Crown,
   User,
   LogOut,
@@ -60,15 +61,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   unreadNotifsCount,
   darkMode,
   setDarkMode,
-  sponsorId = 'RNX1000RN01',
+  sponsorId = '',
   hasSponsorRef = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const config = storage.getConfig();
 
-  const cleanSponsorId = sponsorId?.trim().toUpperCase() || 'RNX1000RN01';
-  const sponsorUser = storage.getUserById(cleanSponsorId);
-  const sponsorName = sponsorUser?.fullName || sponsorUser?.name || 'RainAksh Nityam';
+  const cleanSponsorId = sponsorId?.trim().toUpperCase() || '';
+  const sponsorUser = cleanSponsorId ? storage.getUserById(cleanSponsorId) : null;
+  const sponsorName = sponsorUser?.fullName || sponsorUser?.name || cleanSponsorId;
 
   // Prevent background scroll when mobile menu drawer is open
   useEffect(() => {
@@ -90,12 +91,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const navItems = [
-    { id: 'home', label: 'Home', icon: Shield },
-    { id: 'plans', label: '3 Membership Systems', icon: CreditCard },
-    { id: 'guide', label: 'Guide & Walkthrough', icon: BookOpen },
-    { id: 'faq', label: 'FAQ', icon: HelpCircle },
-    { id: 'legal', label: 'Govt Rules & Policy', icon: FileText },
-    { id: 'contact', label: 'Help Desk', icon: PhoneCall },
+    { id: 'home', label: 'होम (Home)', icon: Shield },
+    { id: 'plans', label: '3 प्लान्स (Plans)', icon: CreditCard },
+    { id: 'guide', label: 'गाइड (Guide)', icon: BookOpen },
+    { id: 'faq', label: 'सवाल-जवाब (FAQ)', icon: HelpCircle },
+    { id: 'legal', label: 'नियम व नीतियां (Legal)', icon: FileText },
+    { id: 'contact', label: 'हेल्प डेस्क (Support)', icon: PhoneCall },
   ];
 
   return (
@@ -156,17 +157,29 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       )}
 
-      {/* VIEW 2: SPONSOR REFERRAL LINK VISITOR VIEW (स्पॉन्सर लिंक से आया आगंतुक) */}
-      {!currentUser && (hasSponsorRef || (sponsorId && sponsorId !== 'RX_SYSTEM')) && (
-        <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 text-emerald-300 h-8 sm:h-9 px-3 sm:px-6 text-[11px] sm:text-xs font-bold border-b border-emerald-500/50 flex items-center justify-between gap-2 shadow-inner z-40 select-none">
-          <div className="flex items-center gap-2 overflow-hidden flex-1">
-            <span className="shrink-0 bg-emerald-500/20 text-emerald-300 text-[9px] uppercase font-black px-2 py-0.5 rounded-full border border-emerald-400/40 flex items-center gap-1">
+      {/* VIEW 2: SPONSOR REFERRAL LINK VISITOR VIEW (स्पॉन्सर लिंक से आया आगंतुक - धीमी गति में रनिंग हेडर) */}
+      {!currentUser && hasSponsorRef && cleanSponsorId !== '' && cleanSponsorId !== 'RX_SYSTEM' && (
+        <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 text-emerald-300 h-8 sm:h-9 px-2 sm:px-4 text-[10px] sm:text-xs font-bold border-b border-emerald-500/50 flex items-center justify-between gap-1.5 shadow-inner z-40 select-none overflow-hidden">
+          <div className="flex items-center gap-1.5 overflow-hidden flex-1 relative">
+            <span className="shrink-0 bg-emerald-500/25 text-emerald-300 text-[8px] sm:text-[9px] uppercase font-black px-1.5 sm:px-2 py-0.5 rounded-full border border-emerald-400/50 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-              <span>SPONSOR INVITED</span>
+              <span className="hidden xs:inline">SPONSOR</span>
+              <span>INVITED</span>
             </span>
-            <span className="truncate">
-              आप स्पॉन्सर <strong className="text-white font-black">{sponsorName}</strong> (<span className="text-amber-300 font-mono font-bold">{cleanSponsorId}</span>) के आमंत्रण से जुड़े हैं
-            </span>
+
+            {/* Continuous Slow Marquee for Complete Text on Any Screen Size */}
+            <div
+              className="animate-marquee-slow whitespace-nowrap inline-flex items-center text-[10px] sm:text-xs font-extrabold text-emerald-200 tracking-wide cursor-pointer hover:[animation-play-state:paused]"
+              title={`स्पॉन्सर ${sponsorName} (${cleanSponsorId}) के आमंत्रण से जुड़े हैं`}
+              onClick={() => {
+                sounds.playClick();
+                onOpenSponsorCard?.();
+              }}
+            >
+              <span>
+                ✦ आप प्रमाणित स्पॉन्सर <strong className="text-white font-black underline decoration-amber-400">{sponsorName}</strong> (<span className="text-amber-300 font-mono font-black">{cleanSponsorId}</span>) के विशेष आमंत्रण लिंक से जुड़े हैं • 3-सिस्टम डिजिटल आईडी व अर्न 76.5% UPI पेआउट नेटवर्क • भारत सरकार डायरेक्ट सेलिंग दिशानिर्देश 2021 के अनुरूप • कार्ड देखने के लिए 'कार्ड देखें' बटन दबाएं ✦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✦ आप प्रमाणित स्पॉन्सर <strong className="text-white font-black underline decoration-amber-400">{sponsorName}</strong> (<span className="text-amber-300 font-mono font-black">{cleanSponsorId}</span>) के विशेष आमंत्रण लिंक से जुड़े हैं • 3-सिस्टम डिजिटल आईडी व अर्न 76.5% UPI पेआउट नेटवर्क • भारत सरकार डायरेक्ट सेलिंग दिशानिर्देश 2021 के अनुरूप • कार्ड देखने के लिए 'कार्ड देखें' बटन दबाएं ✦&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+            </div>
           </div>
 
           <button
@@ -175,42 +188,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               sounds.playClick();
               onOpenSponsorCard?.();
             }}
-            className="btn-3d-emerald px-2.5 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-black shrink-0 flex items-center gap-1 shadow"
+            className="btn-3d-emerald px-2 sm:px-3 py-1 rounded-lg text-[9px] sm:text-[11px] font-black shrink-0 flex items-center gap-0.5 sm:gap-1 shadow z-10"
             title="स्पॉन्सर डिजिटल आईडी कार्ड देखें"
           >
             <span>कार्ड देखें</span>
-            <ChevronRight className="w-3.5 h-3.5" />
+            <ChevronRight className="w-3 h-3" />
           </button>
         </div>
       )}
 
-      {/* VIEW 3: LOGGED-IN MEMBER VIEW BANNER (लॉगिन किया हुआ सदस्य) */}
-      {currentUser && (
-        <div className="bg-gradient-to-r from-amber-950/80 via-slate-900 to-amber-950/80 text-amber-300 h-8 sm:h-9 px-3 sm:px-6 text-[11px] sm:text-xs font-bold border-b border-amber-500/40 flex items-center justify-between gap-2 shadow-inner z-40 select-none">
-          <div className="flex items-center gap-2 overflow-hidden flex-1">
-            <Crown className="w-4 h-4 text-amber-400 shrink-0" />
-            <span className="truncate">
-              स्वागत है, <strong className="text-white font-black">{currentUser.fullName || currentUser.name}</strong> • स्थायी आईडी: <span className="text-amber-400 font-mono font-bold">{currentUser.userId || currentUser.id}</span> • सिस्टम: <span className="text-emerald-400 uppercase font-black">{currentUser.plan || 'Royal'} VIP</span>
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              sounds.playClick();
-              setActiveView('dashboard');
-            }}
-            className="btn-3d-amber px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-black shrink-0 flex items-center gap-1 shadow"
-          >
-            <span>डैशबोर्ड</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      )}
-
-      {/* 2. Main Header Bar (Brand New Design with Join, Control Panel & Login) */}
+      {/* HEADER 1: PRIMARY TOP HEADER (Logo, Desktop Nav Links, Theme, Verify & Menu) */}
       <header className="sticky top-0 z-40 bg-[#0B0C10]/95 backdrop-blur-md border-b border-slate-800 transition-colors w-full">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-6 h-13 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
           
           {/* Zone 1: Brand Wordmark Logo */}
           <div
@@ -219,7 +208,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               setActiveView('home');
               if (mobileMenuOpen) setMobileMenuOpen(false);
             }}
-            className="shrink-0 flex items-center cursor-pointer"
+            className="shrink-0 flex items-center cursor-pointer min-w-0"
           >
             <BrandLogo size="md" showTagline={false} />
           </div>
@@ -254,9 +243,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Zone 3: Header Actions & Mobile Triggers */}
+          {/* Zone 3: Header Controls (Dark mode, Sponsor Card modal trigger & Main Menu) */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            
             {/* Desktop Only: Dark / Light Mode Toggle */}
             <button
               type="button"
@@ -264,106 +252,26 @@ export const Navbar: React.FC<NavbarProps> = ({
                 sounds.playClick();
                 setDarkMode(!darkMode);
               }}
-              className="hidden lg:flex p-2 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 btn-3d-dark shrink-0"
+              className="p-1.5 sm:p-2 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 btn-3d-dark shrink-0"
               title={darkMode ? 'Light Theme' : 'Dark Theme'}
             >
-              {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-cyan-400" />}
+              {darkMode ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-cyan-400" />}
             </button>
 
-            {/* CONTROL PANEL BUTTON (Always visible for all users on all devices) */}
+            {/* Sponsor ID Card Modal Quick Trigger (Allows visitor to verify sponsor) */}
             <button
               type="button"
               onClick={() => {
                 sounds.playClick();
-                onOpenAdmin();
+                onOpenSponsorCard?.();
               }}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/40 text-xs font-black btn-3d-dark flex items-center gap-1.5 shrink-0 shadow-sm min-h-[38px]"
-              title="Control Panel • केंद्रीय नियंत्रण प्रणाली"
+              className="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-emerald-500/40 text-emerald-300 text-[11px] sm:text-xs font-bold btn-3d-dark flex items-center gap-1.5 shrink-0 min-h-[38px]"
+              title="स्पॉन्सर डिजिटल आईडी कार्ड खोजें या देखें"
             >
-              <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span className="hidden sm:inline">Control Panel</span>
-              <span className="sm:hidden">Control</span>
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="hidden xs:inline">स्पॉन्सर कार्ड</span>
+              <span className="xs:hidden">स्पॉन्सर</span>
             </button>
-
-            {/* CONDITIONAL USER ACTIONS */}
-            {currentUser ? (
-              /* LOGGED IN USER: STRICTLY NO JOIN OR LOGIN BUTTON! Logout restores them */
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                {/* Member Profile Chip -> opens Dashboard */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    sounds.playClick();
-                    setActiveView('dashboard');
-                    if (mobileMenuOpen) setMobileMenuOpen(false);
-                  }}
-                  className={`flex items-center gap-1.5 sm:gap-2 p-1 sm:p-1.5 sm:pr-3 rounded-xl border transition shrink-0 ${
-                    activeView === 'dashboard'
-                      ? 'bg-amber-500/20 border-amber-400 text-amber-300 ring-1 ring-amber-400/50'
-                      : 'bg-slate-900 border-slate-800 hover:border-slate-700 text-slate-200'
-                  }`}
-                  title="My Digital ID & Dashboard"
-                >
-                  <img
-                    src={currentUser.profilePic || currentUser.avatarUrl}
-                    alt={currentUser.fullName || currentUser.name}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-cover border border-amber-400/60 shrink-0"
-                  />
-                  <div className="text-left hidden sm:block">
-                    <p className="text-xs font-bold leading-none truncate max-w-[90px] md:max-w-[120px]">
-                      {currentUser.fullName || currentUser.name}
-                    </p>
-                    <p className="text-[10px] text-amber-400 font-mono leading-tight mt-0.5">
-                      {currentUser.userId || currentUser.id}
-                    </p>
-                  </div>
-                </button>
-
-                {/* LOG OUT BUTTON (Clearly visible, restores Join and Login upon logout) */}
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 border border-rose-500/40 text-rose-400 hover:bg-rose-500/20 hover:text-white transition active:scale-95 text-xs font-bold flex items-center gap-1 shrink-0 min-h-[38px]"
-                  title="लॉगआउट करें (Logout)"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span className="hidden md:inline">Log Out</span>
-                </button>
-              </div>
-            ) : (
-              /* GUEST / NEW VISITOR / SPONSOR VISITOR: SHOW LOGIN & GLOWING JOIN NOW BUTTONS */
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                {/* Log In Button */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    sounds.playClick();
-                    onOpenLogin?.();
-                    if (mobileMenuOpen) setMobileMenuOpen(false);
-                  }}
-                  className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 btn-3d-dark flex items-center gap-1 shrink-0 min-h-[38px]"
-                  title="सदस्य लॉगिन (Member Login)"
-                >
-                  <User className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Log In</span>
-                </button>
-
-                {/* Glowing 3D Rainbow Join Button */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    sounds.playClick();
-                    onOpenJoinModal('platinum');
-                    if (mobileMenuOpen) setMobileMenuOpen(false);
-                  }}
-                  className="btn-3d-rainbow px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-md active:scale-95 shrink-0 whitespace-nowrap min-h-[38px]"
-                  title="Join Now (5-Step Registration)"
-                >
-                  <Zap className="w-3.5 h-3.5 fill-white" />
-                  <span>Join Now</span>
-                </button>
-              </div>
-            )}
 
             {/* Menu Button (Always clearly visible with Hindi & English text) */}
             <button
@@ -374,16 +282,146 @@ export const Navbar: React.FC<NavbarProps> = ({
                 sounds.playClick();
                 setMobileMenuOpen(true);
               }}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-gradient-to-r from-amber-500/25 via-yellow-500/20 to-amber-600/25 hover:from-amber-500/35 hover:to-yellow-500/35 text-amber-300 border-2 border-amber-400/80 active:scale-95 transition shrink-0 min-h-[38px] flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.25)] font-black text-xs cursor-pointer select-none"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/25 via-yellow-500/20 to-amber-600/25 hover:from-amber-500/35 hover:to-yellow-500/35 text-amber-300 border-2 border-amber-400/90 active:scale-95 transition shrink-0 min-h-[38px] flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.25)] font-black text-xs cursor-pointer select-none"
               aria-label="Open Complete Menu Options"
               title="सभी मेन्यू विकल्प व सेवाएं खोलें (Open Menu Options)"
             >
               <Menu className="w-4 h-4 text-amber-300 stroke-[2.5]" />
-              <span className="font-black text-amber-300">मेनू (Menu)</span>
+              <span className="font-black text-amber-300 sm:hidden">मेनू</span>
+              <span className="font-black text-amber-300 hidden sm:inline">मेनू (Menu)</span>
             </button>
           </div>
         </div>
       </header>
+
+      {/* HEADER 2: DEDICATED ACTION HEADER BAR (Control Panel, Join Now & Log In) */}
+      <div className="sticky top-13 sm:top-16 z-30 bg-[#080B11]/98 backdrop-blur-md border-b-2 border-amber-500/40 shadow-[0_6px_20px_rgba(0,0,0,0.6)] w-full">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 py-1.5 sm:py-2">
+          {currentUser ? (
+            /* ================= VIEW 3: LOGGED IN MEMBER VIEW ================= */
+            /* Strictly NO Join Now or Login button! Only Dashboard & Control Panel & Logout */
+            <div className="flex items-center justify-between gap-1.5 sm:gap-3">
+              {/* Left: User Profile Chip */}
+              <button
+                type="button"
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveView('dashboard');
+                }}
+                className={`flex items-center gap-1.5 sm:gap-2 p-1 sm:p-1.5 pr-2 sm:pr-3 rounded-xl sm:rounded-2xl border transition shrink-0 min-w-0 max-w-[55%] sm:max-w-none min-h-[42px] ${
+                  activeView === 'dashboard'
+                    ? 'bg-amber-500/20 border-amber-400 text-amber-300 ring-1 ring-amber-400/50'
+                    : 'bg-slate-900 border-slate-800 hover:border-slate-700 text-slate-200'
+                }`}
+                title="My Dashboard & Digital ID Passport"
+              >
+                <img
+                  src={currentUser.profilePic || currentUser.avatarUrl}
+                  alt={currentUser.fullName || currentUser.name}
+                  className="w-8 h-8 rounded-xl object-cover border border-amber-400/60 shrink-0"
+                />
+                <div className="text-left min-w-0 overflow-hidden">
+                  <p className="text-[11px] sm:text-xs font-black leading-none truncate text-white">
+                    {currentUser.fullName || currentUser.name}
+                  </p>
+                  <p className="text-[9px] sm:text-[10px] text-amber-400 font-mono font-bold leading-tight mt-0.5 truncate">
+                    {currentUser.userId || currentUser.id} • <span className="uppercase text-emerald-400">{currentUser.plan || 'Royal'}</span>
+                  </p>
+                </div>
+              </button>
+
+              {/* Right Action Buttons */}
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                {/* Control Panel Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    sounds.playClick();
+                    onOpenAdmin();
+                  }}
+                  className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/40 text-[11px] sm:text-xs font-black btn-3d-dark flex items-center gap-1 shrink-0 shadow-sm min-h-[40px]"
+                  title="Control Panel • केंद्रीय नियंत्रण"
+                >
+                  <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span className="hidden sm:inline">Control Panel</span>
+                  <span className="sm:hidden">Control</span>
+                </button>
+
+                {/* Dashboard Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    sounds.playClick();
+                    setActiveView('dashboard');
+                  }}
+                  className="btn-3d-amber px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-black flex items-center gap-1 shrink-0 shadow min-h-[40px]"
+                >
+                  <Crown className="w-3.5 h-3.5 shrink-0" />
+                  <span>डैशबोर्ड</span>
+                </button>
+
+                {/* Logout Button (restores Join and Login upon click) */}
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="px-2 sm:px-2.5 py-1.5 rounded-xl bg-slate-900 border border-rose-500/50 text-rose-400 hover:bg-rose-500/20 hover:text-white transition active:scale-95 text-[11px] sm:text-xs font-bold flex items-center gap-1 shrink-0 min-h-[40px]"
+                  title="लॉगआउट करें (Log Out)"
+                >
+                  <LogOut className="w-3.5 h-3.5 shrink-0" />
+                  <span className="hidden sm:inline">लॉगआउट</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* ================= VIEW 1 & 2: GUEST / VISITOR VIEW ================= */
+            /* 3 DEDICATED HIGH-IMPACT 3D BUTTONS: Control Panel, Join Now, Log In */
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-3 w-full items-center">
+              {/* 1. Control Panel Button (Left) */}
+              <button
+                type="button"
+                onClick={() => {
+                  sounds.playClick();
+                  onOpenAdmin();
+                }}
+                className="w-full px-1.5 sm:px-3 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 hover:from-slate-800 hover:to-slate-900 text-amber-300 border border-amber-500/40 text-[11px] sm:text-xs font-black btn-3d-dark flex items-center justify-center gap-1 sm:gap-1.5 shadow-md min-h-[42px] active:scale-95 transition"
+                title="Control Panel • केंद्रीय नियंत्रण प्रणाली"
+              >
+                <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span className="hidden sm:inline">Control Panel</span>
+                <span className="sm:hidden font-black">Control</span>
+              </button>
+
+              {/* 2. Join Now Button (Center - 3D Rainbow Glowing) */}
+              <button
+                type="button"
+                onClick={() => {
+                  sounds.playClick();
+                  onOpenJoinModal('platinum');
+                }}
+                className="w-full btn-3d-rainbow px-1.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black flex items-center justify-center gap-1 sm:gap-1.5 shadow-lg active:scale-95 min-h-[42px] transition"
+                title="Join Now (5-Step Registration)"
+              >
+                <Zap className="w-3.5 h-3.5 fill-white shrink-0 animate-pulse" />
+                <span className="font-black">Join Now</span>
+              </button>
+
+              {/* 3. Log In Button (Right - 3D Dark Cyan) */}
+              <button
+                type="button"
+                onClick={() => {
+                  sounds.playClick();
+                  onOpenLogin?.();
+                }}
+                className="w-full px-1.5 sm:px-3 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl btn-3d-cyan text-slate-950 font-black text-[11px] sm:text-xs flex items-center justify-center gap-1 sm:gap-1.5 shadow-md min-h-[42px] active:scale-95 transition"
+                title="सदस्य लॉगिन (Member Login)"
+              >
+                <User className="w-3.5 h-3.5 text-slate-950 shrink-0" />
+                <span className="font-black">Log In</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* 3. Complete Menu Pop-Up Window Modal (Rendered at Root Level with z-[9999] so options never hide accidentally) */}
       {mobileMenuOpen && (
@@ -573,7 +611,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                       </div>
                       <div>
                         <p className="text-xs font-black text-white group-hover:text-emerald-300">Sponsor Digital ID Card</p>
-                        <p className="text-[10px] text-emerald-400">स्पॉन्सर कार्ड (RNX1000RN01)</p>
+                        <p className="text-[10px] text-emerald-400">
+                          {cleanSponsorId ? `स्पॉन्सर आईडी: ${cleanSponsorId}` : 'सत्यापित स्पॉन्सर खोजें'}
+                        </p>
                       </div>
                     </div>
                     <ChevronRight className="w-4 h-4 text-emerald-400 group-hover:translate-x-0.5 transition-transform" />

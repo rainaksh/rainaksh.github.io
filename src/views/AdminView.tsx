@@ -379,16 +379,16 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
               <button
                 type="button"
                 onClick={() => { sounds.playClick(); onClose(); }}
-                className="flex-1 py-3 rounded-xl btn-3d-dark text-slate-300 text-xs font-bold"
+                className="flex-1 py-3 rounded-xl btn-3d-dark text-slate-300 text-xs font-bold min-h-[44px]"
               >
-                Cancel
+                रद्द करें (Cancel)
               </button>
               <button
                 type="submit"
-                className="flex-1 py-3 rounded-xl btn-3d-amber text-xs font-black flex items-center justify-center gap-2 shadow-lg"
+                className="flex-1 py-3 rounded-xl btn-3d-amber text-xs font-black flex items-center justify-center gap-2 shadow-lg min-h-[44px]"
               >
                 <Unlock className="w-4 h-4" />
-                <span>Unlock System</span>
+                <span>अनलॉक करें (Unlock)</span>
               </button>
             </div>
           </form>

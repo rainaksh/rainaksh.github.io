@@ -227,12 +227,18 @@
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
-  .animate-marquee-continuous,
-  .animate-marquee-slow {
+  .animate-marquee-continuous {
     display: inline-flex;
     width: max-content;
     white-space: nowrap;
     animation: marqueeScroll 18s linear infinite;
+    will-change: transform;
+  }
+  .animate-marquee-slow {
+    display: inline-flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: marqueeScroll 30s linear infinite;
     will-change: transform;
   }
   .animate-marquee-continuous:hover,

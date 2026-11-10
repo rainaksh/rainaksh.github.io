@@ -143,20 +143,20 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
           <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-300 flex items-center gap-2">
             <Smartphone className="w-4 h-4 shrink-0 text-cyan-400" />
-            <span>Kisi bhi device (Phone ya Laptop) se apne ID/Mobile number se login karein.</span>
+            <span>किसी भी डिवाइस (मोबाइल अथवा लैपटॉप) से अपनी आईडी या मोबाइल नंबर से लॉगिन करें।</span>
           </div>
 
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
               <User className="w-3.5 h-3.5 text-cyan-400" />
-              <span>User ID / Mobile Number / Email</span>
+              <span>यूजर आईडी / मोबाइल नंबर / ईमेल</span>
             </label>
             <input
               type="text"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
-              placeholder="e.g. RNX1000RN01 or 8877490845"
-              className="w-full bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none font-mono"
+              placeholder="उदा. RNX1000... या मोबाइल नंबर"
+              className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none font-mono min-h-[42px]"
               required
             />
           </div>
@@ -164,14 +164,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-amber-400" />
-              <span>Password</span>
+              <span>पासवर्ड (Password)</span>
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your account password"
-              className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none"
+              placeholder="खाते का पासवर्ड दर्ज करें"
+              className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none min-h-[42px]"
               required
             />
           </div>
@@ -179,23 +179,23 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className="btn-3d-cyan w-full py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 mt-2"
+            className="btn-3d-cyan w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 mt-2 min-h-[46px] shadow-lg"
           >
             {loading ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin" />
-                <span>Verifying credentials...</span>
+                <span>सत्यापन हो रहा है...</span>
               </>
             ) : (
               <>
-                <span>Secure Log In</span>
+                <span>सुरक्षित लॉगिन करें (Log In)</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>
 
           <div className="pt-2 text-center text-xs text-slate-400">
-            <span>Naye sadasya hain? </span>
+            <span>नए सदस्य हैं? </span>
             <button
               type="button"
               onClick={() => {
@@ -203,9 +203,9 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                 onClose();
                 onSwitchToRegister();
               }}
-              className="text-amber-400 hover:text-amber-300 font-bold underline ml-1"
+              className="text-amber-400 hover:text-amber-300 font-bold underline ml-1 p-1 min-h-[38px] inline-flex items-center"
             >
-              Naya Plan Join Karein (Starts ₹100)
+              नया प्लान जॉइन करें (Starts ₹100)
             </button>
           </div>
         </form>

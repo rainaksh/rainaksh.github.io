@@ -312,23 +312,23 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
               <div className="pt-4 flex flex-col sm:flex-row items-center gap-3">
                 <button
                   onClick={() => handleSelect('royal')}
-                  className="btn-3d-rainbow w-full sm:w-auto px-8 py-4 rounded-2xl text-sm font-black flex items-center justify-center gap-2 shadow-xl"
+                  className="btn-3d-rainbow w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-xl min-h-[46px]"
                 >
-                  <Crown className="w-4 h-4 fill-white text-white" />
-                  <span>👑 सर्वश्रेष्ठ सिस्टम जॉइन करें (₹1000 रॉयल VIP)</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <Crown className="w-4 h-4 fill-white text-white shrink-0" />
+                  <span>👑 सर्वश्रेष्ठ सिस्टम (₹1000 रॉयल VIP) जॉइन करें</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
 
                 <button
                   onClick={() => handleSelect('platinum')}
-                  className="btn-3d-rainbow w-full sm:w-auto px-6 py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md"
+                  className="btn-3d-rainbow w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md min-h-[46px]"
                 >
                   <span>बजट चॉइस: ₹500 प्लैटिनम</span>
                 </button>
 
                 <button
                   onClick={() => handleSelect('silver')}
-                  className="btn-3d-rainbow w-full sm:w-auto px-6 py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md"
+                  className="btn-3d-rainbow w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md min-h-[46px]"
                 >
                   <span>शुरुआती: ₹100 बेसिक</span>
                 </button>
@@ -486,7 +486,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                 <td className="p-4 text-center border-l border-slate-800/80">
                   <button
                     onClick={() => handleSelect('silver')}
-                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow"
+                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow min-h-[42px]"
                   >
                     जॉइन ₹100
                   </button>
@@ -494,7 +494,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                 <td className="p-4 text-center border-l border-slate-800/80 bg-cyan-950/20">
                   <button
                     onClick={() => handleSelect('platinum')}
-                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow"
+                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow min-h-[42px]"
                   >
                     जॉइन ₹500
                   </button>
@@ -502,7 +502,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                 <td className="p-4 text-center border-l border-amber-500/60 bg-amber-500/15">
                   <button
                     onClick={() => handleSelect('royal')}
-                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow-lg"
+                    className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow-lg min-h-[42px]"
                   >
                     👑 जॉइन ₹1000 VIP
                   </button>

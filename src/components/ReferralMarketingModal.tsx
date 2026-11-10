@@ -81,13 +81,13 @@ export const ReferralMarketingModal: React.FC<ReferralMarketingModalProps> = ({
   const handleShareWhatsApp = () => {
     sounds.playClick();
     triggerCelebration();
-    const text = `🔥 *RainAksh Network - भारत का नंबर 1 डायरेक्ट सेलिंग प्लैटफॉर्म!*\n\n👑 *हर रेफरल पर पाएं 65% से 76.5% इंस्टेंट UPI पेआउट:*\n• ₹100 बेसिक प्लान -> ₹65 तुरंत UPI में\n• ₹500 प्लैटिनम प्लान -> ₹365 तुरंत UPI में\n• ₹1000 रॉयल VIP प्लान -> ₹765 तुरंत UPI में\n\n✅ 100% भारत सरकार Direct Selling 2021 नियमानुसार प्रमाणित\n✅ अद्वितीय स्मार्ट डिजिटल आईडी कार्ड QR कोड सहित\n✅ अधिकृत UPI: 8877490845@spicepay (विकास कुमार)\n\n👉 *मेरे रेफरल लिंक से अभी जॉइन करें:*\n${referralLink}\n\nस्पॉन्सर आईडी: *${myUserId}*`;
+    const text = `🔥 *RainAksh Network - भारत सरकार Direct Selling 2021 प्रमाणित प्लैटफॉर्म!*\n\n👑 *प्लान के अनुसार हर डायरेक्ट रेफरल का पूरा पेआउट विवरण:*\n• अगर आप ₹100 नॉर्मल प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹65 सीधा आपके बैंक खाते (UPI) में मिलेगा।\n• अगर आप ₹500 प्लैटिनम प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹365 सीधा आपके बैंक खाते (UPI) में मिलेगा।\n• अगर आप ₹1000 रॉयल VIP प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹765 सबसे बड़ा पेआउट सीधा आपके बैंक खाते (UPI) में मिलेगा।\n\n✅ 100% भारत सरकार Direct Selling Rules 2021 के अनुरूप लीगल\n✅ स्मार्ट डिजिटल आईडी कार्ड QR कोड व एंटी-कॉउंटरफीट सील सहित\n✅ 10-30 मिनट में सीधा UPI ट्रांसफर (विकास कुमार, 8877490845@spicepay)\n\n👉 *मेरे रेफरल लिंक से अभी जॉइन करें:*\n${referralLink}\n\nस्पॉन्सर कोड: *${myUserId}*`;
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   const handleShareTelegram = () => {
     sounds.playClick();
-    const text = `🔥 RainAksh Network: Earn ₹65, ₹365, or ₹765 instant UPI payout on every referral! Join with my link: ${referralLink} (Sponsor: ${myUserId})`;
+    const text = `🔥 RainAksh Network:\n• अगर आप ₹100 नॉर्मल प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹65 मिलेगा।\n• अगर आप ₹500 प्लैटिनम प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹365 मिलेगा।\n• अगर आप ₹1000 रॉयल VIP प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹765 सीधा आपके बैंक खाते (UPI) में मिलेगा।\nसीधा आपके बैंक UPI में! जॉइन लिंक: ${referralLink} (Sponsor: ${myUserId})`;
     window.open(`https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -95,17 +95,24 @@ export const ReferralMarketingModal: React.FC<ReferralMarketingModalProps> = ({
     {
       id: 1,
       title: 'व्हाट्सएप स्टेटस व ग्रुप मैसेज (Hindi Viral Pitch)',
-      content: `🔥 *घर बैठे मोबाइल से रोजाना कमाएं ₹65, ₹365 से ₹765 सीधा अपने बैंक UPI में!*\n\n🎖️ *RainAksh Network की खासियत:*\n1. भारत सरकार के कंज्यूमर डायरेक्ट सेलिंग रूल्स 2021 के तहत 100% लीगल।\n2. ₹100 जॉइनिंग पर ₹65 नकद कमीशन।\n3. ₹500 जॉइनिंग पर ₹365 नकद कमीशन।\n4. ₹1000 जॉइनिंग पर ₹765 बंपर कमीशन।\n5. 10 से 30 मिनट में सीधा UPI ट्रांसफर (विकास कुमार, 8877490845@spicepay).\n\n👉 अभी जॉइन करने के लिए लिंक पर क्लिक करें:\n${referralLink}\n\nस्पॉन्सर कोड: ${myUserId}`,
+      content: `🔥 *घर बैठे मोबाइल से रोजाना कमाएं सीधा अपने बैंक खाते (UPI) में!*\n\n🎖️ *RainAksh Network की 3-सिस्टम डायरेक्ट पेआउट व्यवस्था:*\n1. भारत सरकार के Consumer Protection (Direct Selling) Rules 2021 के तहत 100% लीगल व प्रमाणित।\n2. अगर आप ₹100 नॉर्मल प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹65 सीधा आपके बैंक खाते (UPI) में मिलेगा।\n3. अगर आप ₹500 प्लैटिनम प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹365 सीधा आपके बैंक खाते (UPI) में मिलेगा।\n4. अगर आप ₹1000 रॉयल VIP प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹765 सबसे बड़ा पेआउट सीधा आपके बैंक खाते (UPI) में मिलेगा।\n5. 10 से 30 मिनट में बिना किसी कटौती के सीधा UPI ट्रांसफर (विकास कुमार, 8877490845@spicepay)।\n\n👉 अभी जॉइन करने के लिए आधिकारिक लिंक पर क्लिक करें:\n${referralLink}\n\nस्पॉन्सर कोड: ${myUserId}`,
     },
     {
       id: 2,
       title: 'Professional English Affiliate Pitch (For Social Media)',
-      content: `🚀 Join RainAksh Network - The Most Lucrative 3-Tier Affiliate & Digital ID Passport Network in India!\n\n💎 Earn 65% to 76.5% Instant Referral Commissions:\n• Tier 1 (₹100) -> ₹65 Direct Payout\n• Tier 2 (₹500) -> ₹365 Direct Payout\n• Tier 3 (₹1000) -> ₹765 Direct Payout\n\n🛡️ 100% Compliant with Govt. Direct Selling Rules 2021.\n⚡ Instant Settlement direct to your GooglePay/PhonePe UPI.\n\n👉 Join My Verified Network Now:\n${referralLink}\n(Sponsor ID: ${myUserId})`,
+      content: `🚀 Join RainAksh Network - 100% Govt. Compliant 3-Tier Direct Affiliate Network!\n\n💎 Detailed Instant UPI Earnings Breakdown:\n• If you start with ₹100 Normal Plan -> You earn ₹65 direct payout on every referral directly in your UPI account.\n• If you start with ₹500 Platinum Plan -> You earn ₹365 direct payout on every referral directly in your UPI account.\n• If you start with ₹1000 Royal VIP Plan -> You earn ₹765 maximum direct payout on every referral directly in your UPI account.\n\n🛡️ 100% Compliant with Govt. Direct Selling Rules 2021.\n⚡ Instant Settlement direct to your GooglePay/PhonePe UPI in 10-30 mins.\n\n👉 Join My Verified Network Now:\n${referralLink}\n(Sponsor ID: ${myUserId})`,
     },
     {
       id: 3,
-      title: 'शॉर्ट एंड क्रिस्प मैसेज (Short SMS / Instagram Bio)',
-      content: `⚡ RainAksh Network: ₹100, ₹500 या ₹1000 प्लान से शुरू करें और हर डायरेक्ट रेफरल पर ₹65, ₹365 या ₹765 इंस्टेंट UPI में कमाएं! लिंक: ${referralLink} (Sponsor: ${myUserId})`,
+      title: 'सम्पूर्ण 3-प्लान आमंत्रण मैसेज (Detailed 3-Plan Invitation)',
+      content: `⚡ RainAksh Network (भारत सरकार Direct Selling 2021 Compliant):
+• अगर आप ₹100 नॉर्मल प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹65 सीधा आपके बैंक खाते (UPI) में मिलेगा।
+• अगर आप ₹500 प्लैटिनम प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹365 सीधा आपके बैंक खाते (UPI) में मिलेगा।
+• अगर आप ₹1000 रॉयल VIP प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹765 सबसे बड़ा पेआउट सीधा आपके बैंक खाते (UPI) में मिलेगा।
+
+👉 अभी जॉइन करने के लिए लिंक पर क्लिक करें:
+${referralLink}
+(स्पॉन्सर आईडी: ${myUserId})`,
     },
   ];
 

@@ -89,26 +89,24 @@ export const FloatingAiChat: React.FC<FloatingAiChatProps> = ({
 
   return (
     <>
-      {/* Floating 3D Pulse Launcher Button */}
-      <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40">
+      {/* Floating Discreet / Invisible Help Button (Reveals on Hover or Click) */}
+      <div className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-40">
         <button
           onClick={() => {
             sounds.playClick();
             setIsOpen(!isOpen);
           }}
-          className="btn-floating-pulse relative flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 font-black shadow-[0_12px_30px_rgba(245,158,11,0.5)] border-2 border-yellow-200 active:scale-95 cursor-pointer"
-          title="24/7 AI Guidance & Live Support"
-          aria-label="Open AI Guidance & Live Support"
+          className="opacity-30 hover:opacity-100 focus:opacity-100 transition-all duration-300 flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full bg-slate-950/70 hover:bg-slate-900 text-slate-400 hover:text-amber-300 border border-slate-800 hover:border-amber-400/70 backdrop-blur-md shadow-md active:scale-95 cursor-pointer text-xs font-bold"
+          title="Help & Support"
+          aria-label="Help"
         >
           <div className="relative">
-            <MessageSquare className="w-5 h-5 fill-slate-950 text-slate-950" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-slate-950 absolute -top-1 -right-1 animate-ping" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-slate-950 absolute -top-1 -right-1" />
+            <MessageSquare className="w-3.5 h-3.5 text-amber-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 absolute -top-0.5 -right-0.5" />
           </div>
-          <span className="text-xs font-black tracking-wide hidden sm:inline">
-            AI सहायता & सपोर्ट
+          <span className="font-black tracking-wide">
+            Help
           </span>
-          <span className="sm:hidden text-xs font-black">सहायता</span>
         </button>
       </div>
 

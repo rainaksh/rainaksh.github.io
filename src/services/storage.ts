@@ -114,7 +114,7 @@ export const DEFAULT_CONFIG: SystemConfig = {
   platinumCommission: 365,
   royalPrice: 1000,
   royalCommission: 765,
-  announcementTicker: '⚡ RainAksh Network (Govt. Direct Selling 2021 Compliant) • क्या है? भारत का अग्रणी 3-सिस्टम डिजिटल पहचान पत्र व एफिलिएट रेवेन्यू शेयरिंग प्लैटफॉर्म • कितने सिस्टम हैं? 3 सिस्टम्स (₹100 नॉर्मल, ₹500 प्लैटिनम शील्ड, ₹1000 रॉयल VIP) • क्या मिलेगा? सरकार-मान्य डिजिटल आईडी कार्ड, QR सत्यापन, प्राइवेसी प्रोटेक्शन व 1-ऑन-1 पर्सनल सपोर्ट • कितना मिलेगा? ₹100 पर ₹65 (65%), ₹500 पर ₹365 (73%), ₹1000 पर ₹765 (76.5%) डायरेक्ट कमीशन • कब मिलेगा? 10-30 मिनट में सत्यापन के बाद सीधा आपके बैंक UPI पर • अधिकृत भुगतान UPI: 8877490845@spicepay (विकास कुमार) • 0% कटौती • Telegram: @rainaksh • Email: accaiwork@gmail.com',
+  announcementTicker: '⚡ RainAksh Network (भारत सरकार Direct Selling 2021 Compliant) • 3-सिस्टम डिजिटल पहचान पत्र व एफिलिएट नेटवर्क • अगर आप ₹100 नॉर्मल प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹65 सीधा आपके बैंक खाते (UPI) में मिलेगा • अगर आप ₹500 प्लैटिनम प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹365 सीधा आपके बैंक खाते (UPI) में मिलेगा • अगर आप ₹1000 रॉयल VIP प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹765 सीधा आपके बैंक खाते (UPI) में मिलेगा • सत्यापन के 10-30 मिनट में सीधा UPI ट्रांसफर • अधिकृत भुगतान UPI: 8877490845@spicepay (विकास कुमार) • 0% कटौती • Telegram: @rainaksh • Email: accaiwork@gmail.com',
   enableStripe: true,
   isMaintenanceMode: false,
 };
@@ -397,7 +397,11 @@ class StorageService {
     const raw = localStorage.getItem(STORAGE_KEYS.CONFIG);
     if (!raw) return DEFAULT_CONFIG;
     try {
-      return { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
+      const parsed = JSON.parse(raw);
+      if (parsed.announcementTicker && !parsed.announcementTicker.includes('अगर आप ₹100')) {
+        parsed.announcementTicker = DEFAULT_CONFIG.announcementTicker;
+      }
+      return { ...DEFAULT_CONFIG, ...parsed };
     } catch {
       return DEFAULT_CONFIG;
     }

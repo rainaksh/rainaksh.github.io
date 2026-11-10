@@ -89,20 +89,20 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
         </div>
 
         {/* 3-System Selector Pills */}
-        <div className="grid grid-cols-3 gap-1.5 p-2 bg-slate-950 border-b border-slate-800 shrink-0">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 p-2 bg-slate-950 border-b border-slate-800 shrink-0">
           <button
             onClick={() => {
               sounds.playClick();
               setSelectedPlanTab('silver');
             }}
-            className={`py-2 px-1 rounded-xl text-xs font-bold transition flex flex-col items-center justify-center ${
+            className={`py-2 px-1 rounded-xl sm:rounded-2xl text-xs font-bold transition flex flex-col items-center justify-center min-h-[46px] ${
               selectedPlanTab === 'silver'
-                ? 'bg-emerald-500 text-slate-950 font-black shadow'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                ? 'bg-emerald-500 text-slate-950 font-black shadow-md'
+                : 'text-slate-400 hover:text-white hover:bg-slate-900 border border-slate-800'
             }`}
           >
-            <span className="text-[10px] uppercase font-mono">System 1</span>
-            <span className="text-xs sm:text-sm font-black">₹100 नॉर्मल</span>
+            <span className="text-[9px] uppercase font-mono font-bold">System 1</span>
+            <span className="text-xs font-black">₹100 नॉर्मल</span>
           </button>
 
           <button
@@ -110,14 +110,14 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
               sounds.playClick();
               setSelectedPlanTab('platinum');
             }}
-            className={`py-2 px-1 rounded-xl text-xs font-bold transition flex flex-col items-center justify-center relative ${
+            className={`py-2 px-1 rounded-xl sm:rounded-2xl text-xs font-bold transition flex flex-col items-center justify-center min-h-[46px] ${
               selectedPlanTab === 'platinum'
-                ? 'bg-cyan-400 text-slate-950 font-black shadow'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                ? 'bg-cyan-400 text-slate-950 font-black shadow-md'
+                : 'text-slate-400 hover:text-white hover:bg-slate-900 border border-slate-800'
             }`}
           >
-            <span className="text-[10px] uppercase font-mono">System 2</span>
-            <span className="text-xs sm:text-sm font-black">₹500 प्लैटिनम</span>
+            <span className="text-[9px] uppercase font-mono font-bold">System 2</span>
+            <span className="text-xs font-black">₹500 प्लैटिनम</span>
           </button>
 
           <button
@@ -125,16 +125,16 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
               sounds.playClick();
               setSelectedPlanTab('royal');
             }}
-            className={`py-2 px-1 rounded-xl text-xs font-bold transition flex flex-col items-center justify-center relative ${
+            className={`py-2 px-1 rounded-xl sm:rounded-2xl text-xs font-bold transition flex flex-col items-center justify-center min-h-[46px] ${
               selectedPlanTab === 'royal'
                 ? 'bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-black shadow-[0_0_15px_rgba(245,158,11,0.5)]'
-                : 'text-amber-300 hover:text-white hover:bg-slate-900'
+                : 'text-amber-300 hover:text-white hover:bg-slate-900 border border-slate-800'
             }`}
           >
             <span className="text-[9px] uppercase font-mono font-black flex items-center gap-0.5">
               👑 Best VIP
             </span>
-            <span className="text-xs sm:text-sm font-black">₹1000 रॉयल</span>
+            <span className="text-xs font-black">₹1000 रॉयल</span>
           </button>
         </div>
 
@@ -180,10 +180,10 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
 
                 <button
                   onClick={() => handleJoin('silver')}
-                  className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl mt-3"
+                  className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl mt-3 min-h-[46px]"
                 >
                   <Zap className="w-4 h-4 fill-white" />
-                  <span>Join System 1 (₹100 Normal)</span>
+                  <span>सिस्टम 1 (₹100 नॉर्मल) जॉइन करें</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -236,10 +236,10 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
 
                 <button
                   onClick={() => handleJoin('platinum')}
-                  className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl mt-3"
+                  className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl mt-3 min-h-[46px]"
                 >
                   <Zap className="w-4 h-4 fill-white" />
-                  <span>Join System 2 (₹500 Platinum)</span>
+                  <span>सिस्टम 2 (₹500 प्लैटिनम) जॉइन करें</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -297,10 +297,10 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
 
                 <button
                   onClick={() => handleJoin('royal')}
-                  className="btn-3d-rainbow w-full py-4 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-xl mt-3"
+                  className="btn-3d-rainbow w-full py-4 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-xl mt-3 min-h-[48px]"
                 >
                   <Crown className="w-4 h-4 fill-white text-white" />
-                  <span>👑 Join Royal Crown VIP System (₹1000)</span>
+                  <span>👑 सिस्टम 3 (₹1000 रॉयल VIP) जॉइन करें</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

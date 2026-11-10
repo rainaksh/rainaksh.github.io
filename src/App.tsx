@@ -42,7 +42,7 @@ export default function App() {
   // Modal states
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [selectedPlanForPayment, setSelectedPlanForPayment] = useState<PlanTier>('platinum');
-  const [sponsorIdForPayment, setSponsorIdForPayment] = useState<string>('RNX1000RN01');
+  const [sponsorIdForPayment, setSponsorIdForPayment] = useState<string>('');
 
   // Announcement modal state
   const [announcementModalOpen, setAnnouncementModalOpen] = useState(false);

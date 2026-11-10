@@ -12,8 +12,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="./assets/index-DljH3soy.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-mE_7UmI-.css">
+    <script>
+      (function() {
+        try {
+          var host = window.location.hostname;
+          var path = window.location.pathname;
+          // If deployed on GitHub Pages and not already inside /docs/, redirect immediately to /docs/
+          if (host.indexOf('github.io') !== -1 && path.indexOf('/docs') === -1) {
+            var basePath = path.replace(/\/+$/, '');
+            var target = basePath + '/docs/' + window.location.search + window.location.hash;
+            window.location.replace(target);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-D32vVt5Q.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DKUJ6Stq.css">
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-amber-500 selection:text-slate-950 font-sans w-full max-w-full overflow-x-hidden">
     <div id="root"></div>
