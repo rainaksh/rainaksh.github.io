@@ -11,6 +11,7 @@ import {
   DownlineReferral,
   UserActivity,
   ContactInquiry,
+  PopupSlidePhoto,
 } from '../types';
 import { triggerCelebration, triggerMegaCelebration, sounds } from '../utils/audioCelebration';
 import { generateTierFormattedId, generateRainAkshUserId, extractTierFromId } from '../utils/idGenerator';
@@ -23,6 +24,8 @@ import {
   syncMessageToFirestore,
   subscribeToFirestoreUsers,
   subscribeToFirestoreTransactions,
+  syncPopupSlidesToFirestore,
+  subscribeToFirestorePopupSlides,
 } from './firebase';
 
 export const ADMIN_PASSWORD_HASH = 'RAINAKSH';
@@ -117,7 +120,12 @@ export const DEFAULT_CONFIG: SystemConfig = {
   announcementTicker: '⚡ RainAksh Network (भारत सरकार Direct Selling 2021 Compliant) • 3-सिस्टम डिजिटल पहचान पत्र व एफिलिएट नेटवर्क • अगर आप ₹100 नॉर्मल प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹65 सीधा आपके बैंक खाते (UPI) में मिलेगा • अगर आप ₹500 प्लैटिनम प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹365 सीधा आपके बैंक खाते (UPI) में मिलेगा • अगर आप ₹1000 रॉयल VIP प्लान से शुरू करेंगे तो हर डायरेक्ट रेफरल पर ₹765 सीधा आपके बैंक खाते (UPI) में मिलेगा • सत्यापन के 10-30 मिनट में सीधा UPI ट्रांसफर • अधिकृत भुगतान UPI: 8877490845@spicepay (विकास कुमार) • 0% कटौती • Telegram: @rainaksh • Email: accaiwork@gmail.com',
   enableStripe: true,
   isMaintenanceMode: false,
+  popupSlidesEnabled: true,
+  popupSlides: [],
+  popupTargetPages: ['home'],
 };
+
+export const DEFAULT_POPUP_SLIDES: PopupSlidePhoto[] = [];
 
 // Seed Users: Founder Vikas Kumar & 1st VIP Member RainAksh Nityam with Official Fixed IDs
 const SEED_USERS: UserProfile[] = [
@@ -285,6 +293,7 @@ const STORAGE_KEYS = {
   ACTIVITIES: 'rainaksh_activities_v4',
   INQUIRIES: 'rainaksh_inquiries_v4',
   CONFIG: 'rainaksh_config_v4',
+  POPUP_SLIDER: 'rainaksh_popup_slider_v4',
 };
 
 class StorageService {
@@ -390,6 +399,21 @@ class StorageService {
         this.notify();
       }
     });
+
+    // Subscribe to Firestore slider updates for global cross-device synchronization
+    subscribeToFirestorePopupSlides((cloudSlider) => {
+      if (cloudSlider && Array.isArray(cloudSlider.slides)) {
+        localStorage.setItem(STORAGE_KEYS.POPUP_SLIDER, JSON.stringify(cloudSlider.slides));
+        const cfg = this.getConfig();
+        const updatedCfg = {
+          ...cfg,
+          popupSlidesEnabled: cloudSlider.enabled !== false,
+          popupTargetPages: cloudSlider.targetPages || cfg.popupTargetPages || ['home'],
+        };
+        localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(updatedCfg));
+        this.notify();
+      }
+    });
   }
 
   // Config
@@ -401,6 +425,9 @@ class StorageService {
       if (parsed.announcementTicker && !parsed.announcementTicker.includes('अगर आप ₹100')) {
         parsed.announcementTicker = DEFAULT_CONFIG.announcementTicker;
       }
+      if (!parsed.popupTargetPages) {
+        parsed.popupTargetPages = ['home'];
+      }
       return { ...DEFAULT_CONFIG, ...parsed };
     } catch {
       return DEFAULT_CONFIG;
@@ -411,6 +438,14 @@ class StorageService {
     const current = this.getConfig();
     const updated = { ...current, ...newConfig };
     localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(updated));
+    if (newConfig.popupSlidesEnabled !== undefined || newConfig.popupTargetPages !== undefined) {
+      const currentSlides = this.getPopupSlides();
+      syncPopupSlidesToFirestore(
+        currentSlides,
+        updated.popupSlidesEnabled !== false,
+        updated.popupTargetPages || ['home']
+      );
+    }
     this.notify();
     return updated;
   }
@@ -1055,6 +1090,82 @@ class StorageService {
     return true;
   }
 
+  // ================= 7-PHOTO POPUP SLIDER SYSTEM =================
+  public getPopupSlides(): PopupSlidePhoto[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.POPUP_SLIDER);
+    if (!raw) return [];
+    try {
+      const parsed: PopupSlidePhoto[] = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        return parsed.sort((a, b) => a.order - b.order);
+      }
+      return [];
+    } catch {
+      return [];
+    }
+  }
+
+  public clearAllPopupSlides() {
+    this.savePopupSlides([]);
+  }
+
+  public savePopupSlides(slides: PopupSlidePhoto[]) {
+    localStorage.setItem(STORAGE_KEYS.POPUP_SLIDER, JSON.stringify(slides));
+    const cfg = this.getConfig();
+    syncPopupSlidesToFirestore(
+      slides,
+      cfg.popupSlidesEnabled !== false,
+      cfg.popupTargetPages || ['home']
+    );
+    this.notify();
+  }
+
+  public addPopupSlide(slide: Omit<PopupSlidePhoto, 'id' | 'createdAt' | 'order'>): PopupSlidePhoto {
+    const current = this.getPopupSlides();
+    if (current.length >= 7) {
+      throw new Error('Maximum 7 photos allowed in the popup slider');
+    }
+    const newSlide: PopupSlidePhoto = {
+      ...slide,
+      id: `slide_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      createdAt: new Date().toISOString(),
+      order: current.length,
+    };
+    current.push(newSlide);
+    this.savePopupSlides(current);
+    return newSlide;
+  }
+
+  public updatePopupSlide(id: string, updates: Partial<PopupSlidePhoto>) {
+    const current = this.getPopupSlides();
+    const index = current.findIndex((s) => s.id === id);
+    if (index !== -1) {
+      current[index] = { ...current[index], ...updates };
+      this.savePopupSlides(current);
+    }
+  }
+
+  public deletePopupSlide(id: string) {
+    let current = this.getPopupSlides();
+    current = current.filter((s) => s.id !== id);
+    current = current.map((s, idx) => ({ ...s, order: idx }));
+    this.savePopupSlides(current);
+  }
+
+  public togglePopupSlide(id: string) {
+    const current = this.getPopupSlides();
+    const slide = current.find((s) => s.id === id);
+    if (slide) {
+      slide.enabled = !slide.enabled;
+      this.savePopupSlides(current);
+    }
+  }
+
+  public reorderPopupSlides(newOrder: PopupSlidePhoto[]) {
+    const updated = newOrder.map((s, idx) => ({ ...s, order: idx }));
+    this.savePopupSlides(updated);
+  }
+
   public resetToDefault() {
     localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(SEED_USERS));
     localStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(SEED_TRANSACTIONS));
@@ -1064,7 +1175,8 @@ class StorageService {
     localStorage.setItem(STORAGE_KEYS.ACTIVITIES, JSON.stringify(SEED_ACTIVITIES));
     localStorage.setItem(STORAGE_KEYS.INQUIRIES, JSON.stringify(SEED_INQUIRIES));
     localStorage.setItem(STORAGE_KEYS.PAYOUTS, JSON.stringify([]));
-    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(DEFAULT_CONFIG));
+    localStorage.setItem(STORAGE_KEYS.POPUP_SLIDER, JSON.stringify([]));
+    syncPopupSlidesToFirestore([], true, ['home']);
     this.notify();
     triggerCelebration();
   }

@@ -33,6 +33,12 @@ import {
   ExternalLink,
   ChevronRight,
   Filter,
+  Image as ImageIcon,
+  Upload,
+  Plus,
+  ArrowUp,
+  ArrowDown,
+  Layers,
 } from 'lucide-react';
 import {
   UserProfile,
@@ -45,9 +51,11 @@ import {
   PlanAmount,
   UserActivity,
   ContactInquiry,
+  PopupSlidePhoto,
 } from '../types';
 import { storage, ADMIN_PASSWORD_HASH, DEFAULT_PLANS } from '../services/storage';
 import { sounds, triggerMegaCelebration, triggerCelebration } from '../utils/audioCelebration';
+import { HomePhotoSliderModal } from '../components/HomePhotoSliderModal';
 
 interface AdminViewProps {
   onClose: () => void;
@@ -63,7 +71,8 @@ type AdminTab =
   | 'inquiries'
   | 'broadcast'
   | 'chat'
-  | 'cms';
+  | 'cms'
+  | 'slider';
 
 export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -116,6 +125,18 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
   const [rejectReason, setRejectReason] = useState('');
   const [previewProofImage, setPreviewProofImage] = useState<string | null>(null);
 
+  // 7-Photo Slider state
+  const [slides, setSlides] = useState<PopupSlidePhoto[]>(() => storage.getPopupSlides());
+  const [sliderEnabled, setSliderEnabled] = useState<boolean>(() => config.popupSlidesEnabled !== false);
+  const [newSlideUrl, setNewSlideUrl] = useState('');
+  const [newSlideTitle, setNewSlideTitle] = useState('');
+  const [newSlideSubtitle, setNewSlideSubtitle] = useState('');
+  const [newSlideLinkUrl, setNewSlideLinkUrl] = useState('');
+  const [newSlideLinkText, setNewSlideLinkText] = useState('');
+  const [sliderMessage, setSliderMessage] = useState('');
+  const [sliderTargetPages, setSliderTargetPages] = useState<string[]>(() => config.popupTargetPages || ['home']);
+  const [previewSliderModal, setPreviewSliderModal] = useState(false);
+
   useEffect(() => {
     const unsub = storage.subscribe(() => {
       setUsers(storage.getUsers());
@@ -124,10 +145,172 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
       setMessages(storage.getMessages());
       setActivities(storage.getActivities());
       setInquiries(storage.getInquiries());
-      setConfig(storage.getConfig());
+      const cfg = storage.getConfig();
+      setConfig(cfg);
+      setSlides(storage.getPopupSlides());
+      setSliderTargetPages(cfg.popupTargetPages || ['home']);
+      setSliderEnabled(cfg.popupSlidesEnabled !== false);
     });
     return unsub;
   }, []);
+
+  // Image compression & upload helper
+  const handleUploadSlideImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (slides.length >= 7) {
+      setSliderMessage('त्रुटि: आप अधिकतम 7 फोटो ही अपलोड कर सकते हैं।');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 1200;
+        const MAX_HEIGHT = 1200;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = Math.round((width * MAX_HEIGHT) / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+          setNewSlideUrl(dataUrl);
+          setSliderMessage('फोटो सफलता से लोड हो गई! विवरण भरकर "स्लाइड जोड़ें" बटन दबाएं।');
+        }
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleAddSlide = (e: React.FormEvent) => {
+    e.preventDefault();
+    sounds.playClick();
+    if (!newSlideUrl.trim()) {
+      setSliderMessage('कृपया फोटो अपलोड करें या इमेज URL दर्ज करें।');
+      return;
+    }
+    if (slides.length >= 7) {
+      setSliderMessage('अधिकतम 7 फोटो सीमा पूर्ण हो चुकी है।');
+      return;
+    }
+
+    try {
+      storage.addPopupSlide({
+        imageUrl: newSlideUrl.trim(),
+        title: newSlideTitle.trim() || undefined,
+        subtitle: newSlideSubtitle.trim() || undefined,
+        linkUrl: newSlideLinkUrl.trim() || undefined,
+        linkText: newSlideLinkText.trim() || undefined,
+        enabled: true,
+      });
+      setSlides(storage.getPopupSlides());
+      setNewSlideUrl('');
+      setNewSlideTitle('');
+      setNewSlideSubtitle('');
+      setNewSlideLinkUrl('');
+      setNewSlideLinkText('');
+      setSliderMessage('नई फोटो स्लाइड सफलतापूर्वक जोड़ दी गई!');
+      triggerCelebration();
+    } catch (err: any) {
+      setSliderMessage(err.message || 'फोटो जोड़ने में त्रुटि आई।');
+    }
+  };
+
+  const handleDeleteSlide = (id: string) => {
+    if (window.confirm('क्या आप इस फोटो को स्लाइडर से हटाना चाहते हैं? यह स्थायी रूप से हट जाएगी।')) {
+      sounds.playClick();
+      storage.deletePopupSlide(id);
+      setSlides(storage.getPopupSlides());
+      setSliderMessage('फोटो स्लाइड स्थायी रूप से हटा दी गई।');
+    }
+  };
+
+  const handleClearAllSlides = () => {
+    if (window.confirm('क्या आप सभी फोटो को डिलीट करना चाहते हैं? इसके बाद कोई भी पॉपअप नहीं खुलेगा।')) {
+      sounds.playClick();
+      storage.clearAllPopupSlides();
+      setSlides([]);
+      setSliderMessage('सभी फोटो स्थायी रूप से डिलीट कर दी गईं (अब कोई पॉपअप नहीं दिखेगा)।');
+    }
+  };
+
+  const handleToggleSlide = (id: string) => {
+    sounds.playClick();
+    storage.togglePopupSlide(id);
+    setSlides(storage.getPopupSlides());
+  };
+
+  const handleMoveSlide = (index: number, direction: 'up' | 'down') => {
+    sounds.playClick();
+    const current = [...slides];
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= current.length) return;
+    const temp = current[index];
+    current[index] = current[targetIndex];
+    current[targetIndex] = temp;
+    storage.reorderPopupSlides(current);
+    setSlides(storage.getPopupSlides());
+  };
+
+  const handleToggleMasterSlider = (enabled: boolean) => {
+    sounds.playClick();
+    setSliderEnabled(enabled);
+    storage.updateConfig({ popupSlidesEnabled: enabled });
+    setSliderMessage(
+      enabled
+        ? 'पॉपअप स्लाइडर सक्रिय (Enabled) है।'
+        : 'पॉपअप स्लाइडर निष्क्रिय (Disabled) कर दिया गया है।'
+    );
+  };
+
+  const handleToggleTargetPage = (pageId: string) => {
+    sounds.playClick();
+    let updated: string[];
+    if (sliderTargetPages.includes(pageId)) {
+      updated = sliderTargetPages.filter((p) => p !== pageId);
+      if (updated.length === 0) updated = ['home'];
+    } else {
+      updated = [...sliderTargetPages, pageId];
+    }
+    setSliderTargetPages(updated);
+    storage.updateConfig({ popupTargetPages: updated });
+    setSliderMessage(`पॉपअप प्रदर्शन पृष्ठ अपडेट: [${updated.join(', ')}]`);
+  };
+
+  const handleSetAllPages = () => {
+    sounds.playClick();
+    const all = ['home', 'plans', 'guide', 'faq', 'dashboard', 'legal'];
+    setSliderTargetPages(all);
+    storage.updateConfig({ popupTargetPages: all });
+    setSliderMessage('पॉपअप अब सभी पेजों पर प्रदर्शित होगा!');
+  };
+
+  const handleSetHomeOnly = () => {
+    sounds.playClick();
+    const homeOnly = ['home'];
+    setSliderTargetPages(homeOnly);
+    storage.updateConfig({ popupTargetPages: homeOnly });
+    setSliderMessage('पॉपअप अब केवल मुख्य पृष्ठ (Home Page) पर ही प्रदर्शित होगा (डिफ़ॉल्ट सेट)।');
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -444,6 +627,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
       <div className="border-b border-slate-800 bg-slate-900/60 px-4 sm:px-6 py-2 overflow-x-auto flex gap-1.5 scrollbar-thin">
         {[
           { id: 'overview', label: 'अवलोकन (Overview)', icon: TrendingUp },
+          { id: 'slider', label: `7 फोटो स्लाइडर (${slides.length}/7)`, icon: ImageIcon, badge: slides.length },
           { id: 'responses', label: `यूज़र फॉर्म रिस्पॉन्स (${users.length})`, icon: FileText, badge: users.length },
           { id: 'activities', label: `ऑडिट व एक्टिविटी इतिहास (${activities.length})`, icon: History, badge: activities.length },
           { id: 'txns', label: `पेमेंट सत्यापन (${pendingApprovalsCount})`, icon: CreditCard, alert: pendingApprovalsCount > 0 },
@@ -1460,6 +1644,454 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
             </div>
           </div>
         )}
+
+        {/* ================= TAB: 7-PHOTO POPUP SLIDER ================= */}
+        {activeTab === 'slider' && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            {/* Header Box */}
+            <div className="bg-slate-900/80 p-5 sm:p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-black border border-amber-400/30">
+                    <ImageIcon className="w-3.5 h-3.5 text-amber-400" />
+                    <span>होम पेज पॉपअप स्लाइडर (Max 7 Photos)</span>
+                  </div>
+                  <h2 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
+                    <span>7 फोटो होम पेज पॉपअप स्लाइडर प्रबंधन</span>
+                  </h2>
+                  <p className="text-xs text-slate-400 max-w-xl">
+                    यहाँ आप अधिकतम 7 फोटो अपलोड कर सकते हैं। होम पेज पर आने वाले यूज़र्स के सामने यह फोटो उनके ऑरिजिनल साइज के अनुसार ज़ूम-इन/आउट इफ़ेक्ट के साथ प्रदर्शित होंगी।
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 sm:self-start">
+                  <button
+                    onClick={() => handleToggleMasterSlider(!sliderEnabled)}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 ${
+                      sliderEnabled
+                        ? 'btn-3d-amber text-slate-950 font-black shadow-md'
+                        : 'bg-slate-800 text-slate-400 border border-slate-700'
+                    }`}
+                  >
+                    <span className={`w-2.5 h-2.5 rounded-full ${sliderEnabled ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
+                    <span>स्लाइडर: {sliderEnabled ? 'सक्रिय (ON)' : 'निष्क्रिय (OFF)'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      sounds.playClick();
+                      if (slides.length === 0) {
+                        alert('कृपया पहले कम से कम 1 फोटो अपलोड करें ताकि पॉपअप टेस्ट किया जा सके।');
+                        return;
+                      }
+                      triggerMegaCelebration();
+                      setPreviewSliderModal(true);
+                    }}
+                    className="px-3.5 py-2 rounded-xl btn-3d-cyan text-xs font-black shadow flex items-center gap-1.5"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>लाइव पॉपअप टेस्ट करें</span>
+                  </button>
+                </div>
+              </div>
+
+              {sliderMessage && (
+                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center justify-between">
+                  <span>{sliderMessage}</span>
+                  <button onClick={() => setSliderMessage('')} className="text-slate-400 hover:text-white text-xs">
+                    ✕
+                  </button>
+                </div>
+              )}
+
+              {/* 7-Slot Tracker Bar */}
+              <div className="pt-2 border-t border-slate-800">
+                <div className="flex items-center justify-between text-xs mb-2">
+                  <span className="font-bold text-slate-300">
+                    स्लॉट उपयोग: <strong className="text-amber-400">{slides.length}</strong> / 7 फोटो भरी हुई हैं
+                  </span>
+                  <span className="text-[11px] text-slate-400">
+                    {7 - slides.length > 0 ? `${7 - slides.length} स्लॉट खाली` : 'सभी 7 स्लॉट पूर्ण'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-7 gap-1.5">
+                  {[0, 1, 2, 3, 4, 5, 6].map((idx) => {
+                    const slide = slides[idx];
+                    return (
+                      <div
+                        key={idx}
+                        className={`h-12 rounded-xl border flex flex-col items-center justify-center p-0.5 overflow-hidden transition ${
+                          slide
+                            ? slide.enabled
+                              ? 'border-amber-400 bg-amber-500/10 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                              : 'border-slate-700 bg-slate-800/60 opacity-60'
+                            : 'border-dashed border-slate-800 bg-slate-950/60 text-slate-600'
+                        }`}
+                        title={slide ? `स्लॉट ${idx + 1}: ${slide.title || 'Photo'}` : `स्लॉट ${idx + 1}: खाली`}
+                      >
+                        {slide ? (
+                          <img
+                            src={slide.imageUrl}
+                            alt="thumb"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <span className="text-[10px] font-mono text-slate-500">#{idx + 1}</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Target Pages Selector Box */}
+            <div className="bg-slate-900/80 p-5 sm:p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-black text-white flex items-center gap-2">
+                    <span>🎯 पॉपअप कहाँ-कहाँ दिखाना है? (Target Pages Selection)</span>
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    चुनें कि यूज़र को यह फोटो स्लाइडर पॉपअप किन-किन पेजों पर दिखना चाहिए (बाय डिफ़ॉल्ट: मुख्य पृष्ठ / Home Page)।
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleSetHomeOnly}
+                    className="px-3 py-1.5 rounded-xl text-[11px] font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 transition"
+                  >
+                    केवल होम पेज (Default)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSetAllPages}
+                    className="px-3 py-1.5 rounded-xl text-[11px] font-bold bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 transition"
+                  >
+                    सभी पेजों पर (All Pages)
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1">
+                {[
+                  { id: 'home', label: '🏠 मुख्य पृष्ठ (Home)', desc: 'मुख्य लैंडिंग पेज' },
+                  { id: 'plans', label: '👑 3 प्लान्स व तुलना (Plans)', desc: '₹100, ₹500, ₹1000' },
+                  { id: 'guide', label: '📜 नियम व गाइड (Guide)', desc: 'गाइडलाइन्स पेज' },
+                  { id: 'faq', label: '❓ सवाल-जवाब (FAQ)', desc: 'हेल्प व FAQ' },
+                  { id: 'dashboard', label: '💳 मेंबर डैशबोर्ड (Dashboard)', desc: 'लॉगिन सदस्यों के लिए' },
+                  { id: 'legal', label: '⚖️ कानूनी नीतियां (Legal)', desc: 'शर्तें व प्राइवेसी' },
+                ].map((page) => {
+                  const isChecked = sliderTargetPages.includes(page.id);
+                  return (
+                    <button
+                      key={page.id}
+                      type="button"
+                      onClick={() => handleToggleTargetPage(page.id)}
+                      className={`p-3 rounded-2xl border text-left transition flex items-start gap-2.5 ${
+                        isChecked
+                          ? 'bg-amber-500/15 border-amber-400 text-white shadow-md'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => {}}
+                        className="mt-0.5 w-4 h-4 rounded text-amber-500 bg-slate-900 border-slate-700 cursor-pointer pointer-events-none"
+                      />
+                      <div className="min-w-0">
+                        <span className="text-xs font-black block">{page.label}</span>
+                        <span className="text-[10px] text-slate-400">{page.desc}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80 text-[11px] text-slate-300 flex items-center justify-between">
+                <span>वर्तमान सक्रिय पृष्ठ: <strong className="text-amber-400 font-mono font-bold">[{sliderTargetPages.join(', ')}]</strong></span>
+                <span className="text-emerald-400 font-bold">✓ ऑटोमैटिक क्लाउड सिंक</span>
+              </div>
+            </div>
+
+            {/* Upload New Slide Form (Only if < 7) */}
+            {slides.length < 7 ? (
+              <div className="bg-slate-900/80 p-5 sm:p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+                <h3 className="text-sm font-black text-white flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-emerald-400" />
+                  <span>नया फोटो जोड़ें (स्लॉट #{slides.length + 1} of 7)</span>
+                </h3>
+
+                <form onSubmit={handleAddSlide} className="space-y-4 text-xs">
+                  {/* File Upload / URL Selector */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="block text-slate-300 font-bold">
+                        1. मोबाइल या कंप्यूटर से फोटो चुनें:
+                      </label>
+                      <label className="flex flex-col items-center justify-center border-2 border-dashed border-amber-400/50 hover:border-amber-400 rounded-2xl p-4 cursor-pointer bg-slate-950 hover:bg-slate-900 transition text-center min-h-[110px]">
+                        <Upload className="w-6 h-6 text-amber-400 mb-1" />
+                        <span className="text-xs font-bold text-white">फोटो फ़ाइल अपलोड करें</span>
+                        <span className="text-[10px] text-slate-400 mt-0.5">JPG, PNG, WebP (ऑटो-कंप्रेस्ड)</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleUploadSlideImage}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-slate-300 font-bold">
+                        2. या ऑनलाइन इमेज URL दर्ज करें:
+                      </label>
+                      <input
+                        type="url"
+                        value={newSlideUrl}
+                        onChange={(e) => setNewSlideUrl(e.target.value)}
+                        placeholder="https://images.unsplash.com/... या कोई भी फोटो लिंक"
+                        className="w-full px-3.5 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-xs min-h-[46px]"
+                      />
+                      <p className="text-[10px] text-slate-400">
+                        टिप: फोटो चाहे खड़ी (Portrait) हो या आड़ी (Landscape), पॉपअप उसी अनुपात में सटीक खुलेगा।
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Image Preview Box */}
+                  {newSlideUrl && (
+                    <div className="p-3 rounded-2xl bg-slate-950 border border-amber-400/40 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={newSlideUrl}
+                          alt="preview"
+                          className="w-20 h-20 object-contain rounded-xl bg-black border border-slate-800"
+                        />
+                        <div>
+                          <span className="text-[11px] font-bold text-emerald-400 block">✓ फोटो तैयार है</span>
+                          <span className="text-[10px] text-slate-400">नीचे विवरण भरकर सबमिट करें</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setNewSlideUrl('')}
+                        className="text-xs text-rose-400 hover:text-rose-300 p-2"
+                      >
+                        फोटो हटाएं
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Optional Text Details */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div>
+                      <label className="block text-slate-400 mb-1 font-bold">शीर्षक (Optional Title):</label>
+                      <input
+                        type="text"
+                        value={newSlideTitle}
+                        onChange={(e) => setNewSlideTitle(e.target.value)}
+                        placeholder="e.g. 📢 विशेष बोनस 2026: ₹1000 प्लान पर VIP ताज"
+                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-xs min-h-[42px]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-400 mb-1 font-bold">उप-शीर्षक (Optional Subtitle):</label>
+                      <input
+                        type="text"
+                        value={newSlideSubtitle}
+                        onChange={(e) => setNewSlideSubtitle(e.target.value)}
+                        placeholder="e.g. हर डायरेक्ट इनवाइट पर ₹765 नकद सीधा बैंक में!"
+                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-xs min-h-[42px]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-400 mb-1 font-bold">बटन टेक्स्ट (Optional Button Label):</label>
+                      <input
+                        type="text"
+                        value={newSlideLinkText}
+                        onChange={(e) => setNewSlideLinkText(e.target.value)}
+                        placeholder="e.g. अभी जॉइन करें (Join Now)"
+                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-xs min-h-[42px]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-400 mb-1 font-bold">बटन एक्शन / लिंक (Optional Link):</label>
+                      <input
+                        type="text"
+                        value={newSlideLinkUrl}
+                        onChange={(e) => setNewSlideLinkUrl(e.target.value)}
+                        placeholder="e.g. royal (या कोई वेबसाइट URL)"
+                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-xs min-h-[42px]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={!newSlideUrl}
+                      className="btn-3d-rainbow px-6 py-3 rounded-2xl text-xs font-black shadow-xl flex items-center gap-2 min-h-[46px] disabled:opacity-50"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>स्लाइड जोड़ें (Save to Slot #{slides.length + 1})</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-400/40 text-amber-300 text-xs font-bold text-center">
+                ✓ सभी 7 फोटो स्लॉट पूरे हो चुके हैं। नई फोटो जोड़ने के लिए पहले किसी पुरानी फोटो को डिलीट करें।
+              </div>
+            )}
+
+            {/* List of Active Slides */}
+            <div className="bg-slate-900/80 p-5 sm:p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <h3 className="text-sm font-black text-white flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-amber-400" />
+                  <span>अपलोड की गई फोटो स्लाइड्स ({slides.length}/7)</span>
+                </h3>
+                {slides.length > 0 && (
+                  <button
+                    onClick={handleClearAllSlides}
+                    className="px-3 py-1.5 rounded-xl bg-red-950/80 hover:bg-red-900 text-rose-300 hover:text-white border border-rose-500/40 text-xs font-bold flex items-center gap-1.5 transition active:scale-95"
+                    title="सभी फोटो डिलीट करें ताकि कोई पॉपअप न दिखे"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-rose-400" />
+                    <span>सभी फोटो हटाएं (Delete All)</span>
+                  </button>
+                )}
+              </div>
+
+              {slides.length === 0 ? (
+                <div className="p-8 text-center border-2 border-dashed border-slate-800 rounded-3xl space-y-2">
+                  <ImageIcon className="w-10 h-10 text-slate-600 mx-auto" />
+                  <p className="text-sm font-bold text-slate-300">वर्तमान में कोई फोटो अपलोड नहीं है</p>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    चूंकि कोई फोटो अपलोड नहीं है, इसलिए होम पेज पर कोई पॉपअप नहीं खुलेगा। ऊपर दिए गए फॉर्म से फोटो अपलोड करें।
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {slides.map((slide, index) => (
+                    <div
+                      key={slide.id}
+                      className={`p-3.5 sm:p-4 rounded-2xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                        slide.enabled
+                          ? 'bg-slate-950 border-amber-400/50 shadow-md'
+                          : 'bg-slate-950/60 border-slate-800 opacity-60'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="flex flex-col items-center justify-center gap-1 shrink-0">
+                          <button
+                            onClick={() => handleMoveSlide(index, 'up')}
+                            disabled={index === 0}
+                            className="p-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white disabled:opacity-30"
+                            title="Move Up"
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+                          <span className="text-[10px] font-mono font-black text-amber-400">
+                            #{index + 1}
+                          </span>
+                          <button
+                            onClick={() => handleMoveSlide(index, 'down')}
+                            disabled={index === slides.length - 1}
+                            className="p-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white disabled:opacity-30"
+                            title="Move Down"
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-black border border-slate-800 overflow-hidden shrink-0 flex items-center justify-center">
+                          <img
+                            src={slide.imageUrl}
+                            alt={slide.title || 'Slide'}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+
+                        <div className="min-w-0 space-y-0.5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-900 text-slate-300 border border-slate-800">
+                              स्लॉट {index + 1}
+                            </span>
+                            <span
+                              className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                slide.enabled
+                                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                  : 'bg-slate-800 text-slate-400'
+                              }`}
+                            >
+                              {slide.enabled ? 'सक्रिय (Active)' : 'बंद (Disabled)'}
+                            </span>
+                          </div>
+                          <h4 className="text-xs sm:text-sm font-black text-white truncate">
+                            {slide.title || 'शीर्षक रहित स्लाइड'}
+                          </h4>
+                          {slide.subtitle && (
+                            <p className="text-[11px] text-slate-400 truncate">{slide.subtitle}</p>
+                          )}
+                          {slide.linkText && (
+                            <span className="text-[10px] text-amber-300 block">
+                              बटन: {slide.linkText}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                        <button
+                          onClick={() => handleToggleSlide(slide.id)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                            slide.enabled
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
+                              : 'bg-slate-800 text-slate-400 border border-slate-700 hover:text-white'
+                          }`}
+                        >
+                          {slide.enabled ? 'सक्रिय' : 'चालू करें'}
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteSlide(slide.id)}
+                          className="p-2 rounded-xl bg-slate-900 hover:bg-rose-950/80 text-rose-400 border border-rose-500/30 transition shadow"
+                          title="Delete Slide"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Rules & Guidelines Banner */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-slate-950 border border-amber-400/30 text-xs text-slate-300 space-y-2">
+              <h5 className="font-bold text-white flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                <span>पॉपअप स्लाइडर के नियम व मोबाइल अनुकूलन:</span>
+              </h5>
+              <ul className="space-y-1 text-[11px] text-slate-300 list-disc pl-4">
+                <li><strong>होम पेज पर ही प्रदर्शित:</strong> यह पॉपअप केवल वेबसाइट के मुख्य पृष्ठ (Home Page) पर ही खुलता है।</li>
+                <li><strong>फोटो के आकार के अनुसार स्वतः साइज:</strong> फोटो का जो भी वास्तविक आकार (लंबा, चौड़ा या चौकोर) होगा, पॉपअप उसी अनुसार मोबाइल या डेस्कटॉप स्क्रीन पर बिना कटे फिट होगा।</li>
+                <li><strong>ज़ूम-इन और ज़ूम-आउट प्रभाव:</strong> पॉपअप स्मूथ 3D ज़ूम-इन के साथ खुलता है और बंद करते समय ज़ूम-आउट होता है।</li>
+                <li><strong>यदि कोई फोटो नहीं है:</strong> जब कोई भी फोटो अपलोड नहीं होगी या सभी बंद होंगी, तो होम पेज पर कोई पॉपअप नहीं आएगा।</li>
+              </ul>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* FULL USER RESPONSE MODAL */}
@@ -1790,6 +2422,15 @@ export const AdminView: React.FC<AdminViewProps> = ({ onClose, onOpenVerify }) =
             </div>
           </div>
         </div>
+      )}
+
+      {/* ADMIN PREVIEW POPUP SLIDER MODAL */}
+      {previewSliderModal && (
+        <HomePhotoSliderModal
+          isOpen={previewSliderModal}
+          onClose={() => setPreviewSliderModal(false)}
+          activeView="home"
+        />
       )}
     </div>
   );

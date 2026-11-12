@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import QRCode from 'qrcode';
 import {
   X,
   CreditCard,
@@ -6,6 +7,7 @@ import {
   CheckCircle2,
   Copy,
   Upload,
+  Download,
   ArrowRight,
   ArrowLeft,
   ShieldCheck,
@@ -94,10 +96,9 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   const [cardExp, setCardExp] = useState('12/28');
   const [cardCvc, setCardCvc] = useState('888');
   const [stripeProcessing, setStripeProcessing] = useState(false);
+  const [generatedQrUrl, setGeneratedQrUrl] = useState<string>('');
 
-  if (!isOpen) return null;
-
-  const currentPlan: PlanConfig = DEFAULT_PLANS[selectedPlan];
+  const currentPlan: PlanConfig = DEFAULT_PLANS[selectedPlan] || DEFAULT_PLANS.platinum;
   const upiId = config.upiId || '8877490845@spicepay';
   const receiverName = config.receiverName || 'Vikas Kumar';
 
@@ -108,15 +109,56 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
     `RainAksh_${currentPlan.name}_${phone || 'Member'}`
   )}`;
 
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(
-    upiUri
-  )}&color=0b0c10&bgcolor=ffffff`;
+  // Generate high-resolution, instant client-side QR code with error correction (called unconditionally)
+  useEffect(() => {
+    if (!isOpen) return;
+    let isMounted = true;
+    QRCode.toDataURL(upiUri, {
+      width: 320,
+      margin: 1,
+      color: {
+        dark: '#020617',
+        light: '#ffffff',
+      },
+      errorCorrectionLevel: 'H',
+    })
+      .then((url) => {
+        if (isMounted) setGeneratedQrUrl(url);
+      })
+      .catch((err) => {
+        console.error('Local QR code error, using fallback:', err);
+        if (isMounted) {
+          setGeneratedQrUrl(
+            `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiUri)}&color=0b0c10&bgcolor=ffffff`
+          );
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isOpen, upiUri]);
+
+  if (!isOpen) return null;
+
+  const qrCodeUrl = generatedQrUrl || `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiUri)}&color=0b0c10&bgcolor=ffffff`;
 
   const handleCopyUpi = () => {
     sounds.playClick();
     navigator.clipboard.writeText(upiId);
     setCopiedUpi(true);
     setTimeout(() => setCopiedUpi(false), 2000);
+  };
+
+  const handleDownloadQr = () => {
+    sounds.playClick();
+    if (!qrCodeUrl) return;
+    const link = document.createElement('a');
+    link.href = qrCodeUrl;
+    link.download = `RainAksh_Payment_QR_${currentPlan.price}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -572,7 +614,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 onClick={handleNextToStep2}
                 className="btn-3d-amber w-full sm:w-auto px-6 py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 min-h-[44px]"
               >
-                <span>अगला चरण: व्यक्तिगत जानकारी (Next)</span>
+                <span>Next: Personal Details</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -717,14 +759,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 className="btn-3d-dark px-4 py-2.5 rounded-2xl text-xs font-bold text-slate-300 flex items-center gap-1.5 min-h-[44px]"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>पिछला</span>
+                <span>Back</span>
               </button>
               <button
                 type="button"
                 onClick={handleNextToStep3}
                 className="btn-3d-amber px-6 py-2.5 rounded-2xl text-xs font-black flex items-center gap-2 min-h-[44px]"
               >
-                <span>अगला चरण: नॉमिनी व UPI (Next)</span>
+                <span>Next: Nominee & UPI</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -827,14 +869,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 className="btn-3d-dark px-4 py-2.5 rounded-2xl text-xs font-bold text-slate-300 flex items-center gap-1.5 min-h-[44px]"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>पिछला</span>
+                <span>Back</span>
               </button>
               <button
                 type="button"
                 onClick={handleNextToStep4}
                 className="btn-3d-amber px-6 py-2.5 rounded-2xl text-xs font-black flex items-center gap-2 min-h-[44px]"
               >
-                <span>अगला चरण: QR कोड भुगतान (Next)</span>
+                <span>Next: Scan & Pay</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -854,7 +896,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 }`}
               >
                 <QrCode className="w-3.5 h-3.5" />
-                <span>आधिकारिक UPI Gateway (GooglePay/PhonePe/Paytm)</span>
+                <span>Official UPI Gateway (GPay / PhonePe / Paytm)</span>
               </button>
               {config.enableStripe && (
                 <button
@@ -865,7 +907,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   }`}
                 >
                   <CreditCard className="w-3.5 h-3.5" />
-                  <span>कार्ड भुगतान (Card / Stripe)</span>
+                  <span>Card Payment (Stripe)</span>
                 </button>
               )}
             </div>
@@ -873,60 +915,72 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
             {paymentTab === 'upi' ? (
               <div className="space-y-4">
                 <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-950 border border-amber-400/50 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                  {/* Dynamic QR Code */}
-                  <div className="p-2.5 bg-white rounded-2xl shadow-xl shrink-0">
+                  {/* Dynamic Client-Side QR Code */}
+                  <div className="p-2.5 bg-white rounded-2xl shadow-xl shrink-0 flex flex-col items-center">
                     <img
                       src={qrCodeUrl}
-                      alt="Official Payment QR"
-                      className="w-36 h-36 object-contain"
+                      alt={`UPI Payment QR for ₹${currentPlan.price}`}
+                      className="w-40 h-40 sm:w-44 sm:h-44 object-contain rounded-lg"
                     />
+                    <span className="text-[9px] font-black text-slate-800 uppercase tracking-wider mt-1">
+                      Scan with any UPI App
+                    </span>
                   </div>
 
-                  <div className="space-y-2 flex-1">
+                  <div className="space-y-2 flex-1 w-full">
                     <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">
                       OFFICIAL RECEIVER GATEWAY
                     </span>
-                    <p className="text-xl font-black text-white">
+                    <p className="text-2xl font-black text-white">
                       ₹{currentPlan.price}{' '}
                       <span className="text-xs font-normal text-slate-400">({currentPlan.name})</span>
                     </p>
 
                     <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-                      <p className="text-[10px] text-slate-400">प्राप्तकर्ता का नाम (Payee Name):</p>
+                      <p className="text-[10px] text-slate-400">Payee Name (प्राप्तकर्ता):</p>
                       <p className="font-bold text-white text-xs">{receiverName} (संस्थापक)</p>
                       <div className="flex items-center justify-between pt-1">
                         <code className="text-amber-400 font-mono font-bold text-xs">{upiId}</code>
                         <button
                           type="button"
                           onClick={handleCopyUpi}
-                          className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center gap-1"
+                          className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[10px] font-bold flex items-center gap-1 min-h-[28px]"
                         >
                           {copiedUpi ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                          <span>{copiedUpi ? 'कॉपी हो गया' : 'कॉपी करें'}</span>
+                          <span>{copiedUpi ? 'Copied!' : 'Copy UPI'}</span>
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Direct 1-Click Pay App Deep Link Button */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {/* Direct 1-Click Pay App Deep Link & Download QR Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <a
                     href={upiUri}
                     onClick={() => sounds.playClick()}
-                    className="btn-3d-emerald py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-lg"
+                    className="btn-3d-emerald py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-lg min-h-[44px]"
                   >
                     <Smartphone className="w-4 h-4" />
-                    <span>UPI ऐप से सीधे भुगतान करें (1-Click Pay)</span>
+                    <span>Pay via UPI App (1-Click)</span>
                   </a>
 
                   <button
                     type="button"
+                    onClick={handleDownloadQr}
+                    className="btn-3d-cyan py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 min-h-[44px]"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download QR Code</span>
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={handleCopyUpi}
-                    className="btn-3d-dark py-3 rounded-2xl text-xs font-bold text-slate-300 flex items-center justify-center gap-2"
+                    className="btn-3d-dark py-3 rounded-2xl text-xs font-bold text-slate-300 flex items-center justify-center gap-2 min-h-[44px]"
                   >
                     <Copy className="w-4 h-4 text-amber-400" />
-                    <span>UPI आईडी कॉपी करें ({upiId})</span>
+                    <span>Copy UPI ID</span>
                   </button>
                 </div>
 
@@ -965,7 +1019,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                   type="button"
                   onClick={handleSimulateStripe}
                   disabled={stripeProcessing}
-                  className="btn-3d-cyan w-full py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2"
+                  className="btn-3d-cyan w-full py-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 min-h-[44px]"
                 >
                   {stripeProcessing ? 'कार्ड सत्यापित हो रहा है...' : `Pay ₹${currentPlan.price} Instantly`}
                 </button>
@@ -980,14 +1034,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 className="btn-3d-dark px-4 py-2.5 rounded-2xl text-xs font-bold text-slate-300 flex items-center gap-1.5 min-h-[44px]"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>पिछला</span>
+                <span>Back</span>
               </button>
               <button
                 type="button"
                 onClick={handleNextToStep5}
                 className="btn-3d-amber px-6 py-2.5 rounded-2xl text-xs font-black flex items-center gap-2 min-h-[44px]"
               >
-                <span>मैंने भुगतान कर दिया है: UTR डालें (Next)</span>
+                <span>Next: Enter UTR & Proof</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -1043,9 +1097,9 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 पेमेंट स्क्रीनशॉट अपलोड करें (वैकल्पिक / Optional Proof)
               </label>
               <div className="flex items-center gap-3">
-                <label className="btn-3d-dark px-4 py-2.5 rounded-xl cursor-pointer text-xs font-bold text-slate-200 flex items-center gap-2">
+                <label className="btn-3d-dark px-4 py-2.5 rounded-xl cursor-pointer text-xs font-bold text-slate-200 flex items-center gap-2 min-h-[42px]">
                   <Upload className="w-4 h-4 text-cyan-400" />
-                  <span>फोटो चुनें</span>
+                  <span>Choose Receipt Photo</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -1060,10 +1114,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                       alt="Uploaded Proof"
                       className="w-10 h-10 rounded-lg object-cover border border-emerald-400"
                     />
-                    <span className="text-[11px] text-emerald-400 font-bold">✓ फोटो अपलोड हो गई</span>
+                    <span className="text-[11px] text-emerald-400 font-bold">✓ Screenshot Attached</span>
                   </div>
                 ) : (
-                  <span className="text-[10px] text-slate-500">JPG, PNG समर्थित</span>
+                  <span className="text-[10px] text-slate-500">JPG, PNG supported</span>
                 )}
               </div>
             </div>
@@ -1090,7 +1144,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 className="btn-3d-dark px-4 py-3 rounded-2xl text-xs font-bold text-slate-300 flex items-center gap-1.5 min-h-[46px]"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>पिछला</span>
+                <span>Back</span>
               </button>
 
               <button
@@ -1099,11 +1153,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
                 className="btn-3d-rainbow flex-1 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-2xl active:scale-95 disabled:opacity-50 min-h-[46px]"
               >
                 {isSubmitting ? (
-                  <span>सत्यापित हो रहा है...</span>
+                  <span>Verifying Transaction...</span>
                 ) : (
                   <>
                     <Sparkles className="w-4 h-4 fill-white text-white" />
-                    <span>रजिस्ट्रेशन पूरा करें & डिजिटल आईडी कार्ड पाएं</span>
+                    <span>Submit & Activate Digital ID</span>
                   </>
                 )}
               </button>

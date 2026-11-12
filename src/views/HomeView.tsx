@@ -18,13 +18,14 @@ import {
   Flame,
   ShoppingBag,
 } from 'lucide-react';
-import { PlanTier, PlanConfig } from '../types';
+import { PlanTier, PlanConfig, UserProfile } from '../types';
 import { DEFAULT_PLANS, storage } from '../services/storage';
 import { PlanExplanationSlider } from '../components/PlanExplanationSlider';
 import { PlanComparisonChart } from '../components/PlanComparisonChart';
 import { sounds, triggerCelebration } from '../utils/audioCelebration';
 
 interface HomeViewProps {
+  currentUser?: UserProfile | null;
   onSelectPlan: (plan: PlanTier) => void;
   onOpenVerify: () => void;
   setActiveView: (view: string) => void;
@@ -33,6 +34,7 @@ interface HomeViewProps {
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
+  currentUser,
   onSelectPlan,
   onOpenVerify,
   setActiveView,
@@ -145,17 +147,31 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <p className="text-[10px] sm:text-[11px] text-slate-400">
               💡 किसी भी सहायता के लिए हमारे आधिकारिक टेलीग्राम <strong className="text-cyan-300 font-mono">@rainaksh</strong> या ईमेल <strong className="text-amber-300 font-mono">accaiwork@gmail.com</strong> पर संपर्क करें।
             </p>
-            <button
-              onClick={() => {
-                sounds.playClick();
-                onSelectPlan('platinum');
-              }}
-              className="btn-3d-rainbow w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 shrink-0 shadow-lg"
-            >
-              <Zap className="w-4 h-4 fill-white shrink-0" />
-              <span>अभी अपनी सदस्यता चुनें (Join Now)</span>
-              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-            </button>
+            {currentUser ? (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveView('dashboard');
+                }}
+                className="btn-3d-amber w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 shrink-0 shadow-lg min-h-[44px]"
+              >
+                <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
+                <span>Open Dashboard</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  onSelectPlan('platinum');
+                }}
+                className="btn-3d-rainbow w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 shrink-0 shadow-lg min-h-[44px]"
+              >
+                <Zap className="w-4 h-4 fill-white shrink-0" />
+                <span>Join Now</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            )}
           </div>
         </div>
       </section>
@@ -187,7 +203,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 className="btn-3d-amber w-full lg:w-auto px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shrink-0 shadow-lg min-h-[44px]"
               >
                 <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
-                <span>पूरा विवरण देखें (Full Guide)</span>
+                <span>View Full Details</span>
                 <ChevronRight className="w-4 h-4 shrink-0" />
               </button>
             )}
@@ -253,20 +269,34 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <strong className="text-amber-300 font-black">₹65, ₹365 या ₹765 का सीधा यूपीआई भुगतान</strong> प्राप्त करें!
           </p>
 
-          {/* 3D Tactile CTA Buttons - Auto-Adjusting & Tactile */}
+          {/* 3D Tactile CTA Buttons - Auto-Adjusting & Tactile (STRICTLY NO JOIN NOW FOR LOGGED-IN MEMBERS) */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 sm:gap-4 pt-1 sm:pt-2 w-full max-w-lg mx-auto px-1 sm:px-0">
-            <button
-              onClick={() => {
-                sounds.playClick();
-                triggerCelebration();
-                onSelectPlan('platinum');
-              }}
-              className="btn-3d-amber w-full sm:w-auto px-5 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 tracking-wide min-h-[46px] shadow-lg leading-tight text-center"
-            >
-              <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
-              <span className="break-words text-center">सदस्यता प्लान देखें व जुड़ें (Starts ₹100)</span>
-              <ArrowRight className="w-4 h-4 shrink-0" />
-            </button>
+            {currentUser ? (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveView('dashboard');
+                }}
+                className="btn-3d-amber w-full sm:w-auto px-5 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 tracking-wide min-h-[46px] shadow-lg leading-tight text-center"
+              >
+                <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
+                <span className="break-words text-center">Open Dashboard</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  triggerCelebration();
+                  onSelectPlan('platinum');
+                }}
+                className="btn-3d-amber w-full sm:w-auto px-5 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 tracking-wide min-h-[46px] shadow-lg leading-tight text-center"
+              >
+                <Zap className="w-4 h-4 fill-slate-950 shrink-0" />
+                <span className="break-words text-center">Join Now (Starts ₹100)</span>
+                <ArrowRight className="w-4 h-4 shrink-0" />
+              </button>
+            )}
 
             <button
               onClick={() => {
@@ -276,7 +306,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               className="btn-3d-dark w-full sm:w-auto px-4 sm:px-7 py-3.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 min-h-[46px] leading-tight text-center"
             >
               <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
-              <span className="break-words text-center">किसी भी सदस्य का डिजिटल कार्ड सत्यापित करें</span>
+              <span className="break-words text-center">Verify Digital Card</span>
             </button>
           </div>
 
@@ -404,18 +434,31 @@ export const HomeView: React.FC<HomeViewProps> = ({
               </ul>
             </div>
 
-            <button
-              onClick={() => {
-                sounds.playClick();
-                triggerCelebration();
-                onSelectPlan('silver');
-              }}
-              className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-lg min-h-[44px]"
-            >
-              <Zap className="w-4 h-4 fill-white shrink-0" />
-              <span>सिस्टम 1 (₹100 नॉर्मल) जॉइन करें</span>
-              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-            </button>
+            {currentUser ? (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveView('dashboard');
+                }}
+                className="btn-3d-emerald mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-lg min-h-[44px]"
+              >
+                <span>View System 1</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  triggerCelebration();
+                  onSelectPlan('silver');
+                }}
+                className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-lg min-h-[44px]"
+              >
+                <Zap className="w-4 h-4 fill-white shrink-0" />
+                <span>Join System 1 (₹100)</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            )}
           </div>
 
           {/* System 2: ₹500 Platinum System */}
@@ -465,18 +508,31 @@ export const HomeView: React.FC<HomeViewProps> = ({
               </ul>
             </div>
 
-            <button
-              onClick={() => {
-                sounds.playClick();
-                triggerCelebration();
-                onSelectPlan('platinum');
-              }}
-              className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl min-h-[44px]"
-            >
-              <Zap className="w-4 h-4 fill-white shrink-0" />
-              <span>सिस्टम 2 (₹500 प्लैटिनम) जॉइन करें</span>
-              <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-            </button>
+            {currentUser ? (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveView('dashboard');
+                }}
+                className="btn-3d-cyan mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl min-h-[44px]"
+              >
+                <span>View System 2</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  triggerCelebration();
+                  onSelectPlan('platinum');
+                }}
+                className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl min-h-[44px]"
+              >
+                <Zap className="w-4 h-4 fill-white shrink-0" />
+                <span>Join System 2 (₹500)</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            )}
           </div>
 
           {/* System 3: ₹1000 Royal Crown VIP System */}
@@ -521,24 +577,38 @@ export const HomeView: React.FC<HomeViewProps> = ({
               </ul>
             </div>
 
-            <button
-              onClick={() => {
-                sounds.playClick();
-                triggerCelebration();
-                onSelectPlan('royal');
-              }}
-              className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl min-h-[44px]"
-            >
-              <Crown className="w-4 h-4 fill-white text-white shrink-0" />
-              <span>👑 सिस्टम 3 (₹1000 VIP) जॉइन करें</span>
-              <ArrowRight className="w-4 h-4 shrink-0" />
-            </button>
+            {currentUser ? (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveView('dashboard');
+                }}
+                className="btn-3d-amber mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl min-h-[44px]"
+              >
+                <Crown className="w-4 h-4 fill-slate-950 text-slate-950 shrink-0" />
+                <span>View System 3</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  sounds.playClick();
+                  triggerCelebration();
+                  onSelectPlan('royal');
+                }}
+                className="btn-3d-rainbow mt-5 sm:mt-6 w-full py-3.5 px-3 rounded-2xl text-xs font-black flex items-center justify-center gap-1.5 shadow-xl min-h-[44px]"
+              >
+                <Crown className="w-4 h-4 fill-white text-white shrink-0" />
+                <span>Join System 3 (₹1000 VIP)</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+              </button>
+            )}
           </div>
         </div>
       </section>
 
       {/* Comprehensive 100 vs 500 vs 1000 Plan Comparison Chart & Best Plan Verdict */}
-      <PlanComparisonChart onSelectPlan={onSelectPlan} />
+      <PlanComparisonChart onSelectPlan={onSelectPlan} currentUser={currentUser} />
 
       {/* Promotional Poster Studio & Referral Hub Callout Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -566,7 +636,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 className="btn-3d-amber px-6 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl whitespace-nowrap min-h-[44px]"
               >
                 <Sparkles className="w-4 h-4 fill-slate-950" />
-                <span>प्रचार केंद्र व पोस्टर मेकर खोलें</span>
+                <span>Open Promo Studio</span>
                 <ChevronRight className="w-4 h-4" />
               </button>
             )}
@@ -651,16 +721,32 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <p className="text-[11px] text-slate-300">
                 ({calcReferrals} रेफरल × ₹{selectedCalcPlan.referralCommission} = ₹{totalEarnings})
               </p>
-              <button
-                onClick={() => {
-                  sounds.playClick();
-                  triggerCelebration();
-                  onSelectPlan(calcPlan);
-                }}
-                className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black shadow-lg min-h-[44px]"
-              >
-                यह सिस्टम अभी जॉइन करें →
-              </button>
+              {currentUser ? (
+                <button
+                  onClick={() => {
+                    sounds.playClick();
+                    if (onOpenReferralStudio) {
+                      onOpenReferralStudio();
+                    } else {
+                      setActiveView('dashboard');
+                    }
+                  }}
+                  className="btn-3d-amber w-full py-3.5 rounded-2xl text-xs font-black shadow-lg min-h-[44px]"
+                >
+                  Share My Referral Link →
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    sounds.playClick();
+                    triggerCelebration();
+                    onSelectPlan(calcPlan);
+                  }}
+                  className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black shadow-lg min-h-[44px]"
+                >
+                  Join System Now →
+                </button>
+              )}
             </div>
           </div>
         </div>

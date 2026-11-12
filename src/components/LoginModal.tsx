@@ -184,18 +184,18 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             {loading ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin" />
-                <span>सत्यापन हो रहा है...</span>
+                <span>Verifying...</span>
               </>
             ) : (
               <>
-                <span>सुरक्षित लॉगिन करें (Log In)</span>
+                <span>Log In</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>
 
           <div className="pt-2 text-center text-xs text-slate-400">
-            <span>नए सदस्य हैं? </span>
+            <span>New member? </span>
             <button
               type="button"
               onClick={() => {
@@ -205,7 +205,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               }}
               className="text-amber-400 hover:text-amber-300 font-bold underline ml-1 p-1 min-h-[38px] inline-flex items-center"
             >
-              नया प्लान जॉइन करें (Starts ₹100)
+              Join Now (Starts ₹100)
             </button>
           </div>
         </form>

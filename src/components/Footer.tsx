@@ -174,34 +174,50 @@ export const Footer: React.FC<FooterProps> = ({
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
             <button
               onClick={() => openPopup('guide')}
-              className="btn-3d-dark px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-200 flex items-center gap-1.5 shadow-sm"
+              className={`flex items-center gap-1.5 rounded-xl transition-all duration-300 ease-out cursor-pointer ${
+                isPopupOpen && activeTab === 'guide'
+                  ? 'btn-3d-amber px-4 py-2 text-xs font-black scale-110 -translate-y-1 shadow-[0_8px_20px_rgba(245,158,11,0.55)] border-2 border-amber-300 z-10'
+                  : 'btn-3d-dark px-3 py-1.5 text-[11px] font-bold text-slate-200 scale-100 opacity-85 hover:opacity-100 shadow-sm'
+              }`}
             >
-              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <BookOpen className={`transition-all ${isPopupOpen && activeTab === 'guide' ? 'w-4 h-4 text-slate-950' : 'w-3.5 h-3.5 text-cyan-400'}`} />
               <span>कमाई गाइड</span>
             </button>
 
             <button
               onClick={() => openPopup('faq')}
-              className="btn-3d-dark px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-200 flex items-center gap-1.5 shadow-sm"
+              className={`flex items-center gap-1.5 rounded-xl transition-all duration-300 ease-out cursor-pointer ${
+                isPopupOpen && activeTab === 'faq'
+                  ? 'btn-3d-amber px-4 py-2 text-xs font-black scale-110 -translate-y-1 shadow-[0_8px_20px_rgba(245,158,11,0.55)] border-2 border-amber-300 z-10'
+                  : 'btn-3d-dark px-3 py-1.5 text-[11px] font-bold text-slate-200 scale-100 opacity-85 hover:opacity-100 shadow-sm'
+              }`}
             >
-              <HelpCircle className="w-3.5 h-3.5 text-amber-400" />
+              <HelpCircle className={`transition-all ${isPopupOpen && activeTab === 'faq' ? 'w-4 h-4 text-slate-950' : 'w-3.5 h-3.5 text-amber-400'}`} />
               <span>FAQ सवाल-जवाब</span>
             </button>
 
             <button
               onClick={() => openPopup('legal')}
-              className="btn-3d-dark px-3 py-1.5 rounded-xl text-[11px] font-bold text-slate-200 flex items-center gap-1.5 shadow-sm"
+              className={`flex items-center gap-1.5 rounded-xl transition-all duration-300 ease-out cursor-pointer ${
+                isPopupOpen && activeTab === 'legal'
+                  ? 'btn-3d-amber px-4 py-2 text-xs font-black scale-110 -translate-y-1 shadow-[0_8px_20px_rgba(245,158,11,0.55)] border-2 border-amber-300 z-10'
+                  : 'btn-3d-dark px-3 py-1.5 text-[11px] font-bold text-slate-200 scale-100 opacity-85 hover:opacity-100 shadow-sm'
+              }`}
             >
-              <Scale className="w-3.5 h-3.5 text-emerald-400" />
+              <Scale className={`transition-all ${isPopupOpen && activeTab === 'legal' ? 'w-4 h-4 text-slate-950' : 'w-3.5 h-3.5 text-emerald-400'}`} />
               <span>सरकारी नियम 2021</span>
             </button>
 
             <button
               onClick={() => openPopup('contact')}
-              className="btn-3d-telegram px-3 py-1.5 rounded-xl text-[11px] font-black text-white flex items-center gap-1.5 shadow-sm"
+              className={`flex items-center gap-1.5 rounded-xl transition-all duration-300 ease-out cursor-pointer ${
+                isPopupOpen && activeTab === 'contact'
+                  ? 'btn-3d-telegram px-4 py-2 text-xs font-black scale-110 -translate-y-1 shadow-[0_8px_20px_rgba(56,189,248,0.55)] border-2 border-sky-300 z-10'
+                  : 'btn-3d-telegram px-3 py-1.5 text-[11px] font-black text-white scale-100 opacity-85 hover:opacity-100 shadow-sm'
+              }`}
             >
               <SendHorizontal className="w-3.5 h-3.5" />
               <span>हेल्प डेस्क @rainaksh</span>
@@ -209,7 +225,11 @@ export const Footer: React.FC<FooterProps> = ({
 
             <button
               onClick={() => openPopup('plans', 'royal')}
-              className="btn-3d-rainbow px-3 py-1.5 rounded-xl text-[11px] font-black text-white flex items-center gap-1.5 shadow-sm"
+              className={`flex items-center gap-1.5 rounded-xl transition-all duration-300 ease-out cursor-pointer ${
+                isPopupOpen && activeTab === 'plans'
+                  ? 'btn-3d-rainbow px-4 py-2 text-xs font-black scale-110 -translate-y-1 shadow-[0_8px_20px_rgba(236,72,153,0.55)] border-2 border-pink-300 z-10'
+                  : 'btn-3d-rainbow px-3 py-1.5 text-[11px] font-black text-white scale-100 opacity-85 hover:opacity-100 shadow-sm'
+              }`}
             >
               <Zap className="w-3.5 h-3.5 fill-white" />
               <span>3-सिस्टम प्लान्स</span>
@@ -217,7 +237,11 @@ export const Footer: React.FC<FooterProps> = ({
 
             <button
               onClick={() => openPopup('payee')}
-              className="btn-3d-amber px-3 py-1.5 rounded-xl text-[11px] font-black text-slate-950 flex items-center gap-1.5 shadow-sm"
+              className={`flex items-center gap-1.5 rounded-xl transition-all duration-300 ease-out cursor-pointer ${
+                isPopupOpen && activeTab === 'payee'
+                  ? 'btn-3d-amber px-4 py-2 text-xs font-black scale-110 -translate-y-1 shadow-[0_8px_20px_rgba(245,158,11,0.55)] border-2 border-amber-300 z-10'
+                  : 'btn-3d-amber px-3 py-1.5 text-[11px] font-black text-slate-950 scale-100 opacity-85 hover:opacity-100 shadow-sm'
+              }`}
             >
               <QrCode className="w-3.5 h-3.5" />
               <span>UPI पेई QR</span>
@@ -443,10 +467,10 @@ export const Footer: React.FC<FooterProps> = ({
                 <button
                   key={tab.id}
                   onClick={() => { sounds.playClick(); setActiveTab(tab.id as any); }}
-                  className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition flex items-center gap-1 ${
+                  className={`rounded-xl whitespace-nowrap transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
                     activeTab === tab.id
-                      ? 'bg-amber-500 text-slate-950 font-black shadow'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                      ? 'bg-amber-500 text-slate-950 font-black shadow-lg scale-110 px-4 py-2 text-xs border border-amber-300 z-10'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-900 scale-100 px-3 py-1.5 text-[11px]'
                   }`}
                 >
                   <span>{tab.label}</span>
@@ -514,7 +538,7 @@ export const Footer: React.FC<FooterProps> = ({
                       className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl"
                     >
                       <Zap className="w-4 h-4 fill-white" />
-                      <span>अभी प्लान जॉइन करें (Start Now at ₹100)</span>
+                      <span>Join Now (Starts ₹100)</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -702,30 +726,30 @@ export const Footer: React.FC<FooterProps> = ({
                   <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-950 rounded-2xl border border-slate-800">
                     <button
                       onClick={() => { sounds.playClick(); setSelectedPlanTab('silver'); }}
-                      className={`py-2 px-1 rounded-xl text-xs font-bold transition text-center ${
+                      className={`rounded-xl text-xs transition-all duration-300 text-center cursor-pointer ${
                         selectedPlanTab === 'silver'
-                          ? 'bg-emerald-500 text-slate-950 font-black'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-emerald-500 text-slate-950 font-black scale-105 -translate-y-0.5 py-2.5 px-1 shadow-md z-10 border border-emerald-300'
+                          : 'text-slate-400 hover:text-white py-2 px-1 scale-100 font-bold'
                       }`}
                     >
                       ₹100 नॉर्मल
                     </button>
                     <button
                       onClick={() => { sounds.playClick(); setSelectedPlanTab('platinum'); }}
-                      className={`py-2 px-1 rounded-xl text-xs font-bold transition text-center ${
+                      className={`rounded-xl text-xs transition-all duration-300 text-center cursor-pointer ${
                         selectedPlanTab === 'platinum'
-                          ? 'bg-cyan-400 text-slate-950 font-black'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-cyan-400 text-slate-950 font-black scale-105 -translate-y-0.5 py-2.5 px-1 shadow-md z-10 border border-cyan-300'
+                          : 'text-slate-400 hover:text-white py-2 px-1 scale-100 font-bold'
                       }`}
                     >
                       ₹500 प्लैटिनम
                     </button>
                     <button
                       onClick={() => { sounds.playClick(); setSelectedPlanTab('royal'); }}
-                      className={`py-2 px-1 rounded-xl text-xs font-bold transition text-center ${
+                      className={`rounded-xl text-xs transition-all duration-300 text-center cursor-pointer ${
                         selectedPlanTab === 'royal'
-                          ? 'bg-amber-400 text-slate-950 font-black'
-                          : 'text-slate-400 hover:text-white'
+                          ? 'bg-amber-400 text-slate-950 font-black scale-105 -translate-y-0.5 py-2.5 px-1 shadow-md z-10 border border-amber-300'
+                          : 'text-slate-400 hover:text-white py-2 px-1 scale-100 font-bold'
                       }`}
                     >
                       👑 ₹1000 रॉयल VIP

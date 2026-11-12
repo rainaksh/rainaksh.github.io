@@ -136,6 +136,18 @@ export interface ChatMessage {
   read: boolean;
 }
 
+export interface PopupSlidePhoto {
+  id: string;
+  imageUrl: string;
+  title?: string;
+  subtitle?: string;
+  linkUrl?: string;
+  linkText?: string;
+  enabled: boolean;
+  createdAt: string;
+  order: number;
+}
+
 export interface SystemConfig {
   platformName: string;
   upiId: string;
@@ -151,6 +163,9 @@ export interface SystemConfig {
   announcementTicker: string;
   enableStripe: boolean;
   isMaintenanceMode: boolean;
+  popupSlidesEnabled?: boolean;
+  popupSlides?: PopupSlidePhoto[];
+  popupTargetPages?: string[]; // e.g. ['home', 'plans', 'guide', 'faq', 'dashboard']
 }
 
 export interface UserActivity {

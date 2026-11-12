@@ -16,13 +16,14 @@ import {
   HelpCircle,
   ChevronDown,
 } from 'lucide-react';
-import { PlanTier } from '../types';
+import { PlanTier, UserProfile } from '../types';
 import { DEFAULT_PLANS } from '../services/storage';
 import { sounds, triggerCelebration, triggerMegaCelebration } from '../utils/audioCelebration';
 
 interface PlanComparisonChartProps {
   onSelectPlan: (plan: PlanTier) => void;
   className?: string;
+  currentUser?: UserProfile | null;
 }
 
 interface ComparisonRow {
@@ -152,6 +153,7 @@ const COMPARISON_DATA: ComparisonRow[] = [
 export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
   onSelectPlan,
   className = '',
+  currentUser,
 }) => {
   const [activeTab, setActiveTab] = useState<'verdict' | 'table' | 'calculator'>('verdict');
   const [calcCount, setCalcCount] = useState<number>(10);
@@ -315,7 +317,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                   className="btn-3d-rainbow w-full sm:w-auto px-6 sm:px-8 py-3.5 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-xl min-h-[46px]"
                 >
                   <Crown className="w-4 h-4 fill-white text-white shrink-0" />
-                  <span>👑 सर्वश्रेष्ठ सिस्टम (₹1000 रॉयल VIP) जॉइन करें</span>
+                  <span>{currentUser ? '👑 View System 3 (₹1000 VIP)' : '👑 Join System 3 (₹1000 VIP)'}</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
 
@@ -323,14 +325,14 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                   onClick={() => handleSelect('platinum')}
                   className="btn-3d-rainbow w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md min-h-[46px]"
                 >
-                  <span>बजट चॉइस: ₹500 प्लैटिनम</span>
+                  <span>{currentUser ? 'View System 2 (₹500)' : 'Join System 2 (₹500)'}</span>
                 </button>
 
                 <button
                   onClick={() => handleSelect('silver')}
                   className="btn-3d-rainbow w-full sm:w-auto px-5 sm:px-6 py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-md min-h-[46px]"
                 >
-                  <span>शुरुआती: ₹100 बेसिक</span>
+                  <span>{currentUser ? 'View System 1 (₹100)' : 'Join System 1 (₹100)'}</span>
                 </button>
               </div>
             </div>
@@ -481,14 +483,14 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
             <tfoot className="bg-slate-950 border-t-2 border-slate-800">
               <tr>
                 <td className="p-4 sm:p-5 font-black text-white text-xs">
-                  <span>तुरंत जॉइन करें:</span>
+                  <span>{currentUser ? 'Explore Plans:' : 'Choose & Join:'}</span>
                 </td>
                 <td className="p-4 text-center border-l border-slate-800/80">
                   <button
                     onClick={() => handleSelect('silver')}
                     className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow min-h-[42px]"
                   >
-                    जॉइन ₹100
+                    {currentUser ? 'View ₹100' : 'Join ₹100'}
                   </button>
                 </td>
                 <td className="p-4 text-center border-l border-slate-800/80 bg-cyan-950/20">
@@ -496,7 +498,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                     onClick={() => handleSelect('platinum')}
                     className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow min-h-[42px]"
                   >
-                    जॉइन ₹500
+                    {currentUser ? 'View ₹500' : 'Join ₹500'}
                   </button>
                 </td>
                 <td className="p-4 text-center border-l border-amber-500/60 bg-amber-500/15">
@@ -504,7 +506,7 @@ export const PlanComparisonChart: React.FC<PlanComparisonChartProps> = ({
                     onClick={() => handleSelect('royal')}
                     className="btn-3d-rainbow px-3 py-2.5 rounded-xl text-xs font-black w-full shadow-lg min-h-[42px]"
                   >
-                    👑 जॉइन ₹1000 VIP
+                    {currentUser ? '👑 View ₹1000 VIP' : '👑 Join ₹1000 VIP'}
                   </button>
                 </td>
               </tr>

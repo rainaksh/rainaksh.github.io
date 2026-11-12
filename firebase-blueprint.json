@@ -96,6 +96,34 @@
         "timestamp": { "type": "string" }
       },
       "required": ["id", "senderId", "receiverId", "message"]
+    },
+    "PopupSlidePhoto": {
+      "title": "PopupSlidePhoto",
+      "description": "Home and target pages popup slider image with aspect ratio and title",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "linkText": { "type": "string" },
+        "linkUrl": { "type": "string" },
+        "order": { "type": "number" },
+        "enabled": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "imageUrl", "order", "enabled"]
+    },
+    "SystemConfig": {
+      "title": "SystemConfig",
+      "description": "System configuration including active popup target pages and slider status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "popupSlidesEnabled": { "type": "boolean" },
+        "popupTargetPages": { "type": "array" }
+      },
+      "required": ["id"]
     }
   },
   "firestore": {
@@ -122,6 +150,14 @@
     "/messages/{msgId}": {
       "schema": "ChatMessage",
       "description": "1-on-1 private messaging tunnel between user and admin"
+    },
+    "/system/{docId}": {
+      "schema": "SystemConfig",
+      "description": "System-wide configuration documents including slider target pages"
+    },
+    "/slider_photos/{slideId}": {
+      "schema": "PopupSlidePhoto",
+      "description": "Collection of popup slider photos"
     }
   }
 }

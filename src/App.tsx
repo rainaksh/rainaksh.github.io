@@ -13,6 +13,7 @@ import { ReferralMarketingModal } from './components/ReferralMarketingModal';
 import { ThreeSystemsModal } from './components/ThreeSystemsModal';
 import { SponsorCardModal } from './components/SponsorCardModal';
 import { FloatingAiChat } from './components/FloatingAiChat';
+import { HomePhotoSliderModal } from './components/HomePhotoSliderModal';
 import { HomeView } from './views/HomeView';
 import { DashboardView } from './views/DashboardView';
 import { AdminView } from './views/AdminView';
@@ -173,6 +174,7 @@ export default function App() {
       <main className="flex-1 w-full max-w-full overflow-x-hidden pb-24 lg:pb-0">
         {activeView === 'home' && (
           <HomeView
+            currentUser={currentUser}
             onSelectPlan={handleOpenJoinModal}
             onOpenVerify={() => handleOpenVerifyModal('')}
             setActiveView={setActiveView}
@@ -189,6 +191,7 @@ export default function App() {
 
         {activeView === 'plans' && (
           <HomeView
+            currentUser={currentUser}
             onSelectPlan={handleOpenJoinModal}
             onOpenVerify={() => handleOpenVerifyModal('')}
             setActiveView={setActiveView}
@@ -366,6 +369,7 @@ export default function App() {
         isOpen={threeSystemsModalOpen}
         onClose={() => setThreeSystemsModalOpen(false)}
         onSelectPlan={handleOpenJoinModal}
+        currentUser={currentUser}
       />
 
       {/* Sponsor Masked Digital ID Card Pop-up Modal */}
@@ -387,6 +391,12 @@ export default function App() {
           setSponsorCardModalOpen(false);
           handleOpenVerifyModal('');
         }}
+      />
+
+      {/* 7-Photo Dynamic Aspect-Ratio Popup Slider (Only on Home Page) */}
+      <HomePhotoSliderModal
+        activeView={activeView}
+        onNavigatePlan={(plan) => handleOpenJoinModal(plan || 'platinum')}
       />
     </div>
   );

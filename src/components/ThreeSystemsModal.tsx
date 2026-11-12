@@ -12,7 +12,7 @@ import {
   Check,
   ShieldCheck,
 } from 'lucide-react';
-import { PlanTier } from '../types';
+import { PlanTier, UserProfile } from '../types';
 import { DEFAULT_PLANS } from '../services/storage';
 import { sounds, triggerCelebration, triggerMegaCelebration } from '../utils/audioCelebration';
 
@@ -21,6 +21,7 @@ interface ThreeSystemsModalProps {
   onClose: () => void;
   onSelectPlan: (plan: PlanTier) => void;
   onOpenDetailedMatrix?: () => void;
+  currentUser?: UserProfile | null;
 }
 
 export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
@@ -28,6 +29,7 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
   onClose,
   onSelectPlan,
   onOpenDetailedMatrix,
+  currentUser,
 }) => {
   const [selectedPlanTab, setSelectedPlanTab] = useState<PlanTier>('royal');
   const [calcReferrals, setCalcReferrals] = useState<number>(10);
@@ -183,7 +185,7 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
                   className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl mt-3 min-h-[46px]"
                 >
                   <Zap className="w-4 h-4 fill-white" />
-                  <span>सिस्टम 1 (₹100 नॉर्मल) जॉइन करें</span>
+                  <span>{currentUser ? 'View System 1 (₹100)' : 'Join System 1 (₹100)'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -239,7 +241,7 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
                   className="btn-3d-rainbow w-full py-3.5 rounded-2xl text-xs font-black flex items-center justify-center gap-2 shadow-xl mt-3 min-h-[46px]"
                 >
                   <Zap className="w-4 h-4 fill-white" />
-                  <span>सिस्टम 2 (₹500 प्लैटिनम) जॉइन करें</span>
+                  <span>{currentUser ? 'View System 2 (₹500)' : 'Join System 2 (₹500)'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -300,7 +302,7 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
                   className="btn-3d-rainbow w-full py-4 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-xl mt-3 min-h-[48px]"
                 >
                   <Crown className="w-4 h-4 fill-white text-white" />
-                  <span>👑 सिस्टम 3 (₹1000 रॉयल VIP) जॉइन करें</span>
+                  <span>{currentUser ? '👑 View System 3 (₹1000 VIP)' : '👑 Join System 3 (₹1000 VIP)'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -370,7 +372,7 @@ export const ThreeSystemsModal: React.FC<ThreeSystemsModalProps> = ({
             onClick={() => handleJoin(selectedPlanTab)}
             className="btn-3d-rainbow px-4 py-2 rounded-xl text-xs font-black shadow"
           >
-            जॉइन फॉर्म खोलें (Join Now) →
+            {currentUser ? 'View in Dashboard →' : 'Join Now →'}
           </button>
         </div>
       </div>

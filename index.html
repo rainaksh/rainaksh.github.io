@@ -13,20 +13,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
     <script>
-      (function() {
-        try {
-          var host = window.location.hostname;
-          var path = window.location.pathname;
-          // If deployed on GitHub Pages and not already inside /docs/, redirect immediately to /docs/
-          if (host.indexOf('github.io') !== -1 && path.indexOf('/docs') === -1) {
-            var basePath = path.replace(/\/+$/, '');
-            var target = basePath + '/docs/' + window.location.search + window.location.hash;
-            window.location.replace(target);
-          }
-        } catch (e) {
-          console.error(e);
+      (function(l) {
+        if (l.search && l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
         }
-      })();
+      }(window.location));
     </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-amber-500 selection:text-slate-950 font-sans w-full max-w-full overflow-x-hidden">

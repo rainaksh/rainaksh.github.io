@@ -17,7 +17,7 @@ import {
   getDocFromServer,
   Firestore,
 } from 'firebase/firestore';
-import { UserProfile, Transaction, DownlineReferral, PayoutRequest, NotificationItem, ChatMessage } from '../types';
+import { UserProfile, Transaction, DownlineReferral, PayoutRequest, NotificationItem, ChatMessage, PopupSlidePhoto } from '../types';
 import firebaseConfigRaw from '../../firebase-applet-config.json';
 
 export const firebaseConfig = firebaseConfigRaw;
@@ -32,6 +32,54 @@ export const auth = getAuth(app);
 export const db: Firestore = firebaseConfig.firestoreDatabaseId
   ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
   : getFirestore(app);
+
+// Firestore Error Handling per Firebase Skill Guidelines
+export enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+export interface FirestoreErrorInfo {
+  error: string;
+  operationType: OperationType;
+  path: string | null;
+  authInfo: {
+    userId?: string | null;
+    email?: string | null;
+    emailVerified?: boolean | null;
+    isAnonymous?: boolean | null;
+    tenantId?: string | null;
+    providerInfo?: {
+      providerId?: string | null;
+      email?: string | null;
+    }[];
+  };
+}
+
+export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errInfo: FirestoreErrorInfo = {
+    error: error instanceof Error ? error.message : String(error),
+    authInfo: {
+      userId: auth.currentUser?.uid,
+      email: auth.currentUser?.email,
+      emailVerified: auth.currentUser?.emailVerified,
+      isAnonymous: auth.currentUser?.isAnonymous,
+      tenantId: auth.currentUser?.tenantId,
+      providerInfo: auth.currentUser?.providerData?.map((provider) => ({
+        providerId: provider.providerId,
+        email: provider.email,
+      })) || [],
+    },
+    operationType,
+    path,
+  };
+  console.warn('Firestore Error Context: ', JSON.stringify(errInfo));
+  return errInfo;
+}
 
 // Test connection on boot per Firebase skill guidelines
 async function testConnection() {
@@ -131,6 +179,46 @@ export function subscribeToFirestoreTransactions(onTxnsUpdated: (txns: Transacti
       }
     }, (error) => {
       console.warn('Firestore transactions subscription notice:', error.message);
+    });
+  } catch {
+    return () => {};
+  }
+}
+
+export async function syncPopupSlidesToFirestore(
+  slides: PopupSlidePhoto[],
+  enabled: boolean = true,
+  targetPages: string[] = ['home']
+) {
+  try {
+    await setDoc(doc(db, 'system', 'slider'), {
+      slides,
+      enabled,
+      targetPages,
+      updatedAt: new Date().toISOString(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn('Failed to sync slider to Firestore:', err);
+  }
+}
+
+export function subscribeToFirestorePopupSlides(
+  onSlidesUpdated: (data: { slides: PopupSlidePhoto[]; enabled: boolean; targetPages?: string[] }) => void
+) {
+  try {
+    return onSnapshot(doc(db, 'system', 'slider'), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data && Array.isArray(data.slides)) {
+          onSlidesUpdated({
+            slides: data.slides as PopupSlidePhoto[],
+            enabled: data.enabled !== false,
+            targetPages: Array.isArray(data.targetPages) ? data.targetPages : ['home'],
+          });
+        }
+      }
+    }, (error) => {
+      console.warn('Firestore slider subscription notice:', error.message);
     });
   } catch {
     return () => {};

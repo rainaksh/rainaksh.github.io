@@ -56,6 +56,14 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
+    // System Slider Photos & System Config: readable by all visitors
+    match /system/{docId} {
+      allow read, write: if true;
+    }
+    match /slider_photos/{slideId} {
+      allow read, write: if true;
+    }
+
     // Connection validation
     match /test/{docId} {
       allow read, write: if true;
